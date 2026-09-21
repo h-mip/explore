@@ -166,6 +166,51 @@ h3 {
   font-size: clamp(1.05rem, 1.4vw, 1.25rem);
 }
 
+.demo-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 9px;
+  border: 1px solid #e5c89f;
+  border-radius: 999px;
+  background: var(--amber-soft);
+  color: #74420d;
+  font: 650 0.7rem/1 var(--mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.demo-tag::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 9px 15px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1.35;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.btn:hover { text-decoration: none; }
+.btn-primary { background: var(--teal); color: white; }
+.btn-primary:hover { background: var(--teal-hover); }
+.btn-secondary { background: var(--surface); color: var(--ink); border-color: var(--line-strong); }
+.btn-secondary:hover { background: var(--surface-soft); }
+
 .skip-link {
   position: absolute;
   top: -80px;

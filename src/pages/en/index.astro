@@ -1,24 +1,16 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import HomeHero from "../../components/home/HomeHero.astro";
+import HeadlineFindings from "../../components/home/HeadlineFindings.astro";
+import ExploreTeasers from "../../components/home/ExploreTeasers.astro";
+import PublicAction from "../../components/home/PublicAction.astro";
 ---
 
-<BaseLayout
-  locale="en"
-  title="H-MIP Bites"
-  description="Explore where, when and during which activities people in Catalonia are bitten by mosquitoes."
->
+<BaseLayout locale="en" title="H-MIP Bites" description="Explore where, when and during which activities people in Catalonia are bitten by mosquitoes.">
   <div class="wrap page">
-    <p class="eyebrow">
-      Human–mosquito interaction in Catalonia
-    </p>
-
-    <h1>
-      Where and when do mosquitoes bite people in Catalonia?
-    </h1>
-
-    <p class="lead">
-      H-MIP studies how exposure to mosquito bites changes with place,
-      time and everyday activity.
-    </p>
+    <HomeHero locale="en" />
+    <HeadlineFindings locale="en" />
+    <ExploreTeasers locale="en" />
+    <PublicAction locale="en" />
   </div>
 </BaseLayout>
