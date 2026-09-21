@@ -37,11 +37,11 @@ export const homeContent = {
     explore: {
       eyebrow: "Explore the evidence",
       title: "Three ways into the data",
-      intro: "Each view starts with a public question and makes room for methods and uncertainty. These previews use synthetic values while the full explorers are being built.",
+      intro: "Each view starts with a public question and makes room for methods and uncertainty. These previews use synthetic values while the spatial explorer is being built.",
       items: [
         { label: "Where people get bitten", title: "Patterns across Catalonia", text: "Explore how place can shape human–mosquito interaction.", status: "Map explorer in development", chart: "spatial" },
-        { label: "When bites happen", title: "Hour by hour", text: "See how reported interaction can vary across the day and through the year.", status: "Time explorer in development", chart: "hour" },
-        { label: "What people are doing", title: "Activities & places", text: "Compare reported bite share with time spent in each activity when data is available.", status: "Activity explorer in development", chart: "activity" },
+        { label: "When bites happen", title: "Hour by hour", text: "See how reported interaction can vary across the day and through the year.", status: "Explore time patterns", chart: "hour" },
+        { label: "What people are doing", title: "Activities & places", text: "Compare reported bite share across everyday activities and places.", status: "Explore activities", chart: "activity" },
       ],
     },
     action: {
@@ -90,11 +90,11 @@ export const homeContent = {
     explore: {
       eyebrow: "Explorar los datos",
       title: "Tres formas de acercarse a los datos",
-      intro: "Cada vista parte de una pregunta pública y deja espacio para los métodos y la incertidumbre. Estas vistas previas usan valores sintéticos mientras se desarrollan los exploradores completos.",
+      intro: "Cada vista parte de una pregunta pública y deja espacio para los métodos y la incertidumbre. Estas vistas previas usan valores sintéticos mientras se desarrolla el explorador espacial.",
       items: [
         { label: "Dónde ocurren las picaduras", title: "Patrones en Cataluña", text: "Explora cómo el lugar puede influir en la interacción entre personas y mosquitos.", status: "Explorador del mapa en desarrollo", chart: "spatial" },
-        { label: "Cuándo ocurren", title: "Hora a hora", text: "Observa cómo puede variar la interacción registrada a lo largo del día y del año.", status: "Explorador temporal en desarrollo", chart: "hour" },
-        { label: "Qué hace la gente", title: "Actividades y lugares", text: "Compara la proporción de picaduras con el tiempo dedicado a cada actividad cuando haya datos.", status: "Explorador de actividades en desarrollo", chart: "activity" },
+        { label: "Cuándo ocurren", title: "Hora a hora", text: "Observa cómo puede variar la interacción registrada a lo largo del día y del año.", status: "Explorar patrones temporales", chart: "hour" },
+        { label: "Qué hace la gente", title: "Actividades y lugares", text: "Compara la proporción de picaduras registradas entre actividades y lugares cotidianos.", status: "Explorar actividades", chart: "activity" },
       ],
     },
     action: {
@@ -143,11 +143,11 @@ export const homeContent = {
     explore: {
       eyebrow: "Explora les dades",
       title: "Tres maneres d’apropar-se a les dades",
-      intro: "Cada vista parteix d’una pregunta pública i deixa espai per als mètodes i la incertesa. Aquestes vistes prèvies fan servir valors sintètics mentre es desenvolupen els exploradors complets.",
+      intro: "Cada vista parteix d’una pregunta pública i deixa espai per als mètodes i la incertesa. Aquestes vistes prèvies fan servir valors sintètics mentre es desenvolupa l'explorador espacial.",
       items: [
         { label: "On es produeixen les picades", title: "Patrons a Catalunya", text: "Explora com el lloc pot influir en la interacció entre persones i mosquits.", status: "Explorador del mapa en desenvolupament", chart: "spatial" },
-        { label: "Quan es produeixen", title: "Hora a hora", text: "Observa com pot variar la interacció registrada al llarg del dia i de l’any.", status: "Explorador temporal en desenvolupament", chart: "hour" },
-        { label: "Què fa la gent", title: "Activitats i llocs", text: "Compara la proporció de picades amb el temps dedicat a cada activitat quan hi hagi dades.", status: "Explorador d’activitats en desenvolupament", chart: "activity" },
+        { label: "Quan es produeixen", title: "Hora a hora", text: "Observa com pot variar la interacció registrada al llarg del dia i de l’any.", status: "Explora els patrons temporals", chart: "hour" },
+        { label: "Què fa la gent", title: "Activitats i llocs", text: "Compara la proporció de picades registrades entre activitats i llocs quotidians.", status: "Explora les activitats", chart: "activity" },
       ],
     },
     action: {

@@ -1,0 +1,73 @@
+---
+import type { HomeLocale } from "../../data/home";
+
+interface SectionText {
+  eyebrow: string;
+  heading: string;
+  takeaway: string;
+  text: string;
+  tableLabel: string;
+  method: string;
+}
+interface Props {
+  locale: HomeLocale;
+  id: string;
+  copy: SectionText;
+  labels: string[];
+  values: readonly number[];
+  measure: string;
+  badge: string;
+  methodSummary: string;
+  tableValue: string;
+}
+
+const { locale, id, copy, labels, values, measure, badge, methodSummary, tableValue } = Astro.props;
+const scaleMax = Math.ceil(Math.max(...values) / 5) * 5;
+const percent = (value: number) => locale === "en" ? `${value}%` : `${value} %`;
+---
+
+<section class="research-block" aria-labelledby={`${id}-heading`}>
+  <div class="research-copy">
+    <p class="eyebrow">{copy.eyebrow}</p>
+    <h2 id={`${id}-heading`}>{copy.heading}</h2>
+    <p class="takeaway">{copy.takeaway}</p>
+    <p>{copy.text}</p>
+  </div>
+
+  <div class="rank-panel">
+    <div class="rank-head"><strong>{measure}</strong><span class="demo-tag">{badge}</span></div>
+    <ol class="rank-list">
+      {labels.map((label, index) => <li class="rank-row">
+        <span class="rank-label">{label}</span>
+        <span class="bar-track" aria-hidden="true"><i style={`width:${values[index] / scaleMax * 100}%`}></i></span>
+        <strong class="rank-value">{percent(values[index])}</strong>
+      </li>)}
+    </ol>
+    <div class="axis" aria-hidden="true"><span>0%</span><span>{scaleMax}%</span></div>
+    <details class="data-details">
+      <summary>{methodSummary}</summary>
+      <div class="detail-body">
+        <p>{copy.method}</p>
+        <div class="table-scroller">
+          <table>
+            <caption>{measure}</caption>
+            <thead><tr><th scope="col">{copy.tableLabel}</th><th scope="col">{tableValue}</th></tr></thead>
+            <tbody>{labels.map((label, index) => <tr><th scope="row">{label}</th><td>{percent(values[index])}</td></tr>)}</tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<style>
+  .research-block{display:grid;grid-template-columns:minmax(220px,.36fr) minmax(0,.64fr);gap:54px;padding-top:24px;border-top:1px solid var(--line)}
+  .research-copy{display:grid;gap:13px;align-content:start}.research-copy h2{font-size:clamp(1.65rem,2.7vw,2.5rem)}.research-copy p:not(.eyebrow):not(.takeaway){color:var(--ink-2);font-size:.91rem}.takeaway{font-size:1.08rem;font-weight:600;line-height:1.45}
+  .rank-panel{min-width:0}.rank-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:9px}.rank-head strong{font-size:.96rem}.rank-head .demo-tag{white-space:normal;line-height:1.3}
+  .rank-list{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}.rank-row{display:grid;grid-template-columns:minmax(140px,1.3fr) minmax(150px,2fr) 55px;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.rank-label{font-size:.9rem;font-weight:620}.bar-track{height:13px;background:var(--surface-soft);border-radius:2px}.bar-track i{display:block;height:100%;background:var(--teal);border-radius:2px}.rank-value{text-align:right;font-size:.86rem;font-variant-numeric:tabular-nums}
+  .axis{display:flex;justify-content:space-between;padding-left:calc(39% + 14px);padding-right:55px;color:var(--ink-3);font:.7rem var(--mono);margin-top:5px}
+  .data-details{border-top:1px solid var(--line);padding-top:10px;margin-top:22px}.data-details summary{min-height:34px;cursor:pointer;color:var(--teal);font-size:.84rem;font-weight:700}.detail-body{display:grid;gap:12px;padding-top:8px;color:var(--ink-2);font-size:.84rem}
+  .table-scroller{overflow:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}table{width:100%;border-collapse:collapse;font-size:.84rem;font-variant-numeric:tabular-nums}caption{text-align:left;padding:12px 14px;color:var(--ink-2);font-weight:700}th,td{padding:8px 14px;border-top:1px solid var(--line);text-align:left}thead th{background:var(--surface-tint);color:var(--ink)}tbody th{font-weight:600}td{text-align:right}
+  @media(max-width:1000px){.research-block{grid-template-columns:1fr;gap:22px}}
+  @media(max-width:600px){.rank-row{grid-template-columns:1fr 55px;gap:8px 10px}.rank-label{grid-column:1}.bar-track{grid-column:1}.rank-value{grid-column:2;grid-row:1/3}.axis{padding-left:0;padding-right:55px}}
+</style>

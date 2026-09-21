@@ -4,6 +4,8 @@ import { demoCharts, homeContent, type HomeLocale } from "../../data/home";
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = homeContent[locale].explore;
+const whenPath = { en: "/en/when/", es: "/es/cuando/", ca: "/ca/quan/" }[locale];
+const activitiesPath = { en: "/en/activities/", es: "/es/actividades/", ca: "/ca/activitats/" }[locale];
 const hours = demoCharts.hour.filter((_, index) => index % 2 === 0);
 const spatial = [1, 2, 1, 0, 2, 3, 2, 1, 3, 4, 3, 2, 1, 2, 3, 2, 0, 1, 2, 1];
 ---
@@ -20,7 +22,7 @@ const spatial = [1, 2, 1, 0, 2, 3, 2, 1, 3, 4, 3, 2, 1, 2, 3, 2, 0, 1, 2, 1];
         {item.chart === "hour" && <div class="hour-bars">{hours.map((value) => <i style={`height:${Math.max(12, value / 43 * 100)}%`}></i>)}</div>}
         {item.chart === "activity" && <div class="activity-bars">{demoCharts.activity.map((value) => <i><span style={`width:${value}%`}></span></i>)}</div>}
       </div>
-      <p class="coming-soon">{item.status}</p>
+      {item.chart === "spatial" ? <p class="coming-soon">{item.status}</p> : <a class="teaser-link" href={item.chart === "hour" ? whenPath : activitiesPath}>{item.status} <span aria-hidden="true">→</span></a>}
     </article>)}
   </div>
 </section>
@@ -37,6 +39,7 @@ const spatial = [1, 2, 1, 0, 2, 3, 2, 1, 3, 4, 3, 2, 1, 2, 3, 2, 0, 1, 2, 1];
   .hour-bars{height:100%;display:flex;align-items:end;gap:4px;padding:10px 0;border-bottom:1px solid var(--line-strong)}.hour-bars i{flex:1;background:var(--teal);min-width:3px;border-radius:3px 3px 0 0}
   .activity-bars{height:100%;display:grid;align-content:center;gap:11px}.activity-bars i{display:block;height:13px;background:var(--surface-soft);border-radius:2px}.activity-bars span{display:block;height:100%;background:var(--teal);border-radius:2px}
   .coming-soon{align-self:end;margin-top:8px;font:650 .71rem/1.4 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3)}
+  .teaser-link{align-self:end;margin-top:8px;font-size:.84rem;font-weight:700;text-decoration:none}.teaser-link:hover{text-decoration:underline}
   @media(max-width:1100px){.home-teasers{grid-template-columns:1fr 1fr}.teaser:first-child{grid-column:1/-1;border-bottom:1px solid var(--line)}.teaser:nth-child(2){border-left:0;padding-left:0}}
   @media(max-width:600px){.home-teasers{grid-template-columns:1fr}.teaser,.teaser+.teaser{padding:24px 0;border-left:0;border-bottom:1px solid var(--line)}.teaser:last-child{border-bottom:0}}
 </style>

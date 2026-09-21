@@ -86,6 +86,16 @@ function isCurrent(path: string) {
 
   return pathname.startsWith(path);
 }
+
+const currentSection = navItems.find(([key]) => isCurrent(currentRoutes[key]))?.[0] ?? "home";
+const alternateRoutes = {
+  ca: routes.ca[currentSection],
+  es: routes.es[currentSection],
+  en: routes.en[currentSection],
+};
+
+const navAriaLabel = { en: "Primary navigation", es: "Navegación principal", ca: "Navegació principal" }[locale];
+const languageAriaLabel = { en: "Language", es: "Idioma", ca: "Idioma" }[locale];
 ---
 
 <header class="site-header">
@@ -99,7 +109,7 @@ function isCurrent(path: string) {
       <span class="brand-bites">Bites</span>
     </a>
 
-    <nav class="main-nav" aria-label="Primary navigation">
+    <nav class="main-nav" aria-label={navAriaLabel}>
       {
         navItems.map(([key, label]) => {
           const href = currentRoutes[key];
@@ -116,9 +126,9 @@ function isCurrent(path: string) {
       }
     </nav>
 
-    <div class="language-switcher" aria-label="Language">
+    <div class="language-switcher" aria-label={languageAriaLabel}>
       <a
-        href="/ca/"
+        href={alternateRoutes.ca}
         lang="ca"
         aria-current={locale === "ca" ? "true" : undefined}
       >
@@ -126,7 +136,7 @@ function isCurrent(path: string) {
       </a>
 
       <a
-        href="/es/"
+        href={alternateRoutes.es}
         lang="es"
         aria-current={locale === "es" ? "true" : undefined}
       >
@@ -134,7 +144,7 @@ function isCurrent(path: string) {
       </a>
 
       <a
-        href="/en/"
+        href={alternateRoutes.en}
         lang="en"
         aria-current={locale === "en" ? "true" : undefined}
       >

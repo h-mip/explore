@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Header from "../components/layout/Header.astro";
+import Footer from "../components/layout/Footer.astro";
 
 type Locale = "en" | "es" | "ca";
 
@@ -15,6 +16,8 @@ const {
   title = "H-MIP Bites",
   description = "Research on where, when and during which activities people in Catalonia are bitten by mosquitoes.",
 } = Astro.props;
+
+const skipLabel = { en: "Skip to content", es: "Saltar al contenido", ca: "Salta al contingut" }[locale];
 ---
 
 <!doctype html>
@@ -41,7 +44,7 @@ const {
 
   <body>
     <a class="skip-link" href="#main-content">
-      Skip to content
+      {skipLabel}
     </a>
 
     <Header locale={locale} />
@@ -49,5 +52,7 @@ const {
     <main id="main-content">
       <slot />
     </main>
+
+    <Footer locale={locale} />
   </body>
 </html>

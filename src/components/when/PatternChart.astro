@@ -1,0 +1,107 @@
+---
+import type { HomeLocale } from "../../data/home";
+
+interface Props {
+  locale: HomeLocale;
+  id: string;
+  eyebrow: string;
+  title: string;
+  takeaway: string;
+  text: string;
+  chartTitle: string;
+  chartNote: string;
+  method: string;
+  tableLabel: string;
+  tableValue: string;
+  tableSummary: string;
+  tableCaption: string;
+  dataLabel: string;
+  sourceNote: string;
+  badge: string;
+  scrollHint: string;
+  labels: string[];
+  values: number[];
+  labelEvery?: number;
+  highlight: number[];
+}
+
+const props = Astro.props;
+const { locale, id, labels, values, highlight } = props;
+const format = new Intl.NumberFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+});
+
+const plot = { left: 48, right: 12, top: 22, bottom: 218 };
+const plotWidth = 720 - plot.left - plot.right;
+const plotHeight = plot.bottom - plot.top;
+const maxY = Math.max(5, Math.ceil(Math.max(...values) / 5) * 5);
+const slot = plotWidth / values.length;
+const barWidth = slot * 0.72;
+const ticks = [0, maxY / 2, maxY];
+const labelEvery = props.labelEvery ?? 1;
+---
+
+<article class="research-block" aria-labelledby={`${id}-heading`}>
+  <div class="research-copy">
+    <p class="eyebrow">{props.eyebrow}</p>
+    <h2 id={`${id}-heading`}>{props.title}</h2>
+    <p class="takeaway">{props.takeaway}</p>
+    <p>{props.text}</p>
+  </div>
+
+  <figure class="chart-frame">
+    <div class="chart-meta"><strong>{props.chartTitle}</strong><span class="demo-tag">{props.badge}</span></div>
+    <div class="chart-scroll" role="region" aria-label={props.chartTitle} tabindex="0">
+    <svg viewBox="0 0 720 264" role="img" aria-labelledby={`${id}-chart-title ${id}-chart-desc`}>
+      <title id={`${id}-chart-title`}>{props.chartTitle}</title>
+      <desc id={`${id}-chart-desc`}>{props.chartNote} {props.sourceNote}</desc>
+      <text x={plot.left} y="13" class="axis-title">{props.dataLabel} (%)</text>
+      {ticks.map((tick) => {
+        const y = plot.bottom - tick / maxY * plotHeight;
+        return <g>
+          <line x1={plot.left} x2={720 - plot.right} y1={y} y2={y} class="gridline" />
+          <text x={plot.left - 9} y={y + 4} text-anchor="end" class="axis-label">{format.format(tick)}%</text>
+        </g>;
+      })}
+      {values.map((value, index) => {
+        const x = plot.left + index * slot + (slot - barWidth) / 2;
+        const height = value / maxY * plotHeight;
+        return <g>
+          <rect x={x} y={plot.bottom - height} width={barWidth} height={height} rx="2" class={highlight.includes(index) ? "bar emphasis" : "bar"} />
+          {(index % labelEvery === 0 || index === values.length - 1) && <text x={x + barWidth / 2} y="243" text-anchor="middle" class="axis-label">{labels[index]}</text>}
+        </g>;
+      })}
+    </svg>
+    </div>
+    <p class="scroll-hint">{props.scrollHint}</p>
+    <figcaption>{props.chartNote}</figcaption>
+    <details class="data-details">
+      <summary>{props.tableSummary}</summary>
+      <div class="detail-body">
+        <p>{props.method}</p>
+        <div class="table-scroller">
+          <table>
+            <caption>{props.tableCaption} — {props.chartTitle}</caption>
+            <thead><tr><th scope="col">{props.tableLabel}</th><th scope="col">{props.tableValue}</th></tr></thead>
+            <tbody>{labels.map((label, index) => <tr><th scope="row">{label}</th><td>{format.format(values[index])}%</td></tr>)}</tbody>
+          </table>
+        </div>
+      </div>
+    </details>
+  </figure>
+</article>
+
+<style>
+  .research-block{display:grid;grid-template-columns:minmax(220px,.36fr) minmax(0,.64fr);gap:54px;padding-top:24px;border-top:1px solid var(--line)}
+  .research-copy{display:grid;gap:13px;align-content:start}.research-copy h2{font-size:clamp(1.65rem,2.7vw,2.5rem)}.research-copy p:not(.eyebrow):not(.takeaway){color:var(--ink-2);font-size:.91rem}.takeaway{font-size:1.08rem;font-weight:600;line-height:1.45}
+  .chart-frame{display:grid;gap:12px;margin:0;min-width:0}.chart-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.chart-meta strong{font-weight:750}.chart-meta .demo-tag{white-space:normal;line-height:1.3}
+  .chart-scroll{overflow-x:auto}svg{display:block;width:100%;height:auto;overflow:visible}.gridline{stroke:var(--line);stroke-width:1}.axis-label{font:11px var(--sans);fill:var(--ink-3)}.axis-title{font:650 10px var(--mono);fill:var(--ink-3)}.bar{fill:var(--teal);opacity:.72}.bar.emphasis{fill:var(--teal);opacity:1}
+  .scroll-hint{display:none;margin:0;color:var(--ink-3);font-size:.76rem}
+  figcaption{font-size:.78rem;color:var(--ink-3)}
+  .data-details{border-top:1px solid var(--line);padding-top:10px}.data-details summary{min-height:34px;cursor:pointer;color:var(--teal);font-size:.84rem;font-weight:700}.detail-body{display:grid;gap:12px;padding-top:8px;color:var(--ink-2);font-size:.84rem}
+  .table-scroller{max-height:380px;overflow:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+  table{width:100%;border-collapse:collapse;font-size:.84rem;font-variant-numeric:tabular-nums}caption{text-align:left;padding:12px 14px;color:var(--ink-2);font-weight:700}th,td{padding:8px 14px;border-top:1px solid var(--line);text-align:left}thead th{background:var(--surface-tint);color:var(--ink)}tbody th{font-weight:600}td{text-align:right}
+  @media(max-width:1000px){.research-block{grid-template-columns:1fr;gap:22px}}
+  @media(max-width:600px){.research-block{gap:20px}.chart-meta{align-items:start}.chart-meta .demo-tag{font-size:.62rem}.chart-scroll svg{min-width:640px}.scroll-hint{display:block}}
+</style>
