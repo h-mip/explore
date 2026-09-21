@@ -27,3 +27,11 @@ Use `npm run astro -- dev stop` to stop the background server. The static build 
 The map outline, grid cells and place positions are **schematic**. Its grid is not H3, and its points are not official municipality geometry. The map's controls, URL state, accessible table and translations can be reviewed now; the visual data layer should be replaced before presenting it as geographic research output.
 
 The About and Data & Code pages link to the [H-MIP project website](https://h-mip.com/en/) and the [European Commission project record](https://cordis.europa.eu/project/id/853271). The catalogue does not invent datasets, code repositories, DOIs or licenses.
+
+## Cloudflare Pages preview
+
+This static site can be deployed from the GitHub repository with Cloudflare Pages. Connect the `main` branch, use `npm run build` as the build command and `dist` as the output directory. No server adapter or environment variables are required.
+
+The `public/_redirects` rule sends the site root (`/`) to the English homepage. The language switcher provides Spanish and Catalan routes. The default `*.pages.dev` address does not need a purchased domain.
+
+Keep the site labelled as a synthetic-data demonstration until the project supplies approved research data and geographic geometry.
