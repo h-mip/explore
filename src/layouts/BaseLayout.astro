@@ -1,0 +1,53 @@
+---
+import "../styles/global.css";
+import Header from "../components/layout/Header.astro";
+
+type Locale = "en" | "es" | "ca";
+
+interface Props {
+  locale: Locale;
+  title?: string;
+  description?: string;
+}
+
+const {
+  locale,
+  title = "H-MIP Bites",
+  description = "Research on where, when and during which activities people in Catalonia are bitten by mosquitoes.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+
+    <meta name="description" content={description} />
+
+    <meta name="color-scheme" content="light" />
+
+    <meta
+      name="referrer"
+      content="strict-origin-when-cross-origin"
+    />
+
+    <title>{title}</title>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content">
+      Skip to content
+    </a>
+
+    <Header locale={locale} />
+
+    <main id="main-content">
+      <slot />
+    </main>
+  </body>
+</html>

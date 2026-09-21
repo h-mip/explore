@@ -1,0 +1,288 @@
+---
+type Locale = "en" | "es" | "ca";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const routes = {
+  en: {
+    home: "/en/",
+    map: "/en/map/",
+    when: "/en/when/",
+    activities: "/en/activities/",
+    data: "/en/data/",
+    about: "/en/about/",
+  },
+
+  es: {
+    home: "/es/",
+    map: "/es/mapa/",
+    when: "/es/cuando/",
+    activities: "/es/actividades/",
+    data: "/es/datos/",
+    about: "/es/sobre/",
+  },
+
+  ca: {
+    home: "/ca/",
+    map: "/ca/mapa/",
+    when: "/ca/quan/",
+    activities: "/ca/activitats/",
+    data: "/ca/dades/",
+    about: "/ca/sobre/",
+  },
+} satisfies Record<Locale, Record<string, string>>;
+
+const labels = {
+  en: {
+    home: "Home",
+    map: "Map",
+    when: "When",
+    activities: "Activities & Places",
+    data: "Data & Code",
+    about: "About",
+  },
+
+  es: {
+    home: "Inicio",
+    map: "Mapa",
+    when: "Cuándo",
+    activities: "Actividades y lugares",
+    data: "Datos y código",
+    about: "Sobre el proyecto",
+  },
+
+  ca: {
+    home: "Inici",
+    map: "Mapa",
+    when: "Quan",
+    activities: "Activitats i llocs",
+    data: "Dades i codi",
+    about: "Sobre el projecte",
+  },
+} satisfies Record<Locale, Record<string, string>>;
+
+const currentRoutes = routes[locale];
+const currentLabels = labels[locale];
+
+const pathname = Astro.url.pathname;
+
+const navItems = [
+  ["home", currentLabels.home],
+  ["map", currentLabels.map],
+  ["when", currentLabels.when],
+  ["activities", currentLabels.activities],
+  ["data", currentLabels.data],
+  ["about", currentLabels.about],
+] as const;
+
+function isCurrent(path: string) {
+  if (path === `/${locale}/`) {
+    return pathname === path;
+  }
+
+  return pathname.startsWith(path);
+}
+---
+
+<header class="site-header">
+  <div class="header-inner wrap">
+    <a
+      class="brand"
+      href={currentRoutes.home}
+      aria-label={`H-MIP Bites — ${currentLabels.home}`}
+    >
+      <span class="brand-main">H-MIP</span>
+      <span class="brand-bites">Bites</span>
+    </a>
+
+    <nav class="main-nav" aria-label="Primary navigation">
+      {
+        navItems.map(([key, label]) => {
+          const href = currentRoutes[key];
+
+          return (
+            <a
+              href={href}
+              aria-current={isCurrent(href) ? "page" : undefined}
+            >
+              {label}
+            </a>
+          );
+        })
+      }
+    </nav>
+
+    <div class="language-switcher" aria-label="Language">
+      <a
+        href="/ca/"
+        lang="ca"
+        aria-current={locale === "ca" ? "true" : undefined}
+      >
+        CA
+      </a>
+
+      <a
+        href="/es/"
+        lang="es"
+        aria-current={locale === "es" ? "true" : undefined}
+      >
+        ES
+      </a>
+
+      <a
+        href="/en/"
+        lang="en"
+        aria-current={locale === "en" ? "true" : undefined}
+      >
+        EN
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+
+    border-bottom: 1px solid var(--line);
+
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+
+    min-height: var(--header-height);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 5px;
+
+    color: var(--ink);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .brand:hover {
+    text-decoration: none;
+  }
+
+  .brand-main {
+    font-weight: 750;
+    letter-spacing: -0.02em;
+  }
+
+  .brand-bites {
+    color: var(--teal);
+
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 650;
+  }
+
+  .main-nav {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+  }
+
+  .main-nav a {
+    position: relative;
+
+    padding: 21px 10px 19px;
+
+    color: var(--ink-2);
+    text-decoration: none;
+    white-space: nowrap;
+
+    font-size: 0.91rem;
+    font-weight: 620;
+  }
+
+  .main-nav a:hover {
+    color: var(--ink);
+  }
+
+  .main-nav a[aria-current="page"] {
+    color: var(--ink);
+  }
+
+  .main-nav a[aria-current="page"]::after {
+    content: "";
+
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    left: 10px;
+
+    height: 3px;
+
+    border-radius: 3px 3px 0 0;
+    background: var(--teal);
+  }
+
+  .language-switcher {
+    display: flex;
+    align-items: center;
+
+    margin-left: auto;
+
+    overflow: hidden;
+
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+  }
+
+  .language-switcher a {
+    display: grid;
+    place-items: center;
+
+    min-width: 38px;
+    min-height: 34px;
+
+    border-right: 1px solid var(--line);
+
+    color: var(--ink-2);
+    text-decoration: none;
+
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 650;
+  }
+
+  .language-switcher a:last-child {
+    border-right: 0;
+  }
+
+  .language-switcher a[aria-current="true"] {
+    background: var(--ink);
+    color: white;
+  }
+
+  @media (max-width: 1050px) {
+    .main-nav {
+      display: none;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .header-inner {
+      gap: 10px;
+    }
+
+    .language-switcher a {
+      min-width: 34px;
+    }
+  }
+</style>
