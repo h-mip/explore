@@ -96,6 +96,7 @@ const alternateRoutes = {
 
 const navAriaLabel = { en: "Primary navigation", es: "Navegación principal", ca: "Navegació principal" }[locale];
 const languageAriaLabel = { en: "Language", es: "Idioma", ca: "Idioma" }[locale];
+const menuLabel = { en: "Menu", es: "Menú", ca: "Menú" }[locale];
 ---
 
 <header class="site-header">
@@ -125,6 +126,16 @@ const languageAriaLabel = { en: "Language", es: "Idioma", ca: "Idioma" }[locale]
         })
       }
     </nav>
+
+    <details class="mobile-nav">
+      <summary>{menuLabel}</summary>
+      <nav aria-label={navAriaLabel}>
+        {navItems.map(([key, label]) => {
+          const href = currentRoutes[key];
+          return <a href={href} aria-current={isCurrent(href) ? "page" : undefined}>{label}</a>;
+        })}
+      </nav>
+    </details>
 
     <div class="language-switcher" aria-label={languageAriaLabel}>
       <a
@@ -254,6 +265,8 @@ const languageAriaLabel = { en: "Language", es: "Idioma", ca: "Idioma" }[locale]
     border-radius: 8px;
   }
 
+  .mobile-nav { display: none; }
+
   .language-switcher a {
     display: grid;
     place-items: center;
@@ -284,6 +297,15 @@ const languageAriaLabel = { en: "Language", es: "Idioma", ca: "Idioma" }[locale]
     .main-nav {
       display: none;
     }
+
+    .mobile-nav { display: block; margin-left: auto; }
+    .mobile-nav summary { display: block; padding: 7px 10px; border: 1px solid var(--line-strong); border-radius: 8px; color: var(--ink); font-size: .82rem; font-weight: 700; cursor: pointer; list-style: none; }
+    .mobile-nav summary::-webkit-details-marker { display: none; }
+    .mobile-nav summary:hover, .mobile-nav[open] summary { background: var(--surface-soft); }
+    .mobile-nav nav { position: absolute; top: calc(100% - 1px); right: var(--page-padding); display: grid; width: min(300px, calc(100vw - 36px)); padding: 8px; border: 1px solid var(--line-strong); border-radius: 0 0 9px 9px; background: var(--surface); box-shadow: 0 12px 24px rgba(16, 35, 31, .12); }
+    .mobile-nav nav a { padding: 10px 12px; border-radius: 5px; color: var(--ink-2); font-size: .9rem; font-weight: 650; text-decoration: none; }
+    .mobile-nav nav a:hover, .mobile-nav nav a[aria-current="page"] { background: var(--surface-soft); color: var(--ink); }
+    .language-switcher { margin-left: 0; }
   }
 
   @media (max-width: 600px) {

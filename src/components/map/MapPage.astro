@@ -1,0 +1,130 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { demoCells, demoPlaces, levelForScore, mapContent, outlinePoints, palette, scoreForBase, type MapLocale } from "../../data/map";
+
+interface Props { locale: MapLocale }
+const { locale } = Astro.props;
+const copy = mapContent[locale];
+const barcelona = demoPlaces.find((place) => place.id === "barcelona")!;
+const initialCell = demoCells.reduce((nearest, cell) =>
+  (cell.x - barcelona.x) ** 2 + (cell.y - barcelona.y) ** 2 < (nearest.x - barcelona.x) ** 2 + (nearest.y - barcelona.y) ** 2 ? cell : nearest,
+);
+const initialScore = scoreForBase(initialCell.base, 8);
+const places = [...demoPlaces].sort((a, b) => a.name.localeCompare(b.name, locale));
+---
+
+<BaseLayout locale={locale} title={copy.metaTitle} description={copy.metaDescription}>
+  <div class="wrap page map-page" data-map-explorer data-locale={locale} data-initial-area={initialCell.id}>
+    <header class="map-intro">
+      <div class="page-head"><p class="eyebrow">{copy.eyebrow}</p><h1>{copy.title}</h1><p class="lead">{copy.lead}</p></div>
+      <span class="demo-tag">{copy.badge}</span>
+    </header>
+
+    <div class="map-shell" data-map-shell>
+      <aside class="map-sidebar" aria-label={copy.controls}>
+        <section class="control-group" aria-labelledby="layer-label">
+          <span class="map-step">{copy.layerStep}</span>
+          <h2 class="control-label" id="layer-label">{copy.layerLabel}</h2>
+          <div class="segmented" role="group" aria-label={copy.layerLabel}>
+            <button type="button" data-layer="grid" aria-pressed="true">{copy.grid}</button>
+            <button type="button" data-layer="places" aria-pressed="false">{copy.places}</button>
+          </div>
+          <p class="fine" data-layer-hint>{copy.gridHint}</p>
+        </section>
+
+        <form class="control-group search" data-place-search>
+          <span class="map-step">{copy.searchStep}</span>
+          <label class="control-label" for="map-place-search">{copy.searchLabel}</label>
+          <div class="search-row"><input id="map-place-search" type="search" list="demo-places" autocomplete="off" placeholder={copy.searchPlaceholder} /><button type="submit">{copy.searchButton}</button></div>
+          <datalist id="demo-places">{demoPlaces.map((place) => <option value={place.name} />)}</datalist>
+          <p class="fine" data-search-status role="status"></p>
+        </form>
+
+        <section class="control-group" aria-labelledby="time-label">
+          <span class="map-step">{copy.timeStep}</span>
+          <div class="month-row"><div><h2 class="control-label" id="time-label">{copy.timeLabel}</h2><strong class="month-name" data-month-name>{copy.months[7]}</strong></div><button class="play-btn" type="button" data-play aria-pressed="false">▶ {copy.play}</button></div>
+          <input type="range" data-month min="1" max="12" value="8" step="1" aria-label={copy.monthAria} />
+          <div class="month-ticks" aria-hidden="true">{copy.monthShort.map((month, index) => <span class={index === 7 ? "active" : ""}>{month.slice(0, 1)}</span>)}</div>
+        </section>
+
+        <section class="control-group" aria-labelledby="legend-title">
+          <span class="map-step">{copy.legendStep}</span>
+          <h2 class="control-label" id="legend-title">{copy.legendTitle}</h2>
+          <div class="legend-ramp" aria-hidden="true">{palette.map((color) => <i style={`background:${color}`}></i>)}</div>
+          <div class="legend-labels">{copy.levels.map((level) => <span>{level}</span>)}</div>
+          <p class="fine mono">0–19 · 20–39 · 40–59 · 60–79 · 80–100</p>
+          <p class="fine">{copy.legendNote}</p>
+        </section>
+
+        <section class="selected-card" aria-live="polite" aria-labelledby="selected-title">
+          <p class="map-step">{copy.selectedStep}</p>
+          <h2 class="selected-place" id="selected-title" data-selected-name>{copy.near} {initialCell.near}</h2>
+          <p class="selected-reading" data-selected-reading>{copy.months[7]} · {copy.levels[levelForScore(initialScore)]}</p>
+          <div class="value-row"><strong data-selected-score>{initialScore} / 100</strong><span>{copy.selectedNote}</span></div>
+          <div class="mini-month" data-profile aria-hidden="true">{copy.monthShort.map((month, index) => <span><i style={`height:${scoreForBase(initialCell.base, index + 1)}%`}></i><small>{month.slice(0, 1)}</small></span>)}</div>
+          <p class="fine">{copy.peak}</p>
+        </section>
+
+        <details class="method">
+          <summary><span class="map-step">{copy.methodStep}</span><strong>{copy.methodTitle}</strong></summary>
+          <p>{copy.methodText}</p>
+        </details>
+      </aside>
+
+      <div class="map-stage">
+        <svg class="demo-map" viewBox="0 0 960 580" role="group" aria-label={copy.mapAria} data-map-svg>
+          <defs><clipPath id="demo-catalonia-clip"><polygon points={outlinePoints} /></clipPath></defs>
+          <rect width="960" height="580" fill="#e3ebe8" />
+          <path d="M0 488 Q200 475 390 540 T960 525" fill="none" stroke="#cbd9d4" stroke-width="2" />
+          <polygon points={outlinePoints} fill="#f8faf9" stroke="#8a9e97" stroke-width="2" />
+          <g clip-path="url(#demo-catalonia-clip)"><g data-map-content>
+            <g data-grid-layer aria-hidden="false">
+              {demoCells.map((cell) => {
+                const score = scoreForBase(cell.base, 8);
+                return <path class:list={["map-cell", { "is-selected": cell.id === initialCell.id }]} d={cell.path} fill={palette[levelForScore(score)]} data-area-id={cell.id} data-base={cell.base} data-near={cell.near} role="button" tabindex={cell.id === initialCell.id ? "0" : "-1"} aria-label={`${copy.near} ${cell.near}: ${score} ${copy.valueUnit}`}><title>{copy.near} {cell.near} · {score} / 100</title></path>;
+              })}
+            </g>
+            <g data-places-layer display="none" aria-hidden="true">
+              {demoPlaces.map((place) => {
+                const score = scoreForBase(place.base, 8);
+                return <circle class="map-place" cx={place.x} cy={place.y} r="14" fill={palette[levelForScore(score)]} data-area-id={place.id} data-base={place.base} data-near={place.name} role="button" tabindex="-1" aria-label={`${place.name}: ${score} ${copy.valueUnit}`}><title>{place.name} · {score} / 100</title></circle>;
+              })}
+            </g>
+          </g></g>
+          <polygon points={outlinePoints} fill="none" stroke="#627670" stroke-width="2" pointer-events="none" />
+          {demoPlaces.filter((place) => ["lleida", "girona", "barcelona", "tarragona"].includes(place.id)).map((place) => <g class="place-label" pointer-events="none"><circle cx={place.x} cy={place.y - 3} r="3" /><text x={place.x + 8} y={place.y}>{place.name}</text></g>)}
+          <text class="region-label" x="410" y="145">{locale === "en" ? "CATALONIA" : locale === "es" ? "CATALUÑA" : "CATALUNYA"}</text>
+        </svg>
+        <div class="map-zoom"><button type="button" data-zoom="in" aria-label={copy.zoomIn}>+</button><button type="button" data-zoom="out" aria-label={copy.zoomOut}>−</button></div>
+        <p class="map-caption">{copy.schematic}</p>
+      </div>
+    </div>
+
+    <section class="table-panel" data-table-panel hidden aria-label={copy.tableLabel}>
+      <div class="table-toolbar"><label for="map-table-filter">{copy.tableFilter}</label><input id="map-table-filter" data-table-filter type="search" placeholder={copy.searchPlaceholder} /></div>
+      <div class="table-scroll"><table><caption data-table-caption>{copy.tableCaption} {copy.months[7]} · {places.length} {copy.rows}</caption><thead><tr><th scope="col"><button type="button" data-sort="name" aria-label={`${copy.sort} ${copy.municipality}`}>{copy.municipality} ↕</button></th><th scope="col"><button type="button" data-sort="comarca" aria-label={`${copy.sort} ${copy.comarca}`}>{copy.comarca} ↕</button></th><th scope="col" class="num"><button type="button" data-sort="score" aria-label={`${copy.sort} ${copy.index}`}>{copy.index} ↕</button></th></tr></thead><tbody>{places.map((place) => <tr data-row-id={place.id}><th scope="row">{place.name}</th><td>{place.comarca}</td><td class="num" data-row-score>{scoreForBase(place.base, 8)}</td></tr>)}</tbody></table></div>
+      <p class="empty-table" data-empty-table hidden>{copy.emptyTable}</p>
+    </section>
+
+    <div class="map-bottom"><div class="view-switch" role="group" aria-label={copy.viewLabel}><button type="button" data-view="map" aria-pressed="true">{copy.mapView}</button><button type="button" data-view="table" aria-pressed="false">{copy.tableView}</button></div><p>{copy.badge} · {copy.schematic}</p></div>
+  </div>
+</BaseLayout>
+
+<script src="../../scripts/mapExplorer.ts"></script>
+
+<style>
+  .map-page{padding-top:34px}.map-intro{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:20px}.page-head{display:grid;gap:10px;max-width:760px}.page-head h1{font-size:clamp(2.4rem,4.4vw,4.1rem)}.map-intro .demo-tag{flex:none}
+  .map-shell{display:grid;grid-template-columns:350px minmax(0,1fr);height:760px;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:12px}.map-shell[hidden]{display:none}.map-sidebar{display:grid;align-content:start;gap:18px;overflow:auto;padding:20px;border-right:1px solid var(--line)}
+  .map-step{color:var(--ink-3);font:650 .66rem/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase}.control-group{display:grid;gap:8px}.control-group+.control-group{padding-top:16px;border-top:1px solid var(--line)}.control-label{font:720 .84rem/1.3 var(--sans)}.fine{color:var(--ink-3);font-size:.76rem;line-height:1.45}.mono{font-family:var(--mono)}
+  .segmented{display:inline-flex;max-width:100%;width:max-content;padding:3px;border:1px solid var(--line-strong);border-radius:9px}.segmented button,.view-switch button{border:0;border-radius:6px;background:transparent;color:var(--ink-2);cursor:pointer;font-weight:700;font-size:.78rem;padding:8px 10px}.segmented button[aria-pressed="true"]{background:var(--ink);color:white}.segmented button:hover:not([aria-pressed="true"]),.view-switch button:hover:not([aria-pressed="true"]){background:var(--surface-soft)}
+  .search-row{display:flex;gap:6px}.search-row input,.table-toolbar input{min-width:0;min-height:40px;padding:7px 10px;border:1px solid var(--line-strong);border-radius:7px;background:white;color:var(--ink)}.search-row input{width:100%}.search-row button{padding:6px 10px;border:0;border-radius:7px;background:var(--teal);color:white;cursor:pointer;font-size:.8rem;font-weight:700}.search-row button:hover{background:var(--teal-hover)}.search [data-search-status]:empty{display:none}
+  .month-row{display:flex;align-items:end;justify-content:space-between}.month-name{display:block;font:650 1.25rem/1.3 var(--serif);margin-top:3px}.play-btn{border:0;background:transparent;color:var(--teal);cursor:pointer;font-size:.78rem;font-weight:700;padding:6px}.control-group input[type="range"]{width:100%;accent-color:var(--teal)}.month-ticks{display:grid;grid-template-columns:repeat(12,1fr);color:var(--ink-3);font:.6rem var(--mono);text-align:center}.month-ticks .active{color:var(--ink);font-weight:800}
+  .legend-ramp{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}.legend-ramp i{height:10px}.legend-ramp i:first-child{border-radius:3px 0 0 3px}.legend-ramp i:last-child{border-radius:0 3px 3px 0}.legend-labels{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;color:var(--ink-2);font-size:.61rem;line-height:1.3}
+  .selected-card{display:grid;gap:8px;padding-top:16px;border-top:1px solid var(--line)}.selected-place{font:650 1.22rem/1.2 var(--serif)}.selected-reading{color:var(--ink-2);font-size:.9rem}.value-row{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;color:var(--ink-3);font-size:.78rem}.value-row strong{color:var(--ink);font:650 1.3rem var(--serif)}.mini-month{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;align-items:end;height:76px;padding-top:4px}.mini-month span{display:grid;align-items:end;justify-items:center;height:100%;gap:3px}.mini-month i{display:block;align-self:end;width:100%;min-height:2px;background:var(--teal);border-radius:2px 2px 0 0}.mini-month small{font:.55rem var(--mono);color:var(--ink-3)}
+  .method{padding-top:12px;border-top:1px solid var(--line)}.method summary{display:flex;align-items:center;gap:8px;min-height:34px;color:var(--teal);cursor:pointer;font-size:.82rem}.method p{padding-top:9px;color:var(--ink-2);font-size:.8rem}
+  .map-stage{position:relative;min-width:0;overflow:hidden;background:#e3ebe8}.demo-map{display:block;width:100%;height:100%}.map-cell,.map-place{cursor:pointer;stroke:rgba(255,255,255,.8);stroke-width:1.2;transition:opacity .12s}.map-cell:hover,.map-place:hover,.map-cell.is-selected,.map-place.is-selected{stroke:var(--ink);stroke-width:3}.map-cell:focus,.map-place:focus{outline:3px solid var(--focus);outline-offset:2px}.map-place{stroke:white;stroke-width:3}.place-label circle{fill:var(--ink);stroke:white;stroke-width:2}.place-label text{fill:#263d37;font:650 13px var(--sans);paint-order:stroke;stroke:rgba(255,255,255,.95);stroke-width:4px;stroke-linejoin:round}.region-label{fill:#687b75;font:650 11px var(--mono);letter-spacing:.1em}.map-zoom{position:absolute;top:12px;right:12px;display:grid;gap:6px}.map-zoom button{width:38px;height:38px;border:1px solid var(--line-strong);border-radius:7px;background:rgba(255,255,255,.96);cursor:pointer;font-size:1.2rem}.map-zoom button:hover{background:var(--surface-soft)}.map-caption{position:absolute;right:10px;bottom:10px;left:10px;width:max-content;max-width:calc(100% - 20px);padding:5px 8px;border-radius:5px;background:rgba(255,255,255,.93);color:var(--ink-2);font-size:.68rem}
+  .table-panel{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}.table-panel[hidden]{display:none}.table-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:.83rem;font-weight:700}.table-toolbar input{width:min(340px,50vw)}.table-scroll{overflow:auto;max-height:640px}table{border-collapse:collapse;width:100%;font-size:.86rem}caption{text-align:left;padding:13px 14px;color:var(--ink-2)}th,td{padding:11px 14px;border-top:1px solid var(--line);text-align:left;white-space:nowrap}thead th{position:sticky;top:0;z-index:1;background:var(--surface-soft);color:var(--ink-2)}thead button{border:0;background:transparent;color:inherit;cursor:pointer;font:700 .82rem var(--sans)}thead button:hover{color:var(--teal)}tbody th{font-weight:650}.num{text-align:right;font-variant-numeric:tabular-nums}.empty-table{padding:16px;color:var(--ink-3);font-size:.85rem}
+  .map-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.view-switch{display:flex;gap:4px;flex:none}.view-switch button[aria-pressed="true"]{background:var(--teal-soft);color:#064f49}.map-bottom p{color:var(--ink-3);font-size:.75rem;text-align:right}
+  @media(max-width:900px){.map-intro{align-items:start;flex-direction:column}.map-shell{display:flex;flex-direction:column;height:auto;overflow:visible}.map-stage{order:-1;height:55vh;min-height:380px;border-bottom:1px solid var(--line)}.map-sidebar{overflow:visible;border-right:0}.map-bottom{position:sticky;bottom:8px;z-index:25;box-shadow:0 6px 24px rgba(16,35,31,.08)}}
+  @media(max-width:600px){.map-stage{height:52vh;min-height:350px}.map-sidebar{padding:16px}.map-bottom{padding:8px;bottom:4px}.map-bottom p{display:none}.map-caption{font-size:.62rem}.table-toolbar{align-items:start;flex-direction:column}.table-toolbar input{width:100%}}
+</style>

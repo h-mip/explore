@@ -1,43 +1,29 @@
-# Astro Starter Kit: Minimal
+# H-MIP Bites
+
+An Astro site for exploring questions about human–mosquito interaction in Catalonia. It currently builds static pages in English (`/en/`), Spanish (`/es/`) and Catalan (`/ca/`).
+
+## Run locally
 
 ```sh
-npm create astro@latest -- --template minimal
+npm install
+npm run astro -- dev --background
+npm run build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Use `npm run astro -- dev stop` to stop the background server. The static build is written to `dist/`.
 
-## 🚀 Project Structure
+## Demonstration data
 
-Inside of your Astro project, you'll see the following folders and files:
+**All numeric values on Home, Map, When and Activities are synthetic.** They are for design and interaction review only, not H-MIP findings or public-health guidance. Every public page labels the demonstration values.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+| Area | Current source | Replacement needed |
+| --- | --- | --- |
+| Home charts and headline values | `src/data/home.ts` | Reviewed headline results and chart data |
+| Map geometry, sample places and monthly index | `src/data/map.ts` | Approved spatial data, geographic boundaries, methods, uncertainty and attribution |
+| When charts | `src/data/when.ts` | Reviewed temporal results and intervals |
+| Activities and places | `src/data/activities.ts` | Reviewed activity and place results |
+| Data & Code catalogue | `src/data/outputs.ts` | Approved public output records with working links and citation details |
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+The map outline, grid cells and place positions are **schematic**. Its grid is not H3, and its points are not official municipality geometry. The map's controls, URL state, accessible table and translations can be reviewed now; the visual data layer should be replaced before presenting it as geographic research output.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+The About and Data & Code pages link to the [H-MIP project website](https://h-mip.com/en/) and the [European Commission project record](https://cordis.europa.eu/project/id/853271). The catalogue does not invent datasets, code repositories, DOIs or licenses.

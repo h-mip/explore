@@ -10,8 +10,11 @@ const content = {
     fundingText: "This project has received funding from the European Research Council (ERC) under the European Union’s Horizon 2020 research and innovation programme (grant agreement No. 853271).",
     explore: "Explore this site",
     home: "Home",
+    map: "Map explorer",
     when: "When bites happen",
     activities: "Activities & places",
+    data: "Data & Code",
+    about: "About H-MIP",
     links: "Project links",
     projectSite: "H-MIP project website",
     grant: "EU grant record",
@@ -23,8 +26,11 @@ const content = {
     fundingText: "Este proyecto ha recibido financiación del Consejo Europeo de Investigación (ERC) en el marco del programa de investigación e innovación Horizonte 2020 de la Unión Europea (acuerdo de subvención n.º 853271).",
     explore: "Explora este sitio",
     home: "Inicio",
+    map: "Explorador del mapa",
     when: "Cuándo ocurren las picaduras",
     activities: "Actividades y lugares",
+    data: "Datos y código",
+    about: "Sobre H-MIP",
     links: "Enlaces del proyecto",
     projectSite: "Sitio web del proyecto H-MIP",
     grant: "Ficha de la subvención de la UE",
@@ -36,8 +42,11 @@ const content = {
     fundingText: "Aquest projecte ha rebut finançament del Consell Europeu de Recerca (ERC) en el marc del programa de recerca i innovació Horitzó 2020 de la Unió Europea (acord de subvenció núm. 853271).",
     explore: "Explora aquest lloc",
     home: "Inici",
+    map: "Explorador del mapa",
     when: "Quan es produeixen les picades",
     activities: "Activitats i llocs",
+    data: "Dades i codi",
+    about: "Sobre H-MIP",
     links: "Enllaços del projecte",
     projectSite: "Lloc web del projecte H-MIP",
     grant: "Fitxa de la subvenció de la UE",
@@ -46,9 +55,9 @@ const content = {
 } as const;
 
 const routes = {
-  en: { home: "/en/", when: "/en/when/", activities: "/en/activities/" },
-  es: { home: "/es/", when: "/es/cuando/", activities: "/es/actividades/" },
-  ca: { home: "/ca/", when: "/ca/quan/", activities: "/ca/activitats/" },
+  en: { home: "/en/", map: "/en/map/", when: "/en/when/", activities: "/en/activities/", data: "/en/data/", about: "/en/about/" },
+  es: { home: "/es/", map: "/es/mapa/", when: "/es/cuando/", activities: "/es/actividades/", data: "/es/datos/", about: "/es/sobre/" },
+  ca: { home: "/ca/", map: "/ca/mapa/", when: "/ca/quan/", activities: "/ca/activitats/", data: "/ca/dades/", about: "/ca/sobre/" },
 } as const;
 
 const copy = content[locale];
@@ -78,8 +87,11 @@ const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.co
       <nav class="footer-links" aria-label={copy.explore}>
         <strong>{copy.explore}</strong>
         <a href={links.home}>{copy.home}</a>
+        <a href={links.map}>{copy.map}</a>
         <a href={links.when}>{copy.when}</a>
         <a href={links.activities}>{copy.activities}</a>
+        <a href={links.data}>{copy.data}</a>
+        <a href={links.about}>{copy.about}</a>
       </nav>
       <nav class="footer-links" aria-label={copy.links}>
         <strong>{copy.links}</strong>

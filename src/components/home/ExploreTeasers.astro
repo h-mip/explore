@@ -4,6 +4,7 @@ import { demoCharts, homeContent, type HomeLocale } from "../../data/home";
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = homeContent[locale].explore;
+const mapPath = { en: "/en/map/", es: "/es/mapa/", ca: "/ca/mapa/" }[locale];
 const whenPath = { en: "/en/when/", es: "/es/cuando/", ca: "/ca/quan/" }[locale];
 const activitiesPath = { en: "/en/activities/", es: "/es/actividades/", ca: "/ca/activitats/" }[locale];
 const hours = demoCharts.hour.filter((_, index) => index % 2 === 0);
@@ -22,7 +23,7 @@ const spatial = [1, 2, 1, 0, 2, 3, 2, 1, 3, 4, 3, 2, 1, 2, 3, 2, 0, 1, 2, 1];
         {item.chart === "hour" && <div class="hour-bars">{hours.map((value) => <i style={`height:${Math.max(12, value / 43 * 100)}%`}></i>)}</div>}
         {item.chart === "activity" && <div class="activity-bars">{demoCharts.activity.map((value) => <i><span style={`width:${value}%`}></span></i>)}</div>}
       </div>
-      {item.chart === "spatial" ? <p class="coming-soon">{item.status}</p> : <a class="teaser-link" href={item.chart === "hour" ? whenPath : activitiesPath}>{item.status} <span aria-hidden="true">→</span></a>}
+      <a class="teaser-link" href={item.chart === "spatial" ? mapPath : item.chart === "hour" ? whenPath : activitiesPath}>{item.status} <span aria-hidden="true">→</span></a>
     </article>)}
   </div>
 </section>
