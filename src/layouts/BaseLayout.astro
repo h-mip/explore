@@ -14,18 +14,19 @@ interface Props {
 
 const {
   locale,
-  title = "H-MIP Bites",
+  title = "H-MIP Explore",
   description = "Research on where, when and during which activities people in Catalonia are bitten by mosquitoes.",
 } = Astro.props;
 
 const skipLabel = { en: "Skip to content", es: "Saltar al contenido", ca: "Salta al contingut" }[locale];
+const staging = Astro.site?.hostname === "staging.hmip-bites.pages.dev";
 ---
 
 <!doctype html>
 <html lang={locale}>
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href={internalUrl("favicon.svg")} />
+    <link rel="icon" type="image/x-icon" href={internalUrl("favicon.ico")} />
 
     <meta
       name="viewport"
@@ -33,6 +34,7 @@ const skipLabel = { en: "Skip to content", es: "Saltar al contenido", ca: "Salta
     />
 
     <meta name="description" content={description} />
+    {staging && <meta name="robots" content="noindex, nofollow" />}
 
     <meta name="color-scheme" content="light" />
 
@@ -56,5 +58,6 @@ const skipLabel = { en: "Skip to content", es: "Saltar al contenido", ca: "Salta
     </main>
 
     <Footer locale={locale} />
+    <script src="../scripts/dataTooltips.ts"></script>
   </body>
 </html>

@@ -8,8 +8,11 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "generate:map-geometry": "node scripts/generate-catalonia-geometry.mjs",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate:draft-map": "node scripts/generate-draft-map.mjs",
+    "generate:map-data": "npm run generate:map-geometry && npm run generate:draft-map"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

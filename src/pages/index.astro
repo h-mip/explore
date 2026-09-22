@@ -1,17 +1,16 @@
 ---
-import { routes } from "../utils/urls";
-
-const home = routes.en.home;
+import BaseLayout from "../layouts/BaseLayout.astro";
+import HomeHero from "../components/home/HomeHero.astro";
+import HeadlineFindings from "../components/home/HeadlineFindings.astro";
+import ExploreTeasers from "../components/home/ExploreTeasers.astro";
+import PublicAction from "../components/home/PublicAction.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content={`0; url=${home}`} />
-    <title>H-MIP Bites</title>
-  </head>
-  <body>
-    <a href={home}>Continue to H-MIP Bites</a>
-  </body>
-</html>
+<BaseLayout locale="ca" title="H-MIP Explora" description="Explora on, quan i durant quines activitats les persones reben picades de mosquit a Catalunya.">
+  <div class="wrap page">
+    <HomeHero locale="ca" />
+    <HeadlineFindings locale="ca" />
+    <ExploreTeasers locale="ca" />
+    <PublicAction locale="ca" />
+  </div>
+</BaseLayout>

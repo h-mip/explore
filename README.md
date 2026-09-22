@@ -1,6 +1,6 @@
-# H-MIP Bites
+# H-MIP Explore / Explora
 
-An Astro site for exploring questions about human–mosquito interaction in Catalonia. It currently builds static pages in English (`/en/`), Spanish (`/es/`) and Catalan (`/ca/`).
+An Astro site for exploring human–mosquito interaction in Catalonia. Catalan is the default language at `/explore/`; Spanish and English are at `/explore/es/` and `/explore/en/`.
 
 ## Run locally
 
@@ -10,28 +10,18 @@ npm run astro -- dev --background
 npm run build
 ```
 
-Use `npm run astro -- dev stop` to stop the background server. The static build is written to `dist/`.
+Use `npm run astro -- dev stop` to stop the background server. The static build is written to `dist/`. The configured production URL is `https://h-mip.com/explore/`.
 
-## Demonstration data
+## Data status
 
-**All numeric values on Home, Map, When and Activities are synthetic.** They are for design and interaction review only, not H-MIP findings or public-health guidance. Every public page labels the demonstration values.
+The map now offers a **draft 2025 H3 model layer** as well as a labeled synthetic preview and sample places. The draft layer uses the supplied resolution-7 probabilities and confidence classes. For this SVG preview, each displayed resolution-6 cell shows the arithmetic mean of its source cells; it is not a population-weighted estimate. The legend uses the class breaks in `data/layers.csv`. The edge is an H3 footprint, not an official administrative boundary. Home, When, Activities, and the map's preview and sample places still use synthetic demonstration values. None of these views is public-health advice.
 
-| Area | Current source | Replacement needed |
-| --- | --- | --- |
-| Home charts and headline values | `src/data/home.ts` | Reviewed headline results and chart data |
-| Map geometry, sample places and monthly index | `src/data/map.ts` | Approved spatial data, geographic boundaries, methods, uncertainty and attribution |
-| When charts | `src/data/when.ts` | Reviewed temporal results and intervals |
-| Activities and places | `src/data/activities.ts` | Reviewed activity and place results |
-| Data & Code catalogue | `src/data/outputs.ts` | Approved public output records with working links and citation details |
+The data update ZIP supplied on 22 September 2026 has been applied to `data/layer_h3.csv`; the municipality and metadata files already matched it. To rebuild derived H3 geometry and values after replacing source files, run `npm run generate:map-data`. Scientific wording, method, uncertainty, and attribution need review before launch. The municipality model file is available but not yet rendered as a geographic layer because official municipality boundaries and a name/code mapping have not been supplied. The three map CSVs in `public/data/` are linked as draft downloads from Data & Code. The staging package excludes the older public prototype CSVs and prevention tips. No license or citation was supplied for the draft model files.
 
-The map outline, grid cells and place positions are **schematic**. Its grid is not H3, and its points are not official municipality geometry. The map's controls, URL state, accessible table and translations can be reviewed now; the visual data layer should be replaced before presenting it as geographic research output.
+The handover marks `data/outputs.csv` and `data/publications.csv` as real source lists. Data & Code now displays all seven supplied datasets and code records, and About lists the 14 supplied publications newest first. Both pages read these files at build time and validate their structure, IDs and URLs. Edit the CSVs and rebuild to update the pages. The handover marks `data/temporal.csv`, `data/activities_places.csv` and `data/findings.csv` as synthetic; their charts remain labeled as such. The kickoff addendum removes prevention advice from the site.
 
-The About and Data & Code pages link to the [H-MIP project website](https://h-mip.com/en/) and the [European Commission project record](https://cordis.europa.eu/project/id/853271). The catalogue does not invent datasets, code repositories, DOIs or licenses.
+The H-MIP header logo and favicon were copied from the supplied Phase 1 handover assets. The logo is the white PNG used by the current H-MIP site.
 
-## Cloudflare Pages preview
+## Cloudflare review build
 
-This static site can be deployed from the GitHub repository with Cloudflare Pages. Connect the `main` branch, use `npm run build` as the build command and `dist` as the output directory. No server adapter or environment variables are required.
-
-The `public/_redirects` rule sends the site root (`/`) to the English homepage. The language switcher provides Spanish and Catalan routes. The default `*.pages.dev` address does not need a purchased domain.
-
-Keep the site labelled as a synthetic-data demonstration until the project supplies approved research data and geographic geometry.
+For the temporary Cloudflare staging preview, build with `HMIP_STAGING=1 npm run build`, then run `node scripts/package-staging.mjs` and `node scripts/check-staging.mjs`. Upload `staging-dist/` to the `staging` preview branch of the existing `hmip-bites` Pages project. This build uses root-relative links, marks every page and static response `noindex`, and includes only the three linked draft CSV downloads. The H-MIP GitHub production repository is not changed by this upload.
