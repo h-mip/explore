@@ -12,9 +12,17 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.3.3"
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.3",
+    "h3-js": "^4.5.0",
+    "maplibre-gl": "^6.10.0",
+    "papaparse": "^5.7.0",
+    "zod": "^4.6.5"
   },
   "allowScripts": {
     "esbuild": true
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.5.2"
   }
 }
