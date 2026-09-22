@@ -7,8 +7,7 @@ staging-dist/
 # generated map data (created by npm run build:map-data)
 public/generated/*.geojson
 public/generated/map-meta.json
-src/data/cataloniaGeometry.json
-src/data/cataloniaDraft.json
+public/generated/home-h3-preview.svg
 
 # dependencies
 node_modules/

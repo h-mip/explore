@@ -11,7 +11,7 @@
     "build": "npm run build:map-data && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "build:map-data": "node scripts/build-map-data.mjs && node scripts/generate-catalonia-geometry.mjs && node scripts/generate-draft-map.mjs"
+    "build:map-data": "node scripts/build-map-data.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",

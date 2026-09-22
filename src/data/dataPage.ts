@@ -20,8 +20,8 @@ export const dataPageContent = {
     euResultsText: "The CORDIS record lists public project results and publications.",
     siteEyebrow: "Site transparency",
     siteTitle: "Data behind this website",
-    siteText: "The map includes draft 2025 H3 model estimates, displayed as means of source cells and clearly labeled as provisional. Its preview and sample places, and the Home, When and Activities pages, still use synthetic values. The draft layer needs scientific and attribution review before launch.",
-    downloadTitle: "Draft 2025 model data", downloadIntro: "These are the supplied, unreviewed model files. The H3 CSV contains original resolution-7 values; the map displays means at resolution 6. A license and citation have not been supplied.", h3Download: "Download H3 estimates (CSV)", municipalityDownload: "Download municipality estimates (CSV)", metadataDownload: "Download units and class breaks (CSV)",
+    siteText: "The map and Home map teaser use the supplied draft 2025 model estimates. The map shows original resolution-7 H3 cells and municipality values, not synthetic or aggregated map scores. Home findings, When and Activities still use clearly labeled synthetic values. The model needs scientific and attribution review before launch.",
+    downloadTitle: "Draft 2025 model data", downloadIntro: "These are the supplied draft model files. The H3 CSV and map both use original resolution-7 values; municipality values are also shown on the map and table. A license and citation for the model files have not been supplied.", h3Download: "Download H3 estimates (CSV)", municipalityDownload: "Download municipality estimates (CSV)", metadataDownload: "Download units and class breaks (CSV)",
   },
   es: {
     metaTitle: "Datos y código — H-MIP Explora",
@@ -44,8 +44,8 @@ export const dataPageContent = {
     euResultsText: "La ficha de CORDIS recoge resultados y publicaciones públicos del proyecto.",
     siteEyebrow: "Transparencia del sitio",
     siteTitle: "Datos detrás de este sitio web",
-    siteText: "El mapa incluye estimaciones provisionales del modelo H3 de 2025, mostradas como medias de las celdas originales. Su vista previa y lugares de ejemplo, y las páginas de Inicio, Cuándo y Actividades, aún usan valores sintéticos. La capa provisional requiere revisión científica y de atribución antes del lanzamiento.",
-    downloadTitle: "Datos provisionales del modelo de 2025", downloadIntro: "Estos son los archivos del modelo suministrados, pendientes de revisión. El CSV H3 contiene valores originales de resolución 7; el mapa muestra medias de resolución 6. Aún no se han facilitado licencia ni cita.", h3Download: "Descargar estimaciones H3 (CSV)", municipalityDownload: "Descargar estimaciones municipales (CSV)", metadataDownload: "Descargar unidades y cortes de clase (CSV)",
+    siteText: "El mapa y la vista previa de Inicio usan las estimaciones provisionales del modelo de 2025. El mapa muestra celdas H3 originales de resolución 7 y valores municipales, no puntuaciones sintéticas ni agrupadas. Los datos destacados de Inicio, Cuándo y Actividades aún usan valores sintéticos claramente identificados. El modelo requiere revisión científica y de atribución antes del lanzamiento.",
+    downloadTitle: "Datos provisionales del modelo de 2025", downloadIntro: "Estos son los archivos del modelo provisional facilitados. El CSV H3 y el mapa usan valores originales de resolución 7; los valores municipales también aparecen en el mapa y la tabla. Aún no se han facilitado licencia ni cita para los archivos del modelo.", h3Download: "Descargar estimaciones H3 (CSV)", municipalityDownload: "Descargar estimaciones municipales (CSV)", metadataDownload: "Descargar unidades y cortes de clase (CSV)",
   },
   ca: {
     metaTitle: "Dades i codi — H-MIP Explora",
@@ -68,7 +68,7 @@ export const dataPageContent = {
     euResultsText: "La fitxa de CORDIS recull resultats i publicacions públics del projecte.",
     siteEyebrow: "Transparència del lloc",
     siteTitle: "Dades darrere d'aquest lloc web",
-    siteText: "El mapa inclou estimacions provisionals del model H3 de 2025, mostrades com a mitjanes de les cel·les originals. La vista prèvia i els llocs d'exemple, i les pàgines d'Inici, Quan i Activitats, encara fan servir valors sintètics. La capa provisional requereix una revisió científica i d'atribució abans del llançament.",
-    downloadTitle: "Dades provisionals del model de 2025", downloadIntro: "Aquests són els fitxers del model subministrats, pendents de revisió. El CSV H3 conté valors originals de resolució 7; el mapa mostra mitjanes de resolució 6. Encara no s'han facilitat llicència ni citació.", h3Download: "Descarrega les estimacions H3 (CSV)", municipalityDownload: "Descarrega les estimacions municipals (CSV)", metadataDownload: "Descarrega les unitats i els llindars (CSV)",
+    siteText: "El mapa i la vista prèvia d'Inici fan servir les estimacions provisionals del model de 2025. El mapa mostra cel·les H3 originals de resolució 7 i valors municipals, no puntuacions sintètiques ni agregades. Les dades destacades d'Inici, Quan i Activitats encara fan servir valors sintètics clarament identificats. El model requereix revisió científica i d'atribució abans del llançament.",
+    downloadTitle: "Dades provisionals del model de 2025", downloadIntro: "Aquests són els fitxers del model provisional facilitats. El CSV H3 i el mapa fan servir valors originals de resolució 7; els valors municipals també apareixen al mapa i a la taula. Encara no s'han facilitat llicència ni citació per als fitxers del model.", h3Download: "Descarrega les estimacions H3 (CSV)", municipalityDownload: "Descarrega les estimacions municipals (CSV)", metadataDownload: "Descarrega les unitats i els llindars (CSV)",
   },
 } as const;

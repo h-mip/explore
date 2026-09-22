@@ -1,4 +1,4 @@
-// Illustrative values only. Replace with reviewed H-MIP public data and copy before launch.
+// The charts and headline findings below remain illustrative; the Home map image is generated separately from draft model data.
 export const demoCharts = {
   hour: [2, 2, 2, 2, 3, 4, 5, 7, 9, 11, 13, 14, 16, 18, 20, 23, 24, 27, 38, 43, 37, 18, 9, 4],
   month: [2, 3, 4, 7, 12, 24, 45, 48, 36, 15, 9, 7],
@@ -15,9 +15,9 @@ export const homeContent = {
       primary: "Explore the evidence",
       secondary: "See headline patterns",
       context: [["Focus", "Tiger mosquito"], ["Area", "Catalonia"], ["Research", "Human–mosquito interaction"]],
-      previewTitle: "Interaction pattern preview",
-      previewLabel: "Illustrative visual",
-      previewCaption: "H3 geography · synthetic August colours, not model results",
+      previewTitle: "Draft model map preview",
+      previewLabel: "Draft 2025 model",
+      previewCaption: "Original H3 resolution-7 cells · draft model estimates for August",
       low: "Low",
       mid: "Mid",
       high: "High",
@@ -37,9 +37,9 @@ export const homeContent = {
     explore: {
       eyebrow: "Explore the evidence",
       title: "Three ways into the data",
-      intro: "Each view starts with a public question and makes room for methods and uncertainty. These previews use synthetic values.",
+      intro: "The map uses draft 2025 model estimates. Time and activity previews still use clearly labeled synthetic values.",
       items: [
-        { label: "Where people get bitten", title: "Patterns across Catalonia", text: "Explore how place can shape human–mosquito interaction.", status: "Explore the demo map", chart: "spatial" },
+        { label: "Where people get bitten", title: "Patterns across Catalonia", text: "Explore how place can shape human–mosquito interaction.", status: "Explore the map", chart: "spatial" },
         { label: "When bites happen", title: "Hour by hour", text: "See how reported interaction can vary across the day and through the year.", status: "Explore time patterns", chart: "hour" },
         { label: "What people are doing", title: "Activities & places", text: "Compare reported bite share across everyday activities and places.", status: "Explore activities", chart: "activity" },
       ],
@@ -60,9 +60,9 @@ export const homeContent = {
       primary: "Explorar los datos",
       secondary: "Ver los patrones destacados",
       context: [["Foco", "Mosquito tigre"], ["Ámbito", "Cataluña"], ["Investigación", "Interacción entre personas y mosquitos"]],
-      previewTitle: "Vista previa del patrón de interacción",
-      previewLabel: "Visual ilustrativa",
-      previewCaption: "Geografía H3 · colores sintéticos de agosto, no resultados del modelo",
+      previewTitle: "Vista previa del mapa del modelo",
+      previewLabel: "Modelo provisional de 2025",
+      previewCaption: "Celdas H3 originales de resolución 7 · estimaciones provisionales de agosto",
       low: "Bajo",
       mid: "Medio",
       high: "Alto",
@@ -82,9 +82,9 @@ export const homeContent = {
     explore: {
       eyebrow: "Explorar los datos",
       title: "Tres formas de acercarse a los datos",
-      intro: "Cada vista parte de una pregunta pública y deja espacio para los métodos y la incertidumbre. Estas vistas previas usan valores sintéticos.",
+      intro: "El mapa utiliza estimaciones provisionales del modelo de 2025. Las vistas temporales y de actividades aún usan valores sintéticos claramente identificados.",
       items: [
-        { label: "Dónde ocurren las picaduras", title: "Patrones en Cataluña", text: "Explora cómo el lugar puede influir en la interacción entre personas y mosquitos.", status: "Explorar el mapa de ejemplo", chart: "spatial" },
+        { label: "Dónde ocurren las picaduras", title: "Patrones en Cataluña", text: "Explora cómo el lugar puede influir en la interacción entre personas y mosquitos.", status: "Explorar el mapa", chart: "spatial" },
         { label: "Cuándo ocurren", title: "Hora a hora", text: "Observa cómo puede variar la interacción registrada a lo largo del día y del año.", status: "Explorar patrones temporales", chart: "hour" },
         { label: "Qué hace la gente", title: "Actividades y lugares", text: "Compara la proporción de picaduras registradas entre actividades y lugares cotidianos.", status: "Explorar actividades", chart: "activity" },
       ],
@@ -105,9 +105,9 @@ export const homeContent = {
       primary: "Explora les dades",
       secondary: "Mira els patrons destacats",
       context: [["Focus", "Mosquit tigre"], ["Àmbit", "Catalunya"], ["Recerca", "Interacció entre persones i mosquits"]],
-      previewTitle: "Vista prèvia del patró d’interacció",
-      previewLabel: "Visual il·lustrativa",
-      previewCaption: "Geografia H3 · colors sintètics d’agost, no resultats del model",
+      previewTitle: "Vista prèvia del mapa del model",
+      previewLabel: "Model provisional de 2025",
+      previewCaption: "Cel·les H3 originals de resolució 7 · estimacions provisionals d’agost",
       low: "Baix",
       mid: "Mitjà",
       high: "Alt",
@@ -127,9 +127,9 @@ export const homeContent = {
     explore: {
       eyebrow: "Explora les dades",
       title: "Tres maneres d’apropar-se a les dades",
-      intro: "Cada vista parteix d’una pregunta pública i deixa espai per als mètodes i la incertesa. Aquestes vistes prèvies fan servir valors sintètics.",
+      intro: "El mapa utilitza estimacions provisionals del model de 2025. Les vistes temporals i d'activitats encara fan servir valors sintètics clarament identificats.",
       items: [
-        { label: "On es produeixen les picades", title: "Patrons a Catalunya", text: "Explora com el lloc pot influir en la interacció entre persones i mosquits.", status: "Explora el mapa d'exemple", chart: "spatial" },
+        { label: "On es produeixen les picades", title: "Patrons a Catalunya", text: "Explora com el lloc pot influir en la interacció entre persones i mosquits.", status: "Explora el mapa", chart: "spatial" },
         { label: "Quan es produeixen", title: "Hora a hora", text: "Observa com pot variar la interacció registrada al llarg del dia i de l’any.", status: "Explora els patrons temporals", chart: "hour" },
         { label: "Què fa la gent", title: "Activitats i llocs", text: "Compara la proporció de picades registrades entre activitats i llocs quotidians.", status: "Explora les activitats", chart: "activity" },
       ],

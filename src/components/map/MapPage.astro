@@ -1,151 +1,232 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { demoCells, demoPlaces, levelForScore, mapContent, outlinePath, mapViewBox, palette, scoreForBase, type MapLocale } from "../../data/map";
+import { mapLibreContent, type MapLocale } from "../../data/mapLibre";
+import { internalUrl } from "../../utils/urls";
 
 interface Props { locale: MapLocale }
 const { locale } = Astro.props;
-const copy = mapContent[locale];
-const barcelona = demoPlaces.find((place) => place.id === "barcelona")!;
-const initialCell = demoCells.reduce((nearest, cell) =>
-  (cell.x - barcelona.x) ** 2 + (cell.y - barcelona.y) ** 2 < (nearest.x - barcelona.x) ** 2 + (nearest.y - barcelona.y) ** 2 ? cell : nearest,
-);
-const initialScore = scoreForBase(initialCell.base, 8);
-const places = [...demoPlaces].sort((a, b) => a.name.localeCompare(b.name, locale));
+const copy = mapLibreContent[locale];
+const palette = ["#193754", "#2f718c", "#3d9d8b", "#83c77a", "#e5d875"];
 ---
 
-<BaseLayout locale={locale} title={copy.metaTitle} description={copy.metaDescription}>
-  <div class="wrap page map-page" data-map-explorer data-locale={locale} data-initial-area={initialCell.id}>
+<BaseLayout locale={locale} title={`${copy.title} — H-MIP ${locale === "en" ? "Explore" : "Explora"}`} description={copy.lead}>
+  <div
+    class="wrap page map-page"
+    data-map-explorer
+    data-locale={locale}
+    data-h3-url={internalUrl("generated/h3.geojson")}
+    data-municipalities-url={internalUrl("generated/municipalities.geojson")}
+    data-comarques-url={internalUrl("generated/comarques.geojson")}
+    data-map-meta-url={internalUrl("generated/map-meta.json")}
+  >
     <header class="map-intro">
-      <div class="page-head"><p class="eyebrow">{copy.eyebrow}</p><h1>{copy.title}</h1><p class="lead">{copy.lead}</p></div>
-      <span class="demo-tag" data-map-badge>{copy.badge}</span>
+      <div class="page-head">
+        <p class="eyebrow">{copy.eyebrow}</p>
+        <h1>{copy.title}</h1>
+        <p class="lead">{copy.lead}</p>
+      </div>
+      <span class="demo-tag">{copy.badge}</span>
     </header>
 
-    <div class="map-shell" data-map-shell>
+    <div class="view-switch" role="group" aria-label={copy.viewLabel}>
+      <button type="button" data-view="map" aria-pressed="true">{copy.mapView}</button>
+      <button type="button" data-view="table" aria-pressed="false">{copy.tableView}</button>
+    </div>
+
+    <div class="map-shell">
       <aside class="map-sidebar" aria-label={copy.controls}>
         <section class="control-group" aria-labelledby="layer-label">
           <span class="map-step">{copy.layerStep}</span>
           <h2 class="control-label" id="layer-label">{copy.layerLabel}</h2>
           <div class="segmented" role="group" aria-label={copy.layerLabel}>
-            <button type="button" data-layer="grid" aria-pressed="true">{copy.grid}</button>
-            <button type="button" data-layer="draft" aria-pressed="false">{copy.draftLayer}</button>
-            <button type="button" data-layer="places" aria-pressed="false">{copy.places}</button>
+            <button type="button" data-layer="h3" aria-pressed="true">{copy.h3Layer}</button>
+            <button type="button" data-layer="municipality" aria-pressed="false">{copy.municipalityLayer}</button>
           </div>
-          <p class="fine" data-layer-hint>{copy.gridHint}</p>
+          <p class="fine" data-layer-hint>{copy.h3Hint}</p>
         </section>
 
-        <form class="control-group search" data-place-search>
+        <form class="control-group search" data-search-form>
           <span class="map-step">{copy.searchStep}</span>
           <label class="control-label" for="map-place-search">{copy.searchLabel}</label>
           <div class="search-row">
             <div class="search-input-wrap">
-              <input id="map-place-search" type="search" role="combobox" aria-autocomplete="list" aria-controls="map-search-results" aria-expanded="false" autocomplete="off" placeholder={copy.searchPlaceholder} />
+              <input id="map-place-search" data-search type="search" role="combobox" aria-autocomplete="list" aria-controls="map-search-results" aria-expanded="false" autocomplete="off" placeholder={copy.searchPlaceholder} />
               <button class="search-clear" type="button" data-search-clear aria-label={copy.searchClear} hidden>×</button>
               <div class="search-results" id="map-search-results" role="listbox" aria-label={copy.searchLabel} hidden></div>
             </div>
             <button class="search-submit" type="submit">{copy.searchButton}</button>
           </div>
-          <p class="fine search-hint">{copy.searchHint}</p>
-          <p class="fine" data-search-status role="status"></p>
+          <p class="fine">{copy.searchHint}</p>
+          <p class="fine search-status" data-search-status role="status"></p>
         </form>
 
         <section class="control-group" aria-labelledby="time-label">
           <span class="map-step">{copy.timeStep}</span>
-          <div class="month-row"><div><h2 class="control-label" id="time-label">{copy.timeLabel}</h2><strong class="month-name" data-month-name>{copy.months[7]}</strong></div><button class="play-btn" type="button" data-play aria-pressed="false">▶ {copy.play}</button></div>
+          <div class="month-row">
+            <div><h2 class="control-label" id="time-label">{copy.timeLabel}</h2><strong class="month-name" data-month-name>{copy.months[7]}</strong></div>
+            <button class="play-btn" type="button" data-play aria-pressed="false">▶ {copy.play}</button>
+          </div>
           <input type="range" data-month min="1" max="12" value="8" step="1" aria-label={copy.monthAria} />
-          <div class="month-ticks" aria-hidden="true">{copy.monthShort.map((month, index) => <span class={index === 7 ? "active" : ""}>{month.slice(0, 1)}</span>)}</div>
+          <div class="month-ticks" aria-hidden="true">
+            {copy.monthShort.map((month, index) => <span class={index === 7 ? "active" : ""}>{month.slice(0, 1)}</span>)}
+          </div>
         </section>
 
         <section class="control-group" aria-labelledby="legend-title">
           <span class="map-step">{copy.legendStep}</span>
-          <h2 class="control-label" id="legend-title" data-legend-title>{copy.legendTitle}</h2>
+          <h2 class="control-label" id="legend-title" data-legend-title>…</h2>
           <div class="legend-ramp" aria-hidden="true">{palette.map((color) => <i style={`background:${color}`}></i>)}</div>
-          <div class="legend-labels" data-legend-labels>{copy.levels.map((level) => <span>{level}</span>)}</div>
-          <p class="fine mono" data-legend-breaks>0–19 · 20–39 · 40–59 · 60–79 · 80–100</p>
-          <p class="fine" data-legend-note>{copy.legendNote}</p>
+          <div class="legend-labels" data-legend-labels>{palette.map(() => <span>…</span>)}</div>
+          <p class="fine">{copy.legendNote}</p>
         </section>
 
-        <section class="selected-card" aria-live="polite" aria-labelledby="selected-title">
-          <p class="map-step">{copy.selectedStep}</p>
-          <h2 class="selected-place" id="selected-title" data-selected-name>{copy.near} {initialCell.near}</h2>
-          <p class="selected-reading" data-selected-reading>{copy.months[7]} · {copy.levels[levelForScore(initialScore)]}</p>
-          <div class="value-row"><strong data-selected-score>{initialScore} / 100</strong><span data-selected-note>{copy.selectedNote}</span></div>
-          <p class="fine" data-confidence hidden></p>
-          <div class="mini-month" data-profile data-tooltip-group role="group" aria-label={copy.monthAria}>{copy.monthShort.map((month, index) => <span tabindex={index === 0 ? "0" : "-1"} role="img" aria-label={`${copy.months[index]}: ${scoreForBase(initialCell.base, index + 1)} / 100`} data-tooltip={`${copy.months[index]}: ${scoreForBase(initialCell.base, index + 1)} / 100`}><i style={`height:${scoreForBase(initialCell.base, index + 1)}%`}></i><small>{month.slice(0, 1)}</small></span>)}</div>
-          <p class="fine" data-profile-note>{copy.peak}</p>
+        <section class="selected-card" aria-labelledby="selected-title">
+          <span class="map-step">{copy.selectedStep}</span>
+          <p class="fine" data-select-prompt>{copy.selectPrompt}</p>
+          <div data-selected-card hidden>
+            <h2 class="selected-name" id="selected-title" data-selected-name></h2>
+            <p class="fine" data-selected-detail></p>
+            <p class="selected-reading" data-selected-summary aria-live="polite"></p>
+            <p class="fine" data-selected-confidence></p>
+            <h3 class="profile-title">{copy.monthlyProfile}</h3>
+            <ol class="mini-month" data-profile aria-label={copy.monthlyProfile}>
+              {copy.months.map((month) => <li><span class="profile-bar" aria-hidden="true"></span><span class="profile-month">{month}</span><span data-profile-value></span></li>)}
+            </ol>
+            <button class="show-on-map" type="button" data-show-on-map>{copy.showOnMap}</button>
+          </div>
         </section>
 
         <details class="method">
-          <summary><span class="map-step">{copy.methodStep}</span><strong data-method-title>{copy.methodTitle}</strong></summary>
-          <p data-method-text>{copy.methodText}</p>
+          <summary><span class="map-step">{copy.methodStep}</span><strong>{copy.methodTitle}</strong></summary>
+          <p>{copy.methodText}</p>
         </details>
       </aside>
 
-      <div class="map-stage">
-        <svg class="demo-map" viewBox={mapViewBox} role="group" aria-label={copy.mapAria} data-map-svg>
-          <defs><clipPath id="demo-catalonia-clip"><path d={outlinePath} /></clipPath></defs>
-          <rect width="790" height="730" fill="#0a1d19" />
-          <path d={outlinePath} fill="#0d2420" stroke="#8a9e97" stroke-width="2" />
-          <g clip-path="url(#demo-catalonia-clip)"><g data-map-content>
-            <g data-grid-layer aria-hidden="false">
-              {demoCells.map((cell) => {
-                const score = scoreForBase(cell.base, 8);
-                return <path class:list={["map-cell", { "is-selected": cell.id === initialCell.id }]} d={cell.path} fill={palette[levelForScore(score)]} data-area-id={cell.id} data-base={cell.base} data-near={cell.near} role="button" tabindex={cell.id === initialCell.id ? "0" : "-1"} aria-label={`${copy.near} ${cell.near}: ${score} ${copy.valueUnit}`}><title>{copy.near} {cell.near} · {score} / 100</title></path>;
-              })}
-            </g>
-            <g data-places-layer display="none" aria-hidden="true">
-              {demoPlaces.map((place) => {
-                const score = scoreForBase(place.base, 8);
-                return <circle class="map-place" cx={place.x} cy={place.y} r="14" fill={palette[levelForScore(score)]} data-area-id={place.id} data-base={place.base} data-near={place.name} role="button" tabindex="-1" aria-label={`${place.name}: ${score} ${copy.valueUnit}`}><title>{place.name} · {score} / 100</title></circle>;
-              })}
-            </g>
-          </g></g>
-          <path d={outlinePath} fill="none" stroke="#8fa49c" stroke-width="2" pointer-events="none" />
-          {demoPlaces.filter((place) => ["lleida", "girona", "barcelona", "tarragona"].includes(place.id)).map((place) => <g class="place-label" pointer-events="none"><circle cx={place.x} cy={place.y - 3} r="3" /><text x={place.x + 8} y={place.y}>{place.name}</text></g>)}
-        </svg>
-        <div class="map-zoom"><button type="button" data-zoom="in" aria-label={copy.zoomIn}>+</button><button type="button" data-zoom="out" aria-label={copy.zoomOut}>−</button></div>
-        <p class="map-caption" data-map-caption>{copy.schematic}</p>
+      <div class="map-stage" data-map-stage>
+        <div class="production-map" data-maplibre-map role="region" aria-label={copy.mapAria}></div>
+        <p class="map-caption">{copy.caption}</p>
+        <p class="map-status" data-map-status role="status">{copy.loading}</p>
       </div>
+
+      <section class="table-panel" data-table-panel aria-label={copy.tableLabel} hidden>
+        <div class="table-toolbar">
+          <label for="map-table-filter">{copy.tableFilter}</label>
+          <input id="map-table-filter" data-table-filter type="search" placeholder={copy.searchPlaceholder} />
+          <p data-table-count role="status"></p>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <caption data-table-caption>{copy.tableCaption} {copy.months[7]}</caption>
+            <thead><tr>
+              <th scope="col" data-sort-column="name" aria-sort="ascending"><button type="button" data-sort="name">{copy.municipality} ↕</button></th>
+              <th scope="col" data-sort-column="comarca"><button type="button" data-sort="comarca">{copy.comarca} ↕</button></th>
+              <th scope="col" data-sort-column="value" class="num"><button type="button" data-sort="value">{copy.tableValue} ↕</button></th>
+              <th scope="col" data-sort-column="confidence"><button type="button" data-sort="confidence">{copy.confidence} ↕</button></th>
+            </tr></thead>
+            <tbody data-table-body></tbody>
+          </table>
+          <p class="table-empty" data-table-empty hidden>{copy.tableEmpty}</p>
+        </div>
+      </section>
     </div>
-
-    <section class="table-panel" data-table-panel hidden aria-label={copy.tableLabel}>
-      <div class="table-toolbar"><label for="map-table-filter" data-table-filter-label>{copy.tableFilter}</label><input id="map-table-filter" data-table-filter type="search" placeholder={copy.searchPlaceholder} /></div>
-      <div class="table-scroll"><table><caption data-table-caption>{copy.tableCaption} {copy.months[7]} · {places.length} {copy.rows}</caption><thead><tr><th scope="col"><button type="button" data-sort="name" aria-label={`${copy.sort} ${copy.municipality}`}>{copy.municipality} ↕</button></th><th scope="col"><button type="button" data-sort="comarca" aria-label={`${copy.sort} ${copy.comarca}`}>{copy.comarca} ↕</button></th><th scope="col" class="num"><button type="button" data-sort="score" aria-label={`${copy.sort} ${copy.index}`}>{copy.index} ↕</button></th></tr></thead><tbody>{places.map((place) => <tr data-row-id={place.id}><th scope="row">{place.name}</th><td>{place.comarca}</td><td class="num" data-row-score>{scoreForBase(place.base, 8)}</td></tr>)}</tbody></table></div>
-      <p class="empty-table" data-empty-table hidden>{copy.emptyTable}</p>
-    </section>
-
-    <div class="map-bottom"><div class="view-switch" role="group" aria-label={copy.viewLabel}><button type="button" data-view="map" aria-pressed="true">{copy.mapView}</button><button type="button" data-view="table" aria-pressed="false">{copy.tableView}</button></div><p data-bottom-note>{copy.badge} · {copy.schematic}</p></div>
   </div>
 </BaseLayout>
 
-<script src="../../scripts/mapExplorer.ts"></script>
+<script src="../../scripts/mapLibreExplorer.ts"></script>
 
 <style>
-  .map-page{padding-top:34px}.map-intro{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:20px}.page-head{display:grid;gap:10px;max-width:760px}.page-head h1{font-size:clamp(2.4rem,4.4vw,4.1rem)}.map-intro .demo-tag{flex:none}
-  .map-shell{display:grid;grid-template-columns:350px minmax(0,1fr);height:760px;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:12px}.map-shell[hidden]{display:none}.map-sidebar{display:grid;grid-template-columns:minmax(0,1fr);align-content:start;gap:18px;overflow:auto;padding:20px;border-right:1px solid var(--line)}
-  .map-step{color:var(--ink-3);font:650 .66rem/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase}.control-group{display:grid;min-width:0;gap:8px}.control-group+.control-group{padding-top:16px;border-top:1px solid var(--line)}.control-label{font:720 .84rem/1.3 var(--sans)}.fine{color:var(--ink-3);font-size:.76rem;line-height:1.45}.mono{font-family:var(--mono)}
-  .segmented{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;padding:3px;border:1px solid var(--line-strong);border-radius:9px}.segmented button,.view-switch button{border:0;border-radius:6px;background:transparent;color:var(--ink-2);cursor:pointer;font-weight:700;font-size:.78rem;padding:8px 10px}.segmented button{min-width:0;min-height:40px;padding:7px 5px;font-size:.72rem;line-height:1.2}.segmented button[aria-pressed="true"]{background:var(--ink);color:#071512}.segmented button:hover:not([aria-pressed="true"]),.view-switch button:hover:not([aria-pressed="true"]){background:var(--surface-soft)}
-  .search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;min-width:0}
-  .search-input-wrap{position:relative;min-width:0}
-  .search-row input,.table-toolbar input{min-width:0;min-height:40px;padding:7px 10px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface-soft);color:var(--ink)}
-  .search-row input{width:100%;padding-right:32px}
-  .search-row input::-webkit-search-cancel-button{display:none}
-  .search-row input::placeholder{color:var(--ink-3);opacity:1}
-  .search-row input:focus-visible{outline:1px solid var(--focus);outline-offset:1px;border-color:var(--line-strong)}
-  .search-row .search-submit{padding:6px 10px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface-soft);color:var(--teal);cursor:pointer;font-size:.8rem;font-weight:700}
-  .search-row .search-submit:hover{border-color:var(--teal);background:var(--teal-soft)}
-  .search-clear{position:absolute;top:4px;right:4px;width:32px;height:32px;border:0;border-radius:5px;background:transparent;color:var(--ink-3);cursor:pointer;font-size:1.25rem}
-  .search-clear:hover{background:var(--teal-soft);color:var(--ink)}
-  .search-clear[hidden],.search-results[hidden]{display:none}
-  .search-results{position:absolute;top:calc(100% + 4px);left:0;right:0;z-index:40;max-height:184px;overflow-y:auto;padding:4px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface-soft);color:var(--ink);box-shadow:0 10px 22px rgba(0,0,0,.25)}
-  .search [data-search-status]:empty{display:none}
-  .search-hint{margin-top:-2px}
-  .month-row{display:flex;align-items:end;justify-content:space-between}.month-name{display:block;font:650 1.25rem/1.3 var(--serif);margin-top:3px}.play-btn{border:0;background:transparent;color:var(--teal);cursor:pointer;font-size:.78rem;font-weight:700;padding:6px}.control-group input[type="range"]{width:100%;accent-color:var(--teal)}.month-ticks{display:grid;grid-template-columns:repeat(12,1fr);color:var(--ink-3);font:.6rem var(--mono);text-align:center}.month-ticks .active{color:var(--ink);font-weight:800}
-  .legend-ramp{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}.legend-ramp i{height:10px}.legend-ramp i:first-child{border-radius:3px 0 0 3px}.legend-ramp i:last-child{border-radius:0 3px 3px 0}.legend-labels{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;color:var(--ink-2);font-size:.61rem;line-height:1.3}
-  .selected-card{display:grid;gap:8px;padding-top:16px;border-top:1px solid var(--line)}.selected-place{font:650 1.22rem/1.2 var(--serif)}.selected-reading{color:var(--ink-2);font-size:.9rem}.value-row{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;color:var(--ink-3);font-size:.78rem}.value-row strong{color:var(--ink);font:650 1.3rem var(--serif)}.mini-month{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;align-items:end;height:76px;padding-top:4px}.mini-month span{display:grid;align-items:end;justify-items:center;height:100%;gap:3px}.mini-month span:focus-visible{outline:2px solid var(--focus)}.mini-month i{display:block;align-self:end;width:100%;min-height:2px;background:var(--teal);border-radius:2px 2px 0 0}.mini-month small{font:.55rem var(--mono);color:var(--ink-3)}
-  .method{padding-top:12px;border-top:1px solid var(--line)}.method summary{display:flex;align-items:center;gap:8px;min-height:34px;color:var(--teal);cursor:pointer;font-size:.82rem}.method p{padding-top:9px;color:var(--ink-2);font-size:.8rem}
-  .map-stage{position:relative;min-width:0;overflow:hidden;background:#0a1d19}.demo-map{display:block;width:100%;height:100%}.map-cell,.map-place{cursor:pointer;stroke:#0d2420;stroke-width:1;transition:opacity .12s}.map-cell:hover,.map-place:hover,.map-cell.is-selected,.map-place.is-selected{stroke:#f2f4ee;stroke-width:3}.map-cell:focus,.map-place:focus{outline:3px solid var(--focus);outline-offset:2px}.map-place{stroke:#f2f4ee;stroke-width:2}.place-label circle{fill:#f2f4ee;stroke:#071512;stroke-width:2}.place-label text{fill:#f2f4ee;font:700 14px var(--sans);paint-order:stroke;stroke:#071512;stroke-width:4px;stroke-linejoin:round}.map-zoom{position:absolute;top:12px;right:12px;display:grid;gap:6px}.map-zoom button{width:38px;height:38px;border:1px solid var(--line-strong);border-radius:7px;background:#102721;color:var(--ink);cursor:pointer;font-size:1.2rem}.map-zoom button:hover{background:#1a3931}.map-caption{position:absolute;right:10px;bottom:10px;left:10px;width:max-content;max-width:calc(100% - 20px);padding:5px 8px;border-radius:5px;background:rgba(7,21,18,.92);color:var(--ink-2);font-size:.68rem}
-  .table-panel{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}.table-panel[hidden]{display:none}.table-toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:.83rem;font-weight:700}.table-toolbar input{width:min(340px,50vw)}.table-scroll{overflow:auto;max-height:640px}table{border-collapse:collapse;width:100%;font-size:.86rem}caption{text-align:left;padding:13px 14px;color:var(--ink-2)}th,td{padding:11px 14px;border-top:1px solid var(--line);text-align:left;white-space:nowrap}thead th{position:sticky;top:0;z-index:1;background:var(--surface-soft);color:var(--ink-2)}thead button{border:0;background:transparent;color:inherit;cursor:pointer;font:700 .82rem var(--sans)}thead button:hover{color:var(--teal)}tbody th{font-weight:650}.num{text-align:right;font-variant-numeric:tabular-nums}.empty-table{padding:16px;color:var(--ink-3);font-size:.85rem}
-  .map-bottom{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:12px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.view-switch{display:flex;gap:4px;flex:none}.view-switch button[aria-pressed="true"]{background:var(--teal-soft);color:var(--ink)}.map-bottom p{color:var(--ink-3);font-size:.75rem;text-align:right}
-  @media(max-width:900px){.map-intro{align-items:start;flex-direction:column}.map-shell{display:flex;flex-direction:column;height:auto;overflow:visible}.map-stage{order:-1;height:55vh;min-height:380px;border-bottom:1px solid var(--line)}.map-sidebar{overflow:visible;border-right:0}.map-bottom{position:sticky;bottom:8px;z-index:25;box-shadow:0 6px 24px rgba(16,35,31,.08)}}
-  @media(max-width:600px){.map-stage{height:52vh;min-height:350px}.map-sidebar{padding:16px}.map-bottom{padding:8px;bottom:4px}.map-bottom p{display:none}.map-caption{font-size:.62rem}.table-toolbar{align-items:start;flex-direction:column}.table-toolbar input{width:100%}}
+  .map-page{padding-top:34px}
+  .map-intro{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:20px}
+  .page-head{display:grid;gap:10px;max-width:760px}
+  .page-head h1{font-size:clamp(2.4rem,4.4vw,4.1rem)}
+  .map-intro .demo-tag{flex:none}
+  .view-switch,.segmented{display:inline-flex;overflow:hidden;border:1px solid var(--line-strong);border-radius:7px}
+  .view-switch{margin-bottom:12px}
+  .view-switch button,.segmented button{min-height:38px;padding:7px 13px;border:0;border-right:1px solid var(--line-strong);background:transparent;color:var(--ink-2);font-size:.78rem;font-weight:700;cursor:pointer}
+  .view-switch button:last-child,.segmented button:last-child{border-right:0}
+  .view-switch button[aria-pressed="true"],.segmented button[aria-pressed="true"]{background:var(--teal-soft);color:var(--teal)}
+  .view-switch button:hover,.segmented button:hover{background:var(--surface-soft)}
+  .map-shell{display:grid;grid-template-columns:320px minmax(0,1fr);height:760px;overflow:hidden;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+  .map-sidebar{display:grid;grid-template-columns:minmax(0,1fr);align-content:start;gap:22px;overflow:auto;padding:22px;border-right:1px solid var(--line)}
+  .map-step{color:var(--ink-3);font:650 .66rem/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase}
+  .control-group{display:grid;min-width:0;gap:9px}
+  .control-group+.control-group{padding-top:18px;border-top:1px solid var(--line)}
+  .control-label{font:720 .84rem/1.3 var(--sans)}
+  .fine{color:var(--ink-3);font-size:.8rem;line-height:1.5}
+  .search-row{display:flex;gap:6px}
+  .search-input-wrap{position:relative;flex:1;min-width:0}
+  .search input,.table-toolbar input{width:100%;min-height:38px;padding:7px 28px 7px 9px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface-soft);color:var(--ink);font-size:.79rem}
+  .search input::placeholder,.table-toolbar input::placeholder{color:var(--ink-3)}
+  .search-clear{position:absolute;top:3px;right:4px;width:28px;height:30px;border:0;background:transparent;color:var(--ink-2);cursor:pointer}
+  .search-submit,.play-btn,.show-on-map{padding:6px 10px;border:1px solid var(--line-strong);border-radius:6px;background:var(--surface-soft);color:var(--ink);font-size:.75rem;font-weight:700;cursor:pointer}
+  .search-submit:hover,.play-btn:hover,.show-on-map:hover{border-color:var(--teal);color:var(--teal)}
+  .search-results{position:absolute;top:calc(100% + 3px);left:0;z-index:20;width:min(400px,calc(100vw - 48px));max-height:280px;overflow:auto;padding:5px;border:1px solid var(--line-strong);border-radius:7px;background:var(--surface);box-shadow:0 12px 24px rgba(0,0,0,.35)}
+  .search-status:empty{display:none}
+  .month-row{display:flex;align-items:end;justify-content:space-between;gap:10px}
+  .month-row>div{display:grid;gap:3px}
+  .month-name{font:650 1.15rem/1.3 var(--serif)}
+  .control-group input[type="range"]{width:100%;accent-color:var(--teal)}
+  .month-ticks{display:grid;grid-template-columns:repeat(12,1fr);color:var(--ink-3);font:.6rem var(--mono);text-align:center}
+  .month-ticks .active{color:var(--ink);font-weight:800}
+  .legend-ramp{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+  .legend-ramp i{height:11px}
+  .legend-ramp i:first-child{border-radius:3px 0 0 3px}
+  .legend-ramp i:last-child{border-radius:0 3px 3px 0}
+  .legend-labels{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;color:var(--ink-2);font-size:.61rem;line-height:1.3}
+  .selected-card{display:grid;gap:8px;padding-top:18px;border-top:1px solid var(--line)}
+  .selected-card>div{display:grid;gap:8px}
+  .selected-name{font:650 1.28rem/1.2 var(--serif);overflow-wrap:anywhere}
+  .selected-reading{font-weight:700;color:var(--ink)}
+  .profile-title{margin-top:6px;font-size:.77rem}
+  .mini-month{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));align-items:end;gap:4px;height:98px;margin:0;padding:0;list-style:none}
+  .mini-month li{display:flex;flex-direction:column;justify-content:end;align-items:center;gap:4px;height:100%;min-width:0;font:.58rem var(--mono);color:var(--ink-3)}
+  .mini-month li.is-current{color:var(--ink);font-weight:800}
+  .profile-bar{display:block;width:100%;min-height:2px;border-radius:2px 2px 0 0;background:var(--teal)}
+  .profile-month{overflow:hidden;width:100%;text-align:center;white-space:nowrap}
+  .mini-month [data-profile-value]{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+  .show-on-map{justify-self:start;margin-top:4px}
+  .method{padding-top:14px;border-top:1px solid var(--line)}
+  .method summary{display:flex;align-items:center;gap:8px;min-height:34px;color:var(--teal);cursor:pointer;font-size:.82rem}
+  .method p{padding-top:9px;color:var(--ink-2);font-size:.8rem}
+  .map-stage{position:relative;min-width:0;min-height:0;overflow:hidden;background:#0a1d19}
+  .production-map{width:100%;height:100%;min-height:620px;background:#0a1d19}
+  .map-caption{position:absolute;top:12px;left:12px;z-index:1;max-width:calc(100% - 84px);padding:5px 8px;border-radius:5px;background:rgba(7,21,18,.9);color:var(--ink-2);font-size:.68rem;pointer-events:none}
+  .map-status{position:absolute;top:50%;left:50%;z-index:2;transform:translate(-50%,-50%);max-width:min(360px,90%);padding:10px 14px;border-radius:7px;background:rgba(7,21,18,.94);color:var(--ink);text-align:center;font-size:.9rem}
+  .map-status[hidden],.map-stage[hidden],.table-panel[hidden],.selected-card [hidden],.search-results[hidden],.search-clear[hidden],.table-empty[hidden]{display:none}
+  .table-panel{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden}
+  .table-toolbar{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:14px;border-bottom:1px solid var(--line)}
+  .table-toolbar label{font-size:.8rem;font-weight:700}
+  .table-toolbar input{width:min(320px,100%);padding-right:9px}
+  .table-toolbar p{margin-left:auto;color:var(--ink-3);font-size:.72rem}
+  .table-scroll{min-width:0;overflow:auto}
+  table{width:100%;border-collapse:collapse;font-size:.78rem}
+  caption{padding:12px 14px;color:var(--ink-2);text-align:left;font-weight:700}
+  th,td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  thead th{position:sticky;top:0;z-index:2;background:var(--surface-soft)}
+  thead button{padding:0;border:0;background:transparent;color:var(--ink);text-align:left;font-size:.74rem;font-weight:700;cursor:pointer}
+  tbody th button{padding:0;border:0;background:transparent;color:var(--teal);text-align:left;font-size:inherit;cursor:pointer}
+  tbody tr:hover{background:var(--surface-soft)}
+  tbody tr.is-selected{background:var(--teal-soft)}
+  .num{text-align:right;white-space:nowrap}
+  .table-empty{padding:14px;color:var(--ink-2)}
+  :global(.maplibregl-map){font-family:var(--sans)}
+  :global(.maplibregl-ctrl-group){background:var(--surface-soft);border:1px solid var(--line-strong)}
+  :global(.maplibregl-ctrl-group button){background-color:var(--surface-soft)}
+  :global(.maplibregl-ctrl-attrib){background:rgba(7,21,18,.88)!important;color:var(--ink-2)}
+  :global(.maplibregl-ctrl-attrib a){color:var(--teal)}
+  @media(max-width:900px){
+    .map-intro{align-items:start;flex-direction:column}
+    .map-shell{display:flex;flex-direction:column;height:auto;overflow:visible}
+    .map-stage,.table-panel{order:-1;height:55vh;min-height:400px;border-bottom:1px solid var(--line)}
+    .production-map{min-height:400px}
+    .map-sidebar{overflow:visible;border-right:0}
+  }
+  @media(max-width:600px){
+    .map-stage,.table-panel{height:52vh;min-height:360px}
+    .production-map{min-height:360px}
+    .map-sidebar{padding:16px}
+    .map-caption{font-size:.62rem}
+    .view-switch button{padding:7px 10px}
+    .table-toolbar p{margin-left:0}
+  }
 </style>

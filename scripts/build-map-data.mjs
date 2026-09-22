@@ -148,6 +148,11 @@ function writeJson(file, value) {
   fs.writeFileSync(file, `${JSON.stringify(value)}\n`, "utf8");
 }
 
+function writeText(file, value) {
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  fs.writeFileSync(file, value, "utf8");
+}
+
 function collectCoordinates(value, bounds) {
   if (!Array.isArray(value)) return;
 
@@ -530,6 +535,32 @@ const metadata = {
   },
 };
 
+// The Home teaser is a static rendering of the same original resolution-7
+// cells and August model values. It needs neither the old synthetic SVG data
+// nor MapLibre/GeoJSON downloads on the Home page.
+const PREVIEW_WIDTH = 790;
+const PREVIEW_HEIGHT = 730;
+const [west, south, east, north] = cataloniaBounds;
+const longitudeFactor = Math.cos(((south + north) / 2) * Math.PI / 180);
+const projectedWidth = (east - west) * longitudeFactor;
+const projectedHeight = north - south;
+const previewScale = Math.min((PREVIEW_WIDTH - 80) / projectedWidth, (PREVIEW_HEIGHT - 80) / projectedHeight);
+const previewLeft = (PREVIEW_WIDTH - projectedWidth * previewScale) / 2;
+const previewTop = (PREVIEW_HEIGHT - projectedHeight * previewScale) / 2;
+const previewPoint = ([longitude, latitude]) => [
+  (previewLeft + (longitude - west) * longitudeFactor * previewScale).toFixed(1),
+  (previewTop + (north - latitude) * previewScale).toFixed(1),
+];
+const previewPaths = h3Features.map((feature) => {
+  const value = feature.properties.m08;
+  const firstHigherBreak = h3Layer.classBreaks.findIndex((breakValue) => value < breakValue);
+  const color = ["#193754", "#2f718c", "#3d9d8b", "#83c77a", "#e5d875"][firstHigherBreak === -1 ? 4 : firstHigherBreak];
+  const points = feature.geometry.coordinates[0].slice(0, -1).map(previewPoint);
+  const path = `M${points.map((point) => point.join(" ")).join("L")}Z`;
+  return `<path d="${path}" fill="${color}"/>`;
+});
+const homePreview = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${PREVIEW_WIDTH} ${PREVIEW_HEIGHT}" role="img" aria-label="Draft 2025 H3 model estimates for August in Catalonia"><rect width="100%" height="100%" fill="#0a1d19"/><g stroke="#0d2420" stroke-width="0.5" stroke-linejoin="round">${previewPaths.join("")}</g></svg>\n`;
+
 writeJson(
   path.join(paths.outputDir, "h3.geojson"),
   h3GeoJson,
@@ -549,6 +580,8 @@ writeJson(
   path.join(paths.outputDir, "map-meta.json"),
   metadata,
 );
+
+writeText(path.join(paths.outputDir, "home-h3-preview.svg"), homePreview);
 
 console.log("");
 console.log("H-MIP map data generated successfully");

@@ -1,7 +1,6 @@
 ---
 import { homeContent, type HomeLocale } from "../../data/home";
-import { demoCells, demoPlaces, levelForScore, outlinePath, mapViewBox, scoreForBase } from "../../data/map";
-import { routes } from "../../utils/urls";
+import { internalUrl, routes } from "../../utils/urls";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
@@ -14,8 +13,7 @@ const actionLabels = {
   es: { map: "Explorar el mapa", when: "Cuándo ocurren las picaduras" },
   ca: { map: "Explora el mapa", when: "Quan es produeixen les picades" },
 }[locale];
-const figureLabel = { en: "Fig. 1 · Synthetic", es: "Fig. 1 · Sintético", ca: "Fig. 1 · Sintètic" }[locale];
-const keyPlaces = demoPlaces.filter((place) => ["lleida", "girona", "barcelona", "tarragona"].includes(place.id));
+const figureLabel = { en: "Fig. 1 · Draft model", es: "Fig. 1 · Modelo provisional", ca: "Fig. 1 · Model provisional" }[locale];
 ---
 
 <section class="home-hero" aria-labelledby="home-title">
@@ -31,22 +29,7 @@ const keyPlaces = demoPlaces.filter((place) => ["lleida", "girona", "barcelona",
 
   <figure class="map-figure" aria-labelledby="hero-visual-caption">
     <div class="map-frame" aria-hidden="true">
-      <svg viewBox={mapViewBox} preserveAspectRatio="xMidYMid meet">
-        <rect width="790" height="730" class="map-bg" />
-        <defs><clipPath id="home-catalonia-clip"><path d={outlinePath} /></clipPath></defs>
-        <path d={outlinePath} class="region-fill" />
-        <g clip-path="url(#home-catalonia-clip)">
-          {demoCells.map((cell) => {
-            const level = levelForScore(scoreForBase(cell.base, 8));
-            return <path d={cell.path} class={`hex level-${level}`} />;
-          })}
-        </g>
-        <path d={outlinePath} class="region-outline" />
-        {keyPlaces.map((place) => <g class="city-label">
-          <circle cx={place.x} cy={place.y - 3} r="4" />
-          <text x={place.x + 9} y={place.y + 1}>{place.name}</text>
-        </g>)}
-      </svg>
+      <img src={internalUrl("generated/home-h3-preview.svg")} alt="" width="790" height="730" fetchpriority="high" />
     </div>
     <figcaption id="hero-visual-caption" class="figure-caption">
       <span class="figure-kicker">{figureLabel}</span>
@@ -70,18 +53,10 @@ const keyPlaces = demoPlaces.filter((place) => ["lleida", "girona", "barcelona",
 
   .map-figure{margin:0;min-width:0}
   .map-frame{overflow:hidden;border:1px solid #2a443c;border-radius:8px;background:#0a1d19;box-shadow:0 18px 48px rgba(0,0,0,.16)}
-  .map-frame svg{display:block;width:100%;height:auto;aspect-ratio:790/730}
-  .map-bg{fill:#0a1d19}
-  .region-fill{fill:#0d2420;stroke:#70877f;stroke-width:2}
-  .region-outline{fill:none;stroke:#8fa49c;stroke-width:2.2;pointer-events:none}
-  .hex{stroke:#0d2420;stroke-width:1.1;opacity:.96}
-  .level-0{fill:var(--q0);background:var(--q0)}
-  .level-1{fill:var(--q1);background:var(--q1)}
-  .level-2{fill:var(--q2);background:var(--q2)}
-  .level-3{fill:var(--q3);background:var(--q3)}
-  .level-4{fill:var(--q4);background:var(--q4)}
-  .city-label circle{fill:#f2f4ee;stroke:#071512;stroke-width:2}
-  .city-label text{fill:#f2f4ee;stroke:#071512;stroke-width:4;paint-order:stroke;stroke-linejoin:round;font:700 14px var(--sans)}
+  .map-frame img{display:block;width:100%;height:auto;aspect-ratio:790/730}
+  .level-0{background:var(--q0)}
+  .level-2{background:var(--q2)}
+  .level-4{background:var(--q4)}
 
   .figure-caption{display:grid;grid-template-columns:auto 1fr auto;gap:7px 12px;align-items:center;padding-top:9px;color:#a8b7b1;font-size:.74rem;line-height:1.35}
   .figure-kicker{grid-column:1/-1;color:#8fa19a;font:650 .65rem var(--mono);letter-spacing:.08em;text-transform:uppercase}
@@ -96,6 +71,6 @@ const keyPlaces = demoPlaces.filter((place) => ["lleida", "girona", "barcelona",
   }
   @media(max-width:600px){
     .home-hero{padding-top:30px}.hero-copy{gap:16px}.hero-copy h1{font-size:clamp(2.65rem,12vw,3.65rem)}
-    .figure-caption{grid-template-columns:1fr}.legend{justify-content:flex-start}.map-frame svg{aspect-ratio:1/1}
+    .figure-caption{grid-template-columns:1fr}.legend{justify-content:flex-start}.map-frame img{aspect-ratio:1/1;object-fit:contain}
   }
 </style>
