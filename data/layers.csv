@@ -1,0 +1,3 @@
+layer_id,unit_ca,unit_es,unit_en,class_breaks,period,h3_resolution
+albopictus_h3,probabilitat estimada (%),probabilidad estimada (%),estimated probability (%),0.1;0.5;2;5,2025 (draft model run),7
+albopictus_municipality,probabilitat estimada (%),probabilidad estimada (%),estimated probability (%),0.1;0.5;2;5,2025 (draft model run),
