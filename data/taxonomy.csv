@@ -1,0 +1,24 @@
+kind,code,label_ca,label_es,label_en,description_ca,description_es,description_en
+activity,eating_outdoors,Menjar o beure a l’aire lliure,Comer o beber al aire libre,Eating or drinking outdoors,"Menjar, beure o fer vida social en terrasses, patis i balcons.","Comer, beber o socializar en terrazas, patios y balcones.","Meals, drinks or socialising on terraces, patios and balconies."
+activity,home_indoors,"A casa, a dins","En casa, dentro","At home, indoors","Estar dins de casa, també mentre dorms.","Estar dentro de casa, también mientras duermes.","Being inside the home, including sleeping."
+activity,commuting_walking,Desplaçar-se o caminar,Desplazarse o caminar,Commuting or walking,"Anar a peu a la feina, a l'escola o a comprar, o esperar a les parades.","Ir a pie al trabajo, a la escuela o a comprar, o esperar en las paradas.","Walking to work, school or the shops, or waiting at stops."
+activity,dog_walking,Passejar el gos,Pasear al perro,Walking the dog,"Passejar el gos per carrers, parcs o zones verdes.","Pasear al perro por calles, parques o zonas verdes.","Walking a dog in streets, parks or green areas."
+activity,gardening,Jardineria,Jardinería,Gardening,"Regar, treure males herbes o arreglar plantes en un jardí, una terrassa o un balcó.","Regar, quitar malas hierbas o arreglar plantas en un jardín, una terraza o un balcón.","Watering, weeding or tidying plants in a garden, terrace or balcony."
+activity,sport,Esport o exercici,Deporte o ejercicio,Sport or exercise,"Córrer, anar en bicicleta, fer esports d'equip o exercici a l'aire lliure.","Correr, ir en bicicleta, hacer deportes de equipo o ejercicio al aire libre.","Running, cycling, team sports or exercising outdoors."
+activity,beach_pool,Platja o piscina,Playa o piscina,Beach or pool,"Platges, piscines i els seus voltants.","Playas, piscinas y sus alrededores.","Beaches, swimming pools and their surroundings."
+activity,playground,Parc infantil,Parque infantil,Children’s playground,Acompanyar infants en parcs infantils i patis d'escola.,Acompañar a niños en parques infantiles y patios de escuela.,Accompanying children in playgrounds and school yards.
+activity,other,Una altra cosa,Otra cosa,Something else,Qualsevol altra activitat.,Cualquier otra actividad.,Any other activity.
+place_type,home_garden_balcony,"Jardí, balcó o terrassa de casa","Jardín, balcón o terraza de casa","Home garden, balcony or terrace","Jardins privats, terrasses, patis i balcons.","Jardines privados, terrazas, patios y balcones.","Private gardens, terraces, patios and balconies."
+place_type,home_indoors,"Casa, a dins","Casa, dentro","Home, indoors",Dins de casa.,Dentro de casa.,Inside the home.
+place_type,park,Parc o zona verda,Parque o zona verde,Park or green area,"Parcs urbans, jardins i zones verdes.","Parques urbanos, jardines y zonas verdes.","Urban parks, gardens and green areas."
+place_type,street,Carrer o plaça,Calle o plaza,Street or square,"Carrers, places i voreres.","Calles, plazas y aceras.","Streets, squares and pavements."
+place_type,restaurant_terrace,Terrassa de bar o restaurant,Terraza de bar o restaurante,Bar or restaurant terrace,Terrasses de bars i restaurants.,Terrazas de bares y restaurantes.,Bar and restaurant terraces.
+place_type,countryside,Camp o muntanya,Campo o montaña,Countryside,"Camps, boscos, rius i aiguamolls.","Campos, bosques, ríos y humedales.","Farmland, forests, rivers and wetlands."
+place_type,beach,Platja,Playa,Beach,Platges i passeigs marítims.,Playas y paseos marítimos.,Beaches and seafront promenades.
+place_type,workplace,Feina,Trabajo,Workplace,"Oficines, botigues, granges o altres llocs de treball.","Oficinas, tiendas, granjas u otros lugares de trabajo.","Offices, shops, farms or other workplaces."
+place_type,school,Escola,Escuela,School,"Escoles, escoles bressol i els seus patis.","Escuelas, guarderías y sus patios.","Schools, nurseries and their yards."
+setting,outdoor,A fora,Fuera,Outdoors,,,
+setting,indoor,A dins,Dentro,Indoors,,,
+season,all,Tot l'any,Todo el año,All year,,,
+season,summer,Juny–setembre,Junio–septiembre,June–September,,,
+season,rest,Resta de l'any,Resto del año,Rest of the year,,,
