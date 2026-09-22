@@ -51,9 +51,13 @@ if (root) {
   function updateUrl() {
     const query = new URLSearchParams({ layer: state.layer, month: String(state.month), area: state.area, view: state.view });
     if (state.zoom > 1) query.set("zoom", state.zoom.toFixed(1));
-    window.history.replaceState(null, "", `${window.location.pathname}?${query}${window.location.hash}`);
+    const currentUrl = new URL(window.location.href);
+    currentUrl.search = query.toString();
+    window.history.replaceState(null, "", currentUrl.href);
     document.querySelectorAll<HTMLAnchorElement>(".language-switcher a[lang]").forEach((link) => {
-      link.href = `${new URL(link.href).pathname}?${query}`;
+      const targetUrl = new URL(link.href);
+      targetUrl.search = query.toString();
+      link.href = `${targetUrl.pathname}${targetUrl.search}${targetUrl.hash}`;
     });
   }
 

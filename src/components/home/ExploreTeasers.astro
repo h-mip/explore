@@ -1,12 +1,13 @@
 ---
 import { demoCharts, homeContent, type HomeLocale } from "../../data/home";
+import { routes } from "../../utils/urls";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = homeContent[locale].explore;
-const mapPath = { en: "/en/map/", es: "/es/mapa/", ca: "/ca/mapa/" }[locale];
-const whenPath = { en: "/en/when/", es: "/es/cuando/", ca: "/ca/quan/" }[locale];
-const activitiesPath = { en: "/en/activities/", es: "/es/actividades/", ca: "/ca/activitats/" }[locale];
+const mapPath = routes[locale].map;
+const whenPath = routes[locale].when;
+const activitiesPath = routes[locale].activities;
 const hours = demoCharts.hour.filter((_, index) => index % 2 === 0);
 const spatial = [1, 2, 1, 0, 2, 3, 2, 1, 3, 4, 3, 2, 1, 2, 3, 2, 0, 1, 2, 1];
 ---

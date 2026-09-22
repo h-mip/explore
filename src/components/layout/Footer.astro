@@ -1,5 +1,5 @@
 ---
-type Locale = "en" | "es" | "ca";
+import { routes, type Locale } from "../../utils/urls";
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 
@@ -52,12 +52,6 @@ const content = {
     grant: "Fitxa de la subvenció de la UE",
     note: "Aquest lloc ofereix informació de recerca, no assessorament mèdic.",
   },
-} as const;
-
-const routes = {
-  en: { home: "/en/", map: "/en/map/", when: "/en/when/", activities: "/en/activities/", data: "/en/data/", about: "/en/about/" },
-  es: { home: "/es/", map: "/es/mapa/", when: "/es/cuando/", activities: "/es/actividades/", data: "/es/datos/", about: "/es/sobre/" },
-  ca: { home: "/ca/", map: "/ca/mapa/", when: "/ca/quan/", activities: "/ca/activitats/", data: "/ca/dades/", about: "/ca/sobre/" },
 } as const;
 
 const copy = content[locale];

@@ -1,13 +1,14 @@
 ---
 import { homeContent, type HomeLocale } from "../../data/home";
 import { demoCells, demoPlaces, levelForScore, outlinePoints, scoreForBase } from "../../data/map";
+import { routes } from "../../utils/urls";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = homeContent[locale].hero;
 
-const mapPath = { en: "/en/map/", es: "/es/mapa/", ca: "/ca/mapa/" }[locale];
-const whenPath = { en: "/en/when/", es: "/es/cuando/", ca: "/ca/quan/" }[locale];
+const mapPath = routes[locale].map;
+const whenPath = routes[locale].when;
 const actionLabels = {
   en: { map: "Explore the map", when: "When bites happen" },
   es: { map: "Explorar el mapa", when: "Cuándo ocurren las picaduras" },
