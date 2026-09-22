@@ -18,7 +18,7 @@ export const monthLabels = {
 
 export const whenContent = {
   en: {
-    metaTitle: "When bites happen — H-MIP Bites",
+    metaTitle: "When bites happen — H-MIP Explore",
     metaDescription: "Explore illustrative hourly and seasonal patterns of mosquito bite reports in Catalonia.",
     eyebrow: "Time patterns",
     title: "When are people most likely to be bitten?",
@@ -52,7 +52,7 @@ export const whenContent = {
     },
   },
   es: {
-    metaTitle: "Cuándo ocurren las picaduras — H-MIP Bites",
+    metaTitle: "Cuándo ocurren las picaduras — H-MIP Explora",
     metaDescription: "Explora patrones ilustrativos por hora y estación de las picaduras de mosquito registradas en Cataluña.",
     eyebrow: "Patrones temporales",
     title: "¿Cuándo es más probable recibir picaduras?",
@@ -86,7 +86,7 @@ export const whenContent = {
     },
   },
   ca: {
-    metaTitle: "Quan es produeixen les picades — H-MIP Bites",
+    metaTitle: "Quan es produeixen les picades — H-MIP Explora",
     metaDescription: "Explora patrons il·lustratius per hora i estació de les picades de mosquit registrades a Catalunya.",
     eyebrow: "Patrons temporals",
     title: "Quan és més probable rebre picades?",

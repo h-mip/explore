@@ -1,6 +1,6 @@
 export const aboutContent = {
   en: {
-    metaTitle: "About H-MIP — H-MIP Bites",
+    metaTitle: "About H-MIP — H-MIP Explore",
     metaDescription: "Learn about the H-MIP research project, its methods, institutions and public results.",
     eyebrow: "About H-MIP",
     title: "Research on human–mosquito interaction",
@@ -11,7 +11,7 @@ export const aboutContent = {
       title: "Understanding exposure in daily life",
       paragraphs: [
         "The Human–Mosquito Interaction Project investigates the circumstances in which people encounter mosquitoes. Its research connects human activity and movement with mosquito ecology, with a focus on the tiger mosquito in Catalonia.",
-        "H-MIP Bites is the public-facing companion to that research. It is designed to help explain where, when and during which activities bites may occur. The numerical displays currently use synthetic demonstration data until approved project files are available.",
+        "H-MIP Explore is the public-facing companion to that research. The map includes provisional estimates from a draft 2025 model; the time, activity and headline charts still use synthetic demonstration values while reviewed survey results are pending.",
       ],
       link: "Visit the H-MIP project website",
     },
@@ -39,12 +39,13 @@ export const aboutContent = {
     },
     publications: {
       title: "Research outputs",
-      text: "The European Commission’s CORDIS project record provides a public starting point for results and publications. A curated list for this site will be added after the project confirms the entries and citation details.",
+      text: "The H-MIP handover includes the publications below, shown newest first. Titles and citation details are reproduced from the supplied list and may be updated by the project team.",
+      article: "Article", preprint: "Preprint", openPublication: "Publication page", openAccess: "Open full text",
       link: "Explore project results on CORDIS",
     },
   },
   es: {
-    metaTitle: "Sobre H-MIP — H-MIP Bites",
+    metaTitle: "Sobre H-MIP — H-MIP Explora",
     metaDescription: "Conoce el proyecto de investigación H-MIP, sus métodos, instituciones y resultados públicos.",
     eyebrow: "Sobre H-MIP",
     title: "Investigación sobre la interacción entre personas y mosquitos",
@@ -55,7 +56,7 @@ export const aboutContent = {
       title: "Comprender la exposición en la vida cotidiana",
       paragraphs: [
         "El proyecto Human–Mosquito Interaction investiga las circunstancias en que las personas se encuentran con los mosquitos. Relaciona la actividad y los desplazamientos humanos con la ecología de los mosquitos, con especial atención al mosquito tigre en Cataluña.",
-        "H-MIP Bites es el espacio público que acompaña a esa investigación. Ayuda a explicar dónde, cuándo y durante qué actividades pueden producirse picaduras. Las visualizaciones numéricas utilizan por ahora datos sintéticos de demostración hasta disponer de archivos aprobados del proyecto.",
+        "H-MIP Explora es el espacio público que acompaña a esa investigación. El mapa incluye estimaciones provisionales de un modelo de 2025; los gráficos de tiempo, actividad y datos destacados aún usan valores sintéticos mientras se esperan resultados revisados de la encuesta.",
       ],
       link: "Visitar el sitio web de H-MIP",
     },
@@ -83,12 +84,13 @@ export const aboutContent = {
     },
     publications: {
       title: "Resultados de investigación",
-      text: "La ficha del proyecto en CORDIS, de la Comisión Europea, ofrece un punto de partida público para consultar resultados y publicaciones. La lista seleccionada para este sitio se añadirá cuando el proyecto confirme las referencias y los datos de cita.",
+      text: "La entrega de H-MIP incluye las publicaciones siguientes, ordenadas de la más reciente a la más antigua. Los títulos y datos de cita proceden de esa lista y el equipo del proyecto puede actualizarlos.",
+      article: "Artículo", preprint: "Prepublicación", openPublication: "Página de la publicación", openAccess: "Texto completo abierto",
       link: "Explorar los resultados en CORDIS",
     },
   },
   ca: {
-    metaTitle: "Sobre H-MIP — H-MIP Bites",
+    metaTitle: "Sobre H-MIP — H-MIP Explora",
     metaDescription: "Coneix el projecte de recerca H-MIP, els seus mètodes, institucions i resultats públics.",
     eyebrow: "Sobre H-MIP",
     title: "Recerca sobre la interacció entre persones i mosquits",
@@ -99,7 +101,7 @@ export const aboutContent = {
       title: "Entendre l'exposició en la vida quotidiana",
       paragraphs: [
         "El projecte Human–Mosquito Interaction investiga les circumstàncies en què les persones es troben amb els mosquits. Relaciona l'activitat i els desplaçaments humans amb l'ecologia dels mosquits, amb una atenció especial al mosquit tigre a Catalunya.",
-        "H-MIP Bites és l'espai públic que acompanya aquesta recerca. Ajuda a explicar on, quan i durant quines activitats es poden produir picades. Les visualitzacions numèriques utilitzen ara dades sintètiques de demostració fins que estiguin disponibles els fitxers aprovats del projecte.",
+        "H-MIP Explora és l'espai públic que acompanya aquesta recerca. El mapa inclou estimacions provisionals d'un model del 2025; els gràfics de temps, activitats i dades destacades encara fan servir valors sintètics mentre s'esperen resultats revisats de l'enquesta.",
       ],
       link: "Visita el lloc web d'H-MIP",
     },
@@ -127,7 +129,8 @@ export const aboutContent = {
     },
     publications: {
       title: "Resultats de recerca",
-      text: "La fitxa del projecte a CORDIS, de la Comissió Europea, ofereix un punt de partida públic per consultar resultats i publicacions. La selecció per a aquest lloc s'afegirà quan el projecte confirmi les referències i les dades per citar-les.",
+      text: "El lliurament d'H-MIP inclou les publicacions següents, ordenades de la més recent a la més antiga. Els títols i les dades de citació provenen d'aquesta llista i l'equip del projecte els pot actualitzar.",
+      article: "Article", preprint: "Prepublicació", openPublication: "Pàgina de la publicació", openAccess: "Text complet obert",
       link: "Explora els resultats a CORDIS",
     },
   },

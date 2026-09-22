@@ -1,6 +1,6 @@
 ---
 import { homeContent, type HomeLocale } from "../../data/home";
-import { demoCells, demoPlaces, levelForScore, outlinePoints, scoreForBase } from "../../data/map";
+import { demoCells, demoPlaces, levelForScore, outlinePath, mapViewBox, scoreForBase } from "../../data/map";
 import { routes } from "../../utils/urls";
 
 interface Props { locale: HomeLocale }
@@ -14,7 +14,6 @@ const actionLabels = {
   es: { map: "Explorar el mapa", when: "Cuándo ocurren las picaduras" },
   ca: { map: "Explora el mapa", when: "Quan es produeixen les picades" },
 }[locale];
-const regionLabel = { en: "CATALONIA", es: "CATALUÑA", ca: "CATALUNYA" }[locale];
 const figureLabel = { en: "Fig. 1 · Synthetic", es: "Fig. 1 · Sintético", ca: "Fig. 1 · Sintètic" }[locale];
 const keyPlaces = demoPlaces.filter((place) => ["lleida", "girona", "barcelona", "tarragona"].includes(place.id));
 ---
@@ -32,21 +31,21 @@ const keyPlaces = demoPlaces.filter((place) => ["lleida", "girona", "barcelona",
 
   <figure class="map-figure" aria-labelledby="hero-visual-caption">
     <div class="map-frame" aria-hidden="true">
-      <svg viewBox="80 45 820 510" preserveAspectRatio="xMidYMid meet">
-        <rect x="80" y="45" width="820" height="510" rx="8" class="map-bg" />
-        <polygon points={outlinePoints} class="region-fill" />
-        <g>
+      <svg viewBox={mapViewBox} preserveAspectRatio="xMidYMid meet">
+        <rect width="790" height="730" class="map-bg" />
+        <defs><clipPath id="home-catalonia-clip"><path d={outlinePath} /></clipPath></defs>
+        <path d={outlinePath} class="region-fill" />
+        <g clip-path="url(#home-catalonia-clip)">
           {demoCells.map((cell) => {
             const level = levelForScore(scoreForBase(cell.base, 8));
             return <path d={cell.path} class={`hex level-${level}`} />;
           })}
         </g>
-        <polygon points={outlinePoints} class="region-outline" />
+        <path d={outlinePath} class="region-outline" />
         {keyPlaces.map((place) => <g class="city-label">
           <circle cx={place.x} cy={place.y - 3} r="4" />
           <text x={place.x + 9} y={place.y + 1}>{place.name}</text>
         </g>)}
-        <text class="region-name" x="465" y="126">{regionLabel}</text>
       </svg>
     </div>
     <figcaption id="hero-visual-caption" class="figure-caption">
@@ -71,7 +70,7 @@ const keyPlaces = demoPlaces.filter((place) => ["lleida", "girona", "barcelona",
 
   .map-figure{margin:0;min-width:0}
   .map-frame{overflow:hidden;border:1px solid #2a443c;border-radius:8px;background:#0a1d19;box-shadow:0 18px 48px rgba(0,0,0,.16)}
-  .map-frame svg{display:block;width:100%;height:auto;aspect-ratio:1.12/1}
+  .map-frame svg{display:block;width:100%;height:auto;aspect-ratio:790/730}
   .map-bg{fill:#0a1d19}
   .region-fill{fill:#0d2420;stroke:#70877f;stroke-width:2}
   .region-outline{fill:none;stroke:#8fa49c;stroke-width:2.2;pointer-events:none}
@@ -83,7 +82,6 @@ const keyPlaces = demoPlaces.filter((place) => ["lleida", "girona", "barcelona",
   .level-4{fill:var(--q4);background:var(--q4)}
   .city-label circle{fill:#f2f4ee;stroke:#071512;stroke-width:2}
   .city-label text{fill:#f2f4ee;stroke:#071512;stroke-width:4;paint-order:stroke;stroke-linejoin:round;font:700 14px var(--sans)}
-  .region-name{fill:#a1b0aa;font:650 11px var(--mono);letter-spacing:.11em}
 
   .figure-caption{display:grid;grid-template-columns:auto 1fr auto;gap:7px 12px;align-items:center;padding-top:9px;color:#a8b7b1;font-size:.74rem;line-height:1.35}
   .figure-kicker{grid-column:1/-1;color:#8fa19a;font:650 .65rem var(--mono);letter-spacing:.08em;text-transform:uppercase}

@@ -1,5 +1,5 @@
 ---
-import { routes, type Locale } from "../../utils/urls";
+import { internalUrl, routes, type Locale } from "../../utils/urls";
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 
@@ -64,7 +64,7 @@ const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.co
     <div class="footer-identity">
       <div class="identity-group">
         <span class="identity-label">H-MIP</span>
-        <span class="wordmark">H-MIP <em>Bites</em></span>
+        <span class="wordmark"><img src={internalUrl("logos/hmip-logo-white.png")} alt="H-MIP" width="290" height="116" /><em>{locale === "en" ? "Explore" : "Explora"}</em></span>
       </div>
       <div class="identity-group">
         <span class="identity-label">{copy.project}</span>
@@ -94,7 +94,7 @@ const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.co
       </nav>
     </div>
 
-    <div class="footer-bottom"><span>H-MIP Bites</span><span>{copy.note}</span></div>
+    <div class="footer-bottom"><span>H-MIP {locale === "en" ? "Explore" : "Explora"}</span><span>{copy.note}</span></div>
   </div>
 </footer>
 
@@ -103,7 +103,7 @@ const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.co
   .footer-inner{display:grid;gap:28px;padding-block:38px 46px;color:var(--ink-2);font-size:.83rem}
   .footer-identity{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:34px;padding-bottom:24px;border-bottom:1px solid var(--line)}
   .identity-group{display:grid;gap:9px;align-content:start}.identity-label{font:650 .66rem var(--mono);letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3)}
-  .wordmark{font:750 1.15rem var(--sans);color:var(--ink)}.wordmark em{font:italic 650 1.2rem var(--serif);color:var(--teal)}
+  .wordmark{display:inline-flex;align-items:center;gap:9px;color:var(--ink)}.wordmark img{display:block;width:auto;height:31px}.wordmark em{font:italic 650 1.2rem var(--serif);color:var(--teal)}
   .name-line{display:flex;gap:9px;flex-wrap:wrap}.name-line span{min-width:90px;padding:8px 11px;border:1px solid var(--line);border-radius:7px;color:var(--ink);font:650 .7rem/1.3 var(--mono);text-align:center}
   .footer-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(140px,.6fr) minmax(160px,.8fr);gap:34px}.funding-text{max-width:66ch}.footer-links{display:grid;gap:7px;align-content:start}.footer-links strong{color:var(--ink);font-size:.79rem}.footer-links a{color:var(--ink-2)}
   .footer-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:18px;border-top:1px solid var(--line);font-size:.78rem;color:var(--ink-3)}

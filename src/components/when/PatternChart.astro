@@ -53,7 +53,7 @@ const labelEvery = props.labelEvery ?? 1;
   <figure class="chart-frame">
     <div class="chart-meta"><strong>{props.chartTitle}</strong><span class="demo-tag">{props.badge}</span></div>
     <div class="chart-scroll" role="region" aria-label={props.chartTitle} tabindex="0">
-    <svg viewBox="0 0 720 264" role="img" aria-labelledby={`${id}-chart-title ${id}-chart-desc`}>
+    <svg viewBox="0 0 720 264" role="group" aria-labelledby={`${id}-chart-title ${id}-chart-desc`} data-tooltip-group>
       <title id={`${id}-chart-title`}>{props.chartTitle}</title>
       <desc id={`${id}-chart-desc`}>{props.chartNote} {props.sourceNote}</desc>
       <text x={plot.left} y="13" class="axis-title">{props.dataLabel} (%)</text>
@@ -68,7 +68,7 @@ const labelEvery = props.labelEvery ?? 1;
         const x = plot.left + index * slot + (slot - barWidth) / 2;
         const height = value / maxY * plotHeight;
         return <g>
-          <rect x={x} y={plot.bottom - height} width={barWidth} height={height} rx="2" class={highlight.includes(index) ? "bar emphasis" : "bar"} />
+          <rect x={x} y={plot.bottom - height} width={barWidth} height={height} rx="2" class={highlight.includes(index) ? "bar emphasis" : "bar"} tabindex={index === 0 ? "0" : "-1"} role="img" aria-label={`${labels[index]}: ${format.format(value)}% · ${props.badge}`} data-tooltip={`${labels[index]}: ${format.format(value)}% · ${props.badge}`} />
           {(index % labelEvery === 0 || index === values.length - 1) && <text x={x + barWidth / 2} y="243" text-anchor="middle" class="axis-label">{labels[index]}</text>}
         </g>;
       })}
@@ -96,7 +96,7 @@ const labelEvery = props.labelEvery ?? 1;
   .research-block{display:grid;grid-template-columns:minmax(220px,.36fr) minmax(0,.64fr);gap:54px;padding-top:24px;border-top:1px solid var(--line)}
   .research-copy{display:grid;gap:13px;align-content:start}.research-copy h2{font-size:clamp(1.65rem,2.7vw,2.5rem)}.research-copy p:not(.eyebrow):not(.takeaway){color:var(--ink-2);font-size:.91rem}.takeaway{font-size:1.08rem;font-weight:600;line-height:1.45}
   .chart-frame{display:grid;gap:12px;margin:0;min-width:0}.chart-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.chart-meta strong{font-weight:750}.chart-meta .demo-tag{white-space:normal;line-height:1.3}
-  .chart-scroll{overflow-x:auto}svg{display:block;width:100%;height:auto;overflow:visible}.gridline{stroke:var(--line);stroke-width:1}.axis-label{font:11px var(--sans);fill:var(--ink-3)}.axis-title{font:650 10px var(--mono);fill:var(--ink-3)}.bar{fill:var(--teal);opacity:.72}.bar.emphasis{fill:var(--teal);opacity:1}
+  .chart-scroll{overflow-x:auto}svg{display:block;width:100%;height:auto;overflow:visible}.gridline{stroke:var(--line);stroke-width:1}.axis-label{font:11px var(--sans);fill:var(--ink-3)}.axis-title{font:650 10px var(--mono);fill:var(--ink-3)}.bar{fill:var(--teal);opacity:.72}.bar.emphasis{fill:var(--teal);opacity:1}.bar:hover,.bar:focus{opacity:1;stroke:var(--ink);stroke-width:1.5}
   .scroll-hint{display:none;margin:0;color:var(--ink-3);font-size:.76rem}
   figcaption{font-size:.78rem;color:var(--ink-3)}
   .data-details{border-top:1px solid var(--line);padding-top:10px}.data-details summary{min-height:34px;cursor:pointer;color:var(--teal);font-size:.84rem;font-weight:700}.detail-body{display:grid;gap:12px;padding-top:8px;color:var(--ink-2);font-size:.84rem}

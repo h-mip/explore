@@ -23,11 +23,11 @@ export const routes = {
     about: internalUrl("es/sobre/"),
   },
   ca: {
-    home: internalUrl("ca/"),
-    map: internalUrl("ca/mapa/"),
-    when: internalUrl("ca/quan/"),
-    activities: internalUrl("ca/activitats/"),
-    data: internalUrl("ca/dades/"),
-    about: internalUrl("ca/sobre/"),
+    home: internalUrl(""),
+    map: internalUrl("mapa/"),
+    when: internalUrl("quan/"),
+    activities: internalUrl("activitats/"),
+    data: internalUrl("dades/"),
+    about: internalUrl("sobre/"),
   },
 } as const;

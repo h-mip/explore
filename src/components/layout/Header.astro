@@ -1,5 +1,5 @@
 ---
-import { routes, type Locale } from "../../utils/urls";
+import { internalUrl, routes, type Locale } from "../../utils/urls";
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -9,12 +9,6 @@ const labels = {
   es: { home: "Inicio", map: "Mapa", when: "Cuándo ocurren las picaduras", activities: "Actividades y lugares", data: "Datos y código", about: "Sobre el proyecto" },
   ca: { home: "Inici", map: "Mapa", when: "Quan es produeixen les picades", activities: "Activitats i llocs", data: "Dades i codi", about: "Sobre el projecte" },
 } satisfies Record<Locale, Record<string, string>>;
-
-const prototypeCopy = {
-  en: ["Prototype", "Phase 1 prototype with synthetic data — not real H-MIP results."],
-  es: ["Prototipo", "Prototipo de la fase 1 con datos sintéticos — no son resultados reales de H-MIP."],
-  ca: ["Prototip", "Prototip de la fase 1 amb dades sintètiques — no són resultats reals d’H-MIP."],
-} as const;
 
 const currentRoutes = routes[locale];
 const currentLabels = labels[locale];
@@ -47,17 +41,10 @@ const menuLabel = { en: "Menu", es: "Menú", ca: "Menú" }[locale];
 ---
 
 <header class="site-header">
-  <div class="prototype-strip">
-    <div class="wrap prototype-inner">
-      <strong>{prototypeCopy[locale][0]}</strong>
-      <span>{prototypeCopy[locale][1]}</span>
-    </div>
-  </div>
-
   <div class="header-inner wrap">
-    <a class="brand" href={currentRoutes.home} aria-label={`H-MIP Bites — ${currentLabels.home}`}>
-      <span class="brand-main">H-MIP</span>
-      <span class="brand-bites">Bites</span>
+    <a class="brand" href={currentRoutes.home} aria-label={`H-MIP ${locale === "en" ? "Explore" : "Explora"} — ${currentLabels.home}`}>
+      <img src={internalUrl("logos/hmip-logo-white.png")} alt="" width="290" height="116" />
+      <span class="brand-product">{locale === "en" ? "Explore" : "Explora"}</span>
     </a>
 
     <nav class="main-nav" aria-label={navAriaLabel}>
@@ -87,15 +74,11 @@ const menuLabel = { en: "Menu", es: "Menú", ca: "Menú" }[locale];
 
 <style>
   .site-header{position:sticky;top:0;z-index:50;background:rgba(7,21,18,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
-  .prototype-strip{border-bottom:1px solid #18342d;background:repeating-linear-gradient(135deg,#102b25 0,#102b25 8px,#0d251f 8px,#0d251f 16px)}
-  .prototype-inner{display:flex;align-items:center;gap:10px;min-height:28px;color:#9fb0aa;font-size:.68rem;line-height:1.2}
-  .prototype-inner strong{padding:3px 7px;border:1px solid #527268;border-radius:3px;color:#e8f1ed;font:700 .64rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
-
   .header-inner{display:flex;align-items:center;gap:24px;min-height:var(--header-height)}
-  .brand{display:inline-flex;align-items:baseline;gap:4px;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);text-decoration:none;white-space:nowrap}
   .brand:hover{color:var(--ink);text-decoration:none}
-  .brand-main{font-weight:780;letter-spacing:-.025em}
-  .brand-bites{color:var(--teal);font-family:var(--serif);font-style:italic;font-weight:650}
+  .brand img{display:block;width:auto;height:31px}
+  .brand-product{color:var(--teal);font-family:var(--serif);font-style:italic;font-weight:650}
 
   .main-nav{display:flex;align-items:stretch;gap:0}
   .main-nav a{position:relative;display:flex;align-items:center;padding:17px 10px 15px;color:#aebdb8;text-decoration:none;white-space:nowrap;font-size:.82rem;font-weight:650}
@@ -124,7 +107,6 @@ const menuLabel = { en: "Menu", es: "Menú", ca: "Menú" }[locale];
   }
 
   @media(max-width:600px){
-    .prototype-inner{min-height:25px;font-size:.61rem}.prototype-inner span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .header-inner{gap:10px}.language-switcher a{min-width:29px}
   }
 </style>

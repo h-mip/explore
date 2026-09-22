@@ -21,7 +21,7 @@ export const categoryLabels = {
 
 export const activitiesContent = {
   en: {
-    metaTitle: "Activities & places — H-MIP Bites",
+    metaTitle: "Activities & places — H-MIP Explora",
     metaDescription: "Explore illustrative shares of mosquito bite reports by activity and place in Catalonia.",
     eyebrow: "Exposure in everyday life",
     title: "What are people doing when they get bitten?",
@@ -49,7 +49,7 @@ export const activitiesContent = {
     },
   },
   es: {
-    metaTitle: "Actividades y lugares — H-MIP Bites",
+    metaTitle: "Actividades y lugares — H-MIP Explora",
     metaDescription: "Explora proporciones ilustrativas de picaduras registradas por actividad y lugar en Cataluña.",
     eyebrow: "Exposición en la vida cotidiana",
     title: "¿Qué hace la gente cuando recibe picaduras?",
@@ -77,7 +77,7 @@ export const activitiesContent = {
     },
   },
   ca: {
-    metaTitle: "Activitats i llocs — H-MIP Bites",
+    metaTitle: "Activitats i llocs — H-MIP Explora",
     metaDescription: "Explora proporcions il·lustratives de picades registrades per activitat i lloc a Catalunya.",
     eyebrow: "Exposició en la vida quotidiana",
     title: "Què fa la gent quan rep picades?",
