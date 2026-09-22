@@ -1,0 +1,6 @@
+# Deploy this at https://h-mip.com/robots.txt; crawlers do not read robots.txt from /explore/.
+User-agent: *
+Allow: /explore/
+Disallow: /explore-staging/
+
+Sitemap: https://h-mip.com/explore/sitemap-index.xml

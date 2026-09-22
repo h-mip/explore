@@ -1,0 +1,14 @@
+---
+import PolicyPage from "../../components/editorial/PolicyPage.astro";
+import type { PolicyKind } from "../../data/policies";
+
+export function getStaticPaths() {
+  return [
+    { params: { policy: "legal" }, props: { kind: "legal" } },
+    { params: { policy: "privacy" }, props: { kind: "privacy" } },
+    { params: { policy: "accessibility" }, props: { kind: "accessibility" } },
+  ];
+}
+const { kind } = Astro.props as { kind: PolicyKind };
+---
+<PolicyPage locale="en" kind={kind} />

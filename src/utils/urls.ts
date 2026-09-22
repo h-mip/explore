@@ -13,6 +13,10 @@ export const routes = {
     activities: internalUrl("en/activities/"),
     data: internalUrl("en/data/"),
     about: internalUrl("en/about/"),
+    legal: internalUrl("en/legal/"),
+    privacy: internalUrl("en/privacy/"),
+    accessibility: internalUrl("en/accessibility/"),
+    stories: internalUrl("en/stories/"),
   },
   es: {
     home: internalUrl("es/"),
@@ -21,6 +25,10 @@ export const routes = {
     activities: internalUrl("es/actividades/"),
     data: internalUrl("es/datos/"),
     about: internalUrl("es/sobre/"),
+    legal: internalUrl("es/aviso-legal/"),
+    privacy: internalUrl("es/privacidad/"),
+    accessibility: internalUrl("es/accesibilidad/"),
+    stories: internalUrl("es/historias/"),
   },
   ca: {
     home: internalUrl(""),
@@ -29,5 +37,9 @@ export const routes = {
     activities: internalUrl("activitats/"),
     data: internalUrl("dades/"),
     about: internalUrl("sobre/"),
+    legal: internalUrl("avis-legal/"),
+    privacy: internalUrl("privacitat/"),
+    accessibility: internalUrl("accessibilitat/"),
+    stories: internalUrl("histories/"),
   },
 } as const;

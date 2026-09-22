@@ -1,0 +1,32 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import StoriesIndex from "../components/editorial/StoriesIndex.astro";
+import StoryDetail from "../components/editorial/StoryDetail.astro";
+import type { Locale } from "../utils/urls";
+import { existsSync } from "node:fs";
+import path from "node:path";
+
+export async function getStaticPaths() {
+  const published = (await getCollection("stories", ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  for (const entry of published) {
+    if (entry.data.image.startsWith("/") || entry.data.image.includes("..") || !existsSync(path.join(process.cwd(), "public", entry.data.image))) {
+      throw new Error(`Story ${entry.id}: image must be an existing file relative to public/`);
+    }
+  }
+  const locales: { locale: Locale; path: string }[] = [
+    { locale: "ca", path: "histories" }, { locale: "es", path: "es/historias" }, { locale: "en", path: "en/stories" },
+  ];
+  return locales.flatMap(({ locale, path: route }) => {
+    const entries = published.filter((entry) => entry.data.locale === locale);
+    if (!entries.length) return [];
+    return [
+      { params: { story: route }, props: { locale, entries } },
+      ...entries.map((entry) => ({ params: { story: `${route}/${entry.id}` }, props: { locale, entry } })),
+    ];
+  });
+}
+
+const { locale, entries, entry } = Astro.props as { locale: Locale; entries?: CollectionEntry<"stories">[]; entry?: CollectionEntry<"stories"> };
+---
+
+{entry ? <StoryDetail locale={locale} entry={entry} /> : <StoriesIndex locale={locale} entries={entries ?? []} />}

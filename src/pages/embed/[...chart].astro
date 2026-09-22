@@ -1,0 +1,14 @@
+---
+import MapPage from "../../components/map/MapPage.astro";
+import EmbedChart from "../../components/editorial/EmbedChart.astro";
+import type { Locale } from "../../utils/urls";
+
+type Chart = "map" | "hour" | "month" | "activity" | "place";
+export function getStaticPaths() {
+  const locales: Locale[] = ["ca", "es", "en"];
+  const charts: Chart[] = ["map", "hour", "month", "activity", "place"];
+  return locales.flatMap((locale) => charts.map((chart) => ({ params: { chart: `${locale}/${chart}` }, props: { locale, chart } })));
+}
+const { locale, chart } = Astro.props as { locale: Locale; chart: Chart };
+---
+{chart === "map" ? <MapPage locale={locale} embedded /> : <EmbedChart locale={locale} chart={chart} />}

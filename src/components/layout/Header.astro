@@ -1,26 +1,29 @@
 ---
 import { internalUrl, routes, type Locale } from "../../utils/urls";
+import { getCollection } from "astro:content";
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 
 const labels = {
-  en: { home: "Home", map: "Map", when: "When bites happen", activities: "Activities & places", data: "Data & code", about: "About" },
-  es: { home: "Inicio", map: "Mapa", when: "Cuándo ocurren las picaduras", activities: "Actividades y lugares", data: "Datos y código", about: "Sobre el proyecto" },
-  ca: { home: "Inici", map: "Mapa", when: "Quan es produeixen les picades", activities: "Activitats i llocs", data: "Dades i codi", about: "Sobre el projecte" },
+  en: { home: "Home", map: "Map", when: "When bites happen", activities: "Activities & places", data: "Data & code", about: "About", stories: "Stories" },
+  es: { home: "Inicio", map: "Mapa", when: "Cuándo ocurren las picaduras", activities: "Actividades y lugares", data: "Datos y código", about: "Sobre el proyecto", stories: "Historias" },
+  ca: { home: "Inici", map: "Mapa", when: "Quan es produeixen les picades", activities: "Activitats i llocs", data: "Dades i codi", about: "Sobre el projecte", stories: "Històries" },
 } satisfies Record<Locale, Record<string, string>>;
 
 const currentRoutes = routes[locale];
 const currentLabels = labels[locale];
 const pathname = Astro.url.pathname.replace(/\/?$/, "/");
+const storyLocales = new Set((await getCollection("stories", ({ data }) => !data.draft)).map((entry) => entry.data.locale));
 
-const navItems = [
+const navItems: [keyof typeof currentRoutes, string][] = [
   ["map", currentLabels.map],
   ["when", currentLabels.when],
   ["activities", currentLabels.activities],
   ["data", currentLabels.data],
   ["about", currentLabels.about],
-] as const;
+  ...(storyLocales.has(locale) ? [["stories", currentLabels.stories] as [keyof typeof currentRoutes, string]] : []),
+];
 
 function isCurrent(path: string) {
   if (path === currentRoutes.home) return pathname === path;
@@ -28,11 +31,11 @@ function isCurrent(path: string) {
 }
 
 const sections = [["home", currentLabels.home], ...navItems] as const;
-const currentSection = sections.find(([key]) => isCurrent(currentRoutes[key]))?.[0] ?? "home";
+const currentSection = (Object.entries(currentRoutes).find(([, href]) => isCurrent(href))?.[0] ?? "home") as keyof typeof currentRoutes;
 const alternateRoutes = {
-  ca: routes.ca[currentSection],
-  es: routes.es[currentSection],
-  en: routes.en[currentSection],
+  ca: currentSection === "stories" && !storyLocales.has("ca") ? routes.ca.home : routes.ca[currentSection],
+  es: currentSection === "stories" && !storyLocales.has("es") ? routes.es.home : routes.es[currentSection],
+  en: currentSection === "stories" && !storyLocales.has("en") ? routes.en.home : routes.en[currentSection],
 };
 
 const navAriaLabel = { en: "Primary navigation", es: "Navegación principal", ca: "Navegació principal" }[locale];

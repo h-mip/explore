@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import type { CollectionEntry } from "astro:content";
+import type { Locale } from "../../utils/urls";
+import { internalUrl, routes } from "../../utils/urls";
+
+interface Props { locale: Locale; entries: CollectionEntry<"stories">[] }
+const { locale, entries } = Astro.props;
+const copy = {
+  en: { title: "Stories", lead: "Field notes and perspectives from H-MIP research." },
+  es: { title: "Historias", lead: "Notas de campo y perspectivas de la investigación H-MIP." },
+  ca: { title: "Històries", lead: "Notes de camp i perspectives de la recerca H-MIP." },
+}[locale];
+const formatDate = (date: Date) => new Intl.DateTimeFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { dateStyle: "long" }).format(date);
+---
+
+<BaseLayout locale={locale} title={`${copy.title} — H-MIP ${locale === "en" ? "Explore" : "Explora"}`} description={copy.lead}>
+  <div class="wrap page stories-page"><header><p class="eyebrow">H-MIP</p><h1>{copy.title}</h1><p class="lead">{copy.lead}</p></header>
+    <div class="story-list">{entries.map((entry) => <article>
+      <img src={internalUrl(entry.data.image)} alt="" loading="lazy" />
+      <div><p class="eyebrow">{formatDate(entry.data.date)} · {entry.data.author}</p><h2><a href={`${routes[locale].stories}${entry.id}/`}>{entry.data.title}</a></h2>{entry.data.summary && <p>{entry.data.summary}</p>}</div>
+    </article>)}</div>
+  </div>
+</BaseLayout>
+
+<style>
+  .stories-page header{display:grid;gap:14px;margin-bottom:48px}.stories-page h1{font-size:clamp(2.5rem,5vw,4.5rem)}.story-list{display:grid;gap:22px}.story-list article{display:grid;grid-template-columns:minmax(180px,.32fr) minmax(0,.68fr);gap:26px;padding-top:22px;border-top:1px solid var(--line)}.story-list img{width:100%;aspect-ratio:16/10;object-fit:cover;background:var(--surface)}.story-list article>div{display:grid;align-content:start;gap:12px}.story-list h2{font-size:clamp(1.4rem,2.5vw,2rem)}.story-list p:not(.eyebrow){color:var(--ink-2)}@media(max-width:650px){.story-list article{grid-template-columns:1fr}}
+</style>

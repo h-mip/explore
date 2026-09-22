@@ -1,5 +1,6 @@
 ---
 import { internalUrl, routes, type Locale } from "../../utils/urls";
+import { getCollection } from "astro:content";
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 
@@ -15,6 +16,8 @@ const content = {
     activities: "Activities & places",
     data: "Data & Code",
     about: "About H-MIP",
+    stories: "Stories",
+    legal: "Legal notice", privacy: "Privacy", accessibility: "Accessibility",
     links: "Project links",
     projectSite: "H-MIP project website",
     grant: "EU grant record",
@@ -31,6 +34,8 @@ const content = {
     activities: "Actividades y lugares",
     data: "Datos y código",
     about: "Sobre H-MIP",
+    stories: "Historias",
+    legal: "Aviso legal", privacy: "Privacidad", accessibility: "Accesibilidad",
     links: "Enlaces del proyecto",
     projectSite: "Sitio web del proyecto H-MIP",
     grant: "Ficha de la subvención de la UE",
@@ -47,6 +52,8 @@ const content = {
     activities: "Activitats i llocs",
     data: "Dades i codi",
     about: "Sobre H-MIP",
+    stories: "Històries",
+    legal: "Avís legal", privacy: "Privacitat", accessibility: "Accessibilitat",
     links: "Enllaços del projecte",
     projectSite: "Lloc web del projecte H-MIP",
     grant: "Fitxa de la subvenció de la UE",
@@ -56,6 +63,7 @@ const content = {
 
 const copy = content[locale];
 const links = routes[locale];
+const hasStories = (await getCollection("stories", ({ data }) => !data.draft && data.locale === locale)).length > 0;
 const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.com/en/";
 ---
 
@@ -86,6 +94,10 @@ const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.co
         <a href={links.activities}>{copy.activities}</a>
         <a href={links.data}>{copy.data}</a>
         <a href={links.about}>{copy.about}</a>
+        {hasStories && <a href={links.stories}>{copy.stories}</a>}
+        <a href={links.legal}>{copy.legal}</a>
+        <a href={links.privacy}>{copy.privacy}</a>
+        <a href={links.accessibility}>{copy.accessibility}</a>
       </nav>
       <nav class="footer-links" aria-label={copy.links}>
         <strong>{copy.links}</strong>

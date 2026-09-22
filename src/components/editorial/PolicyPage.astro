@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { policyContent, type PolicyKind } from "../../data/policies";
+import type { Locale } from "../../utils/urls";
+
+interface Props { locale: Locale; kind: PolicyKind }
+const { locale, kind } = Astro.props;
+const copy = policyContent[locale];
+const page = copy[kind];
+const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.com/en/";
+const sourceLinks = {
+  en: { project: "H-MIP project website", github: "GitHub Pages hosting information", osm: "OpenStreetMap privacy policy", wcag: "WCAG 2.2 standard" },
+  es: { project: "Sitio web del proyecto H-MIP", github: "Información sobre GitHub Pages", osm: "Política de privacidad de OpenStreetMap", wcag: "Norma WCAG 2.2" },
+  ca: { project: "Lloc web del projecte H-MIP", github: "Informació sobre GitHub Pages", osm: "Política de privacitat d'OpenStreetMap", wcag: "Norma WCAG 2.2" },
+}[locale];
+---
+
+<BaseLayout locale={locale} title={`${page.title} — H-MIP ${locale === "en" ? "Explore" : "Explora"}`} description={page.intro} noindex>
+  <div class="wrap page policy-page">
+    <header><p class="eyebrow">H-MIP {locale === "en" ? "Explore" : "Explora"}</p><h1>{page.title}</h1><p class="lead">{page.intro}</p><p class="draft-tag">{copy.draft}</p></header>
+    <div class="policy-sections">
+      {page.sections.map((section) => <section><h2>{section.title}</h2><p>{section.body}</p></section>)}
+      <section><h2>{locale === "en" ? "Contact and sources" : locale === "es" ? "Contacto y fuentes" : "Contacte i fonts"}</h2><p>{copy.contact}</p>
+        <ul>
+          <li><a href={projectUrl}>{sourceLinks.project}</a></li>
+          {kind === "privacy" && <li><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages">{sourceLinks.github}</a></li>}
+          {kind === "privacy" && <li><a href="https://osmfoundation.org/wiki/Privacy_Policy">{sourceLinks.osm}</a></li>}
+          {kind === "accessibility" && <li><a href="https://www.w3.org/TR/WCAG22/">{sourceLinks.wcag}</a></li>}
+        </ul>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-page{max-width:960px}.policy-page header{display:grid;gap:16px;margin-bottom:48px}.policy-page h1{font-size:clamp(2.5rem,5vw,4.5rem)}.draft-tag{width:fit-content;padding:9px 12px;border:1px solid var(--line-strong);border-radius:6px;color:var(--ink-2);font-size:.82rem}.policy-sections{display:grid;gap:0}.policy-sections section{display:grid;grid-template-columns:minmax(170px,.32fr) minmax(0,.68fr);gap:32px;padding:24px 0;border-top:1px solid var(--line)}.policy-sections h2{font-size:1.35rem}.policy-sections p{color:var(--ink-2)}.policy-sections ul{grid-column:2;display:grid;gap:8px;padding-left:20px}
+  @media(max-width:680px){.policy-sections section{grid-template-columns:1fr;gap:12px}.policy-sections ul{grid-column:1}}
+</style>

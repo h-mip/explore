@@ -1,0 +1,38 @@
+---
+import EmbedLayout from "../../layouts/EmbedLayout.astro";
+import PatternChart from "../when/PatternChart.astro";
+import RankedShare from "../activities/RankedShare.astro";
+import { whenContent, monthLabels } from "../../data/when";
+import { activitiesContent } from "../../data/activities";
+import { hourlyPattern, monthlyPattern } from "../../data/temporal";
+import { activityRows } from "../../data/activityResearch";
+import { routes, type Locale } from "../../utils/urls";
+
+interface Props { locale: Locale; chart: "hour" | "month" | "activity" | "place" }
+const { locale, chart } = Astro.props;
+const timeCopy = whenContent[locale];
+const activityCopy = activitiesContent[locale];
+const isTime = chart === "hour" || chart === "month";
+const pageUrl = isTime ? routes[locale].when : routes[locale].activities;
+const openLabel = { en: "Open full page", es: "Abrir página completa", ca: "Obre la pàgina completa" }[locale];
+const timeRows = chart === "hour" ? hourlyPattern : monthlyPattern;
+const hourLabels = Array.from({ length: 24 }, (_, hour) => `${String(hour).padStart(2, "0")}:00`);
+const timeLabels = chart === "hour" ? hourLabels : monthLabels[locale];
+const timeChartCopy = chart === "hour" ? timeCopy.hour : timeCopy.month;
+const takeawayValue = chart === "hour" ? hourlyPattern.slice(18, 21).reduce((sum, row) => sum + row.share, 0) : monthlyPattern.slice(6, 9).reduce((sum, row) => sum + row.share, 0);
+const percent = (value: number) => value * 100;
+const activityChartCopy = chart === "activity" ? activityCopy.activity : activityCopy.place;
+const rows = activityRows(chart === "activity" ? "activity" : "place_type", "all", locale);
+const title = isTime ? timeChartCopy.chartTitle : activityChartCopy.heading;
+---
+
+<EmbedLayout locale={locale} title={`${title} — H-MIP`} description={isTime ? timeCopy.sourceNote : activityCopy.sourceNote}>
+  <div class="embed-chart"><h1 class="embed-title">{title}</h1><div class="embed-head"><span class="eyebrow">H-MIP {locale === "en" ? "Explore" : "Explora"}</span><a href={pageUrl} target="_blank" rel="noopener noreferrer">{openLabel} ↗</a></div>
+    {isTime ? <PatternChart locale={locale} id={`embed-${chart}`} {...timeChartCopy} takeaway={timeChartCopy.takeaway.replace("{value}", String(Math.round(percent(takeawayValue))))} labels={timeLabels} values={timeRows.map((row) => percent(row.share))} lowerValues={timeRows.map((row) => percent(row.lower!))} upperValues={timeRows.map((row) => percent(row.upper!))} labelEvery={chart === "hour" ? 3 : 1} highlight={chart === "hour" ? [18, 19, 20] : [6, 7, 8]} badge={timeCopy.badge} dataLabel={timeCopy.dataLabel} tableSummary={timeCopy.tableSummary} tableCaption={timeCopy.tableCaption} tableValue={timeCopy.tableValue} lower={timeCopy.lower} upper={timeCopy.upper} sourceNote={timeCopy.sourceNote} scrollHint={timeCopy.scrollHint} />
+    : <RankedShare locale={locale} id={`embed-${chart}`} copy={activityChartCopy} rows={rows} measure={activityCopy.measure} badge={activityCopy.badge} methodSummary={activityCopy.methodSummary} tableValue={activityCopy.tableValue} lower={activityCopy.lower} upper={activityCopy.upper} rate={activityCopy.rate} rateNote={activityCopy.rateNote} />}
+  </div>
+</EmbedLayout>
+
+<style is:global>
+  .embed-chart{padding:16px;max-width:1200px;margin:auto}.embed-title{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}.embed-head{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:20px;font-size:.78rem}.embed-head a{font-weight:700}.embed-chart .research-block{grid-template-columns:1fr;gap:20px}.embed-chart .research-copy{gap:8px}.embed-chart .research-copy h2{font-size:clamp(1.3rem,3vw,1.8rem)}.embed-chart .research-copy p:not(.eyebrow):not(.takeaway){font-size:.85rem}
+</style>

@@ -22,6 +22,12 @@ The handover marks `data/outputs.csv` and `data/publications.csv` as real source
 
 The H-MIP header logo and favicon were copied from the supplied Phase 1 handover assets. The logo is the white PNG used by the current H-MIP site.
 
+## Stories, embeds and legal review
+
+Stories live in `src/content/stories/` as Markdown with title, date, author, image, locale and body. `draft: true` entries are not routed or linked. Changing a reviewed story to `draft: false` publishes it on the next build without code changes. `{{embed:en:map}}` and corresponding `hour`, `month`, `activity` and `place` shortcodes embed the site's own accessible routes; see `src/content/stories/README.txt`. Standalone iframe routes are `/explore/embed/{ca|es|en}/{map|hour|month|activity|place}/`.
+
+The site source code has a GPL-3.0-only `LICENSE`; research data, ICGC boundaries, OpenStreetMap tiles, logos and third-party material have separate rights. The three-language legal, privacy and accessibility pages are **drafts** marked noindex. The approved legal text, responsible controller and contact details were not present in the local handover and require project/legal review.
+
 ## Staging status
 
-The earlier Cloudflare review-build scripts remain in the repository for historical preview use. They are not the verified deployment path for the requested `https://h-mip.com/explore-staging/` target. Confirm the actual GitHub Pages and domain setup before configuring or deploying staging; do not publish the draft model site by using the old Cloudflare instructions without that review.
+As checked on 23 September 2026, the public `h-mip/explore` repository reports `has_pages: false`, the GitHub Pages API returns 404, the proposed `h-mip/explore-staging` repository is not publicly available, and both intended `/explore/` and `/explore-staging/` paths currently return the existing H-MIP site's 404 page. The local `npm run build:staging` builds with `/explore-staging/` URLs and noindex, but it **does not deploy**. The older Cloudflare review-build scripts are historical previews, not the verified staging path. Confirm the hosting/domain ownership and staging repository with H-MIP before configuring any deployment or publishing draft data. This repo's `public/robots.txt` must be placed at the domain root (`https://h-mip.com/robots.txt`) by the host; a copy under `/explore/` is not authoritative for crawlers.

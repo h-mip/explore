@@ -1,17 +1,20 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import EmbedLayout from "../../layouts/EmbedLayout.astro";
 import { mapLibreContent, type MapLocale } from "../../data/mapLibre";
-import { internalUrl } from "../../utils/urls";
+import { internalUrl, routes } from "../../utils/urls";
 
-interface Props { locale: MapLocale }
-const { locale } = Astro.props;
+interface Props { locale: MapLocale; embedded?: boolean }
+const { locale, embedded = false } = Astro.props;
 const copy = mapLibreContent[locale];
 const palette = ["#193754", "#2f718c", "#3d9d8b", "#83c77a", "#e5d875"];
+const Layout = embedded ? EmbedLayout : BaseLayout;
+const fullMapLabel = { en: "Open full map", es: "Abrir mapa completo", ca: "Obre el mapa complet" }[locale];
 ---
 
-<BaseLayout locale={locale} title={`${copy.title} — H-MIP ${locale === "en" ? "Explore" : "Explora"}`} description={copy.lead}>
+<Layout locale={locale} title={`${copy.title} — H-MIP ${locale === "en" ? "Explore" : "Explora"}`} description={copy.lead}>
   <div
-    class="wrap page map-page"
+    class:list={["wrap page map-page", { embedded }]}
     data-map-explorer
     data-locale={locale}
     data-h3-url={internalUrl("generated/h3.geojson")}
@@ -26,6 +29,7 @@ const palette = ["#193754", "#2f718c", "#3d9d8b", "#83c77a", "#e5d875"];
         <p class="lead">{copy.lead}</p>
       </div>
       <span class="demo-tag">{copy.badge}</span>
+      {embedded && <a class="full-map-link" href={routes[locale].map} target="_blank" rel="noopener noreferrer">{fullMapLabel} ↗</a>}
     </header>
 
     <div class="view-switch" role="group" aria-label={copy.viewLabel}>
@@ -130,12 +134,19 @@ const palette = ["#193754", "#2f718c", "#3d9d8b", "#83c77a", "#e5d875"];
       </section>
     </div>
   </div>
-</BaseLayout>
+</Layout>
 
 <script src="../../scripts/mapLibreExplorer.ts"></script>
 
 <style>
   .map-page{padding-top:34px}
+  .map-page.embedded{max-width:none;padding:12px}
+  .embedded .map-intro{align-items:center;margin-bottom:9px}
+  .embedded .page-head{gap:3px}
+  .embedded .page-head .eyebrow,.embedded .page-head .lead{display:none}
+  .embedded .page-head h1{font-size:1.25rem}
+  .embedded .map-shell{height:calc(100vh - 100px);min-height:430px}
+  .full-map-link{margin-left:auto;font-size:.74rem;font-weight:700;white-space:nowrap}
   .map-intro{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:20px}
   .page-head{display:grid;gap:10px;max-width:760px}
   .page-head h1{font-size:clamp(2.4rem,4.4vw,4.1rem)}
@@ -215,6 +226,7 @@ const palette = ["#193754", "#2f718c", "#3d9d8b", "#83c77a", "#e5d875"];
   :global(.maplibregl-ctrl-attrib){background:rgba(7,21,18,.88)!important;color:var(--ink-2)}
   :global(.maplibregl-ctrl-attrib a){color:var(--teal)}
   @media(max-width:900px){
+    .embedded .map-shell{height:auto}
     .map-intro{align-items:start;flex-direction:column}
     .map-shell{display:flex;flex-direction:column;height:auto;overflow:visible}
     .map-stage,.table-panel{order:-1;height:55vh;min-height:400px;border-bottom:1px solid var(--line)}
