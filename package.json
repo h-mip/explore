@@ -6,13 +6,12 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "predev": "npm run build:map-data",
     "dev": "astro dev",
-    "build": "astro build",
-    "generate:map-geometry": "node scripts/generate-catalonia-geometry.mjs",
+    "build": "npm run build:map-data && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate:draft-map": "node scripts/generate-draft-map.mjs",
-    "generate:map-data": "npm run generate:map-geometry && npm run generate:draft-map"
+    "build:map-data": "node scripts/build-map-data.mjs && node scripts/generate-catalonia-geometry.mjs && node scripts/generate-draft-map.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
