@@ -4,6 +4,12 @@ staging-dist/
 # generated types
 .astro/
 
+# generated map data (created by npm run build:map-data)
+public/generated/*.geojson
+public/generated/map-meta.json
+src/data/cataloniaGeometry.json
+src/data/cataloniaDraft.json
+
 # dependencies
 node_modules/
 
