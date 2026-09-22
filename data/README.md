@@ -23,10 +23,10 @@ If a build fails after an upload, open the failed check to find the filename, ro
 | `layers.csv` | Map units in Catalan, Spanish, and English; class breaks; period; and H3 resolution. Used by map generation and the MapLibre legend. |
 | `outputs.csv` | Public datasets, code, and other project outputs shown on Data & Code. |
 | `publications.csv` | Publication records shown on About. |
-| `temporal.csv` | Supplied synthetic hourly and monthly values. The current When page still uses labeled demo values in code; replacing this CSV alone does not change that page yet. |
-| `activities_places.csv` | Supplied synthetic activity and place values. The current Activities page still uses labeled demo values in code. |
-| `findings.csv` | Supplied localized synthetic headline findings. The current Home page still uses labeled demo copy in code. |
-| `taxonomy.csv` | Supplied localized activity and place labels. The current Activities page still uses demo labels in code. |
+| `temporal.csv` | Supplied draft/reference hourly, monthly and indoor/outdoor shares. Drives the When charts and Home time previews; lower and upper bounds are displayed without assuming an interval method. |
+| `activities_places.csv` | Supplied draft/reference activity and place shares for all year, June–September and the rest of the year. Drives the Activities charts and Home previews. Its all-year activity `rate` values are shown as source values only; their definition and unit need confirmation. |
+| `findings.csv` | Supplied localized draft/reference headline findings on Home. Their scientific wording needs client review before launch. |
+| `taxonomy.csv` | Supplied draft/reference localized activity and place labels and descriptions used by the Activities page and Home previews. |
 | `icgc/municipalities.geojson` | Developer-maintained ICGC municipality source boundaries. |
 | `icgc/comarques.geojson` | Developer-maintained ICGC comarca source boundaries. |
 

@@ -1,11 +1,3 @@
-// The charts and headline findings below remain illustrative; the Home map image is generated separately from draft model data.
-export const demoCharts = {
-  hour: [2, 2, 2, 2, 3, 4, 5, 7, 9, 11, 13, 14, 16, 18, 20, 23, 24, 27, 38, 43, 37, 18, 9, 4],
-  month: [2, 3, 4, 7, 12, 24, 45, 48, 36, 15, 9, 7],
-  place: [42, 34, 24],
-  activity: [68, 54, 41, 29],
-} as const;
-
 export const homeContent = {
   en: {
     hero: {
@@ -25,19 +17,19 @@ export const homeContent = {
     findings: {
       eyebrow: "Headline findings",
       title: "A quick read of the patterns",
-      badge: "Synthetic data",
+      badge: "Supplied draft findings",
       items: [
-        { label: "Time of day", value: "34%", text: "of demo bites occur between 18:00–21:00.", chart: "hour" },
-        { label: "Season", value: "61%", text: "of demo observations fall in July–September.", chart: "month" },
-        { label: "Place", value: "42%", text: "of demo bites occur in or around the home.", chart: "place" },
-        { label: "Activity", value: "1.7×", text: "demo relative bite rate while eating outdoors.", chart: "activity" },
+        { id: "f1", label: "Time of day", chart: "hour" },
+        { id: "f2", label: "Season", chart: "month" },
+        { id: "f3", label: "Place", chart: "place" },
+        { id: "f4", label: "Activity", chart: "activity" },
       ],
-      chartDescription: "Illustrative distribution; not an H-MIP result",
+      chartDescription: "Draft/reference values from H-MIP CSVs; scientific wording awaits review",
     },
     explore: {
       eyebrow: "Explore the evidence",
       title: "Three ways into the data",
-      intro: "The map uses draft 2025 model estimates. Time and activity previews still use clearly labeled synthetic values.",
+      intro: "The map uses a draft 2025 model. Time and activity previews use supplied draft/reference CSVs pending scientific review.",
       items: [
         { label: "Where people get bitten", title: "Patterns across Catalonia", text: "Explore how place can shape human–mosquito interaction.", status: "Explore the map", chart: "spatial" },
         { label: "When bites happen", title: "Hour by hour", text: "See how reported interaction can vary across the day and through the year.", status: "Explore time patterns", chart: "hour" },
@@ -70,19 +62,19 @@ export const homeContent = {
     findings: {
       eyebrow: "Datos destacados",
       title: "Una lectura rápida de los patrones",
-      badge: "Datos sintéticos",
+      badge: "Hallazgos provisionales facilitados",
       items: [
-        { label: "Hora del día", value: "34 %", text: "de las picaduras de ejemplo ocurren entre las 18:00 y las 21:00.", chart: "hour" },
-        { label: "Estación", value: "61 %", text: "de las observaciones de ejemplo se concentran entre julio y septiembre.", chart: "month" },
-        { label: "Lugar", value: "42 %", text: "de las picaduras de ejemplo ocurren en casa o cerca de ella.", chart: "place" },
-        { label: "Actividad", value: "1,7×", text: "tasa relativa de picaduras de ejemplo al comer al aire libre.", chart: "activity" },
+        { id: "f1", label: "Hora del día", chart: "hour" },
+        { id: "f2", label: "Estación", chart: "month" },
+        { id: "f3", label: "Lugar", chart: "place" },
+        { id: "f4", label: "Actividad", chart: "activity" },
       ],
-      chartDescription: "Distribución ilustrativa; no es un resultado de H-MIP",
+      chartDescription: "Valores provisionales/de referencia de archivos H-MIP; texto científico pendiente de revisión",
     },
     explore: {
       eyebrow: "Explorar los datos",
       title: "Tres formas de acercarse a los datos",
-      intro: "El mapa utiliza estimaciones provisionales del modelo de 2025. Las vistas temporales y de actividades aún usan valores sintéticos claramente identificados.",
+      intro: "El mapa utiliza un modelo provisional de 2025. Las vistas temporales y de actividades usan archivos provisionales/de referencia pendientes de revisión científica.",
       items: [
         { label: "Dónde ocurren las picaduras", title: "Patrones en Cataluña", text: "Explora cómo el lugar puede influir en la interacción entre personas y mosquitos.", status: "Explorar el mapa", chart: "spatial" },
         { label: "Cuándo ocurren", title: "Hora a hora", text: "Observa cómo puede variar la interacción registrada a lo largo del día y del año.", status: "Explorar patrones temporales", chart: "hour" },
@@ -115,19 +107,19 @@ export const homeContent = {
     findings: {
       eyebrow: "Dades destacades",
       title: "Una lectura ràpida dels patrons",
-      badge: "Dades sintètiques",
+      badge: "Resultats provisionals facilitats",
       items: [
-        { label: "Hora del dia", value: "34 %", text: "de les picades d’exemple es produeixen entre les 18.00 i les 21.00 h.", chart: "hour" },
-        { label: "Estació", value: "61 %", text: "de les observacions d’exemple es concentren entre juliol i setembre.", chart: "month" },
-        { label: "Lloc", value: "42 %", text: "de les picades d’exemple es produeixen a casa o a prop.", chart: "place" },
-        { label: "Activitat", value: "1,7×", text: "taxa relativa de picades d’exemple en menjar a l’aire lliure.", chart: "activity" },
+        { id: "f1", label: "Hora del dia", chart: "hour" },
+        { id: "f2", label: "Estació", chart: "month" },
+        { id: "f3", label: "Lloc", chart: "place" },
+        { id: "f4", label: "Activitat", chart: "activity" },
       ],
-      chartDescription: "Distribució il·lustrativa; no és un resultat d’H-MIP",
+      chartDescription: "Valors provisionals/de referència de fitxers H-MIP; text científic pendent de revisió",
     },
     explore: {
       eyebrow: "Explora les dades",
       title: "Tres maneres d’apropar-se a les dades",
-      intro: "El mapa utilitza estimacions provisionals del model de 2025. Les vistes temporals i d'activitats encara fan servir valors sintètics clarament identificats.",
+      intro: "El mapa utilitza un model provisional de 2025. Les vistes temporals i d'activitats fan servir fitxers provisionals/de referència pendents de revisió científica.",
       items: [
         { label: "On es produeixen les picades", title: "Patrons a Catalunya", text: "Explora com el lloc pot influir en la interacció entre persones i mosquits.", status: "Explora el mapa", chart: "spatial" },
         { label: "Quan es produeixen", title: "Hora a hora", text: "Observa com pot variar la interacció registrada al llarg del dia i de l’any.", status: "Explora els patrons temporals", chart: "hour" },

@@ -6,12 +6,12 @@ export const aboutContent = {
     title: "Research on human–mosquito interaction",
     lead: "H-MIP studies how people and mosquitoes meet. This public site presents the project’s questions and methods in a form that residents and local decision makers can explore.",
     sectionsLabel: "About sections",
-    nav: { project: "Project", methods: "Methods", team: "Team & partners", publications: "Publications" },
+    nav: { project: "Project", methods: "Methods", publications: "Publications" },
     project: {
       title: "Understanding exposure in daily life",
       paragraphs: [
         "The Human–Mosquito Interaction Project investigates the circumstances in which people encounter mosquitoes. Its research connects human activity and movement with mosquito ecology, with a focus on the tiger mosquito in Catalonia.",
-        "H-MIP Explore is the public-facing companion to that research. The map includes provisional estimates from a draft 2025 model; the time, activity and headline charts still use synthetic demonstration values while reviewed survey results are pending.",
+        "H-MIP Explore is the public-facing companion to that research. The map includes provisional estimates from a draft 2025 model; the time, activity and headline charts use supplied draft/reference data pending scientific review.",
       ],
       link: "Visit the H-MIP project website",
     },
@@ -27,16 +27,6 @@ export const aboutContent = {
         { title: "Uncertainty", text: "Research estimates need their limits and uncertainty explained alongside them." },
       ],
     },
-    team: {
-      title: "Research across institutions",
-      intro: "H-MIP is carried out by researchers at Universitat Pompeu Fabra (UPF) and the Centre for Advanced Studies of Blanes (CEAB-CSIC). Mosquito Alert is a citizen-science platform connected to this research area.",
-      institutions: [
-        { name: "Universitat Pompeu Fabra", detail: "UPF · Barcelona" },
-        { name: "Centre for Advanced Studies of Blanes", detail: "CEAB-CSIC · Blanes" },
-        { name: "Mosquito Alert", detail: "Citizen-science platform" },
-      ],
-      note: "Individual team profiles and approved visual assets will be added when supplied by the project.",
-    },
     publications: {
       title: "Research outputs",
       text: "The H-MIP handover includes the publications below, shown newest first. Titles and citation details are reproduced from the supplied list and may be updated by the project team.",
@@ -51,12 +41,12 @@ export const aboutContent = {
     title: "Investigación sobre la interacción entre personas y mosquitos",
     lead: "H-MIP estudia cómo coinciden las personas y los mosquitos. Este sitio público presenta las preguntas y los métodos del proyecto de forma accesible para la ciudadanía y quienes toman decisiones locales.",
     sectionsLabel: "Secciones sobre el proyecto",
-    nav: { project: "Proyecto", methods: "Métodos", team: "Equipo y entidades", publications: "Publicaciones" },
+    nav: { project: "Proyecto", methods: "Métodos", publications: "Publicaciones" },
     project: {
       title: "Comprender la exposición en la vida cotidiana",
       paragraphs: [
         "El proyecto Human–Mosquito Interaction investiga las circunstancias en que las personas se encuentran con los mosquitos. Relaciona la actividad y los desplazamientos humanos con la ecología de los mosquitos, con especial atención al mosquito tigre en Cataluña.",
-        "H-MIP Explora es el espacio público que acompaña a esa investigación. El mapa incluye estimaciones provisionales de un modelo de 2025; los gráficos de tiempo, actividad y datos destacados aún usan valores sintéticos mientras se esperan resultados revisados de la encuesta.",
+        "H-MIP Explora es el espacio público que acompaña a esa investigación. El mapa incluye estimaciones provisionales de un modelo de 2025; los gráficos de tiempo, actividad y datos destacados usan datos provisionales/de referencia pendientes de revisión científica.",
       ],
       link: "Visitar el sitio web de H-MIP",
     },
@@ -72,16 +62,6 @@ export const aboutContent = {
         { title: "Incertidumbre", text: "Las estimaciones deben presentarse junto con sus límites e incertidumbre." },
       ],
     },
-    team: {
-      title: "Investigación entre instituciones",
-      intro: "H-MIP lo llevan a cabo investigadores de la Universitat Pompeu Fabra (UPF) y el Centre d'Estudis Avançats de Blanes (CEAB-CSIC). Mosquito Alert es una plataforma de ciencia ciudadana vinculada a este ámbito de investigación.",
-      institutions: [
-        { name: "Universitat Pompeu Fabra", detail: "UPF · Barcelona" },
-        { name: "Centre d'Estudis Avançats de Blanes", detail: "CEAB-CSIC · Blanes" },
-        { name: "Mosquito Alert", detail: "Plataforma de ciencia ciudadana" },
-      ],
-      note: "Los perfiles individuales y los recursos visuales aprobados se añadirán cuando el proyecto los facilite.",
-    },
     publications: {
       title: "Resultados de investigación",
       text: "La entrega de H-MIP incluye las publicaciones siguientes, ordenadas de la más reciente a la más antigua. Los títulos y datos de cita proceden de esa lista y el equipo del proyecto puede actualizarlos.",
@@ -96,12 +76,12 @@ export const aboutContent = {
     title: "Recerca sobre la interacció entre persones i mosquits",
     lead: "H-MIP estudia com coincideixen les persones i els mosquits. Aquest lloc públic presenta les preguntes i els mètodes del projecte d'una manera accessible per a la ciutadania i les persones que prenen decisions locals.",
     sectionsLabel: "Seccions sobre el projecte",
-    nav: { project: "Projecte", methods: "Mètodes", team: "Equip i entitats", publications: "Publicacions" },
+    nav: { project: "Projecte", methods: "Mètodes", publications: "Publicacions" },
     project: {
       title: "Entendre l'exposició en la vida quotidiana",
       paragraphs: [
         "El projecte Human–Mosquito Interaction investiga les circumstàncies en què les persones es troben amb els mosquits. Relaciona l'activitat i els desplaçaments humans amb l'ecologia dels mosquits, amb una atenció especial al mosquit tigre a Catalunya.",
-        "H-MIP Explora és l'espai públic que acompanya aquesta recerca. El mapa inclou estimacions provisionals d'un model del 2025; els gràfics de temps, activitats i dades destacades encara fan servir valors sintètics mentre s'esperen resultats revisats de l'enquesta.",
+        "H-MIP Explora és l'espai públic que acompanya aquesta recerca. El mapa inclou estimacions provisionals d'un model del 2025; els gràfics de temps, activitats i dades destacades fan servir dades provisionals/de referència pendents de revisió científica.",
       ],
       link: "Visita el lloc web d'H-MIP",
     },
@@ -116,16 +96,6 @@ export const aboutContent = {
         { title: "Models espacials", text: "Els models combinen diferents indicis per estudiar patrons geogràfics." },
         { title: "Incertesa", text: "Les estimacions s'han de presentar juntament amb els seus límits i la incertesa." },
       ],
-    },
-    team: {
-      title: "Recerca entre institucions",
-      intro: "H-MIP el duen a terme investigadors de la Universitat Pompeu Fabra (UPF) i del Centre d'Estudis Avançats de Blanes (CEAB-CSIC). Mosquito Alert és una plataforma de ciència ciutadana vinculada a aquest àmbit de recerca.",
-      institutions: [
-        { name: "Universitat Pompeu Fabra", detail: "UPF · Barcelona" },
-        { name: "Centre d'Estudis Avançats de Blanes", detail: "CEAB-CSIC · Blanes" },
-        { name: "Mosquito Alert", detail: "Plataforma de ciència ciutadana" },
-      ],
-      note: "Els perfils individuals i els recursos visuals aprovats s'afegiran quan el projecte els faciliti.",
     },
     publications: {
       title: "Resultats de recerca",

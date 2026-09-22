@@ -2,12 +2,18 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PatternChart from "./PatternChart.astro";
 import type { HomeLocale } from "../../data/home";
-import { hourlyShares, monthlyShares, monthLabels, whenContent } from "../../data/when";
+import { monthLabels, whenContent } from "../../data/when";
+import { hourlyPattern, monthlyPattern, settingPattern, temporalSampleSize } from "../../data/temporal";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = whenContent[locale];
 const hourLabels = Array.from({ length: 24 }, (_, hour) => `${String(hour).padStart(2, "0")}:00`);
+const sharePercent = (rows: typeof hourlyPattern) => rows.map((row) => row.share * 100);
+const boundPercent = (rows: typeof hourlyPattern, bound: "lower" | "upper") => rows.map((row) => row[bound]! * 100);
+const evening = Math.round(hourlyPattern.slice(18, 21).reduce((sum, row) => sum + row.share, 0) * 100);
+const summer = Math.round(monthlyPattern.slice(6, 9).reduce((sum, row) => sum + row.share, 0) * 100);
+const localizedPercent = new Intl.NumberFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { maximumFractionDigits: 1 });
 ---
 
 <BaseLayout locale={locale} title={copy.metaTitle} description={copy.metaDescription}>
@@ -21,13 +27,18 @@ const hourLabels = Array.from({ length: 24 }, (_, hour) => `${String(hour).padSt
     </header>
 
     <div class="story-layout">
-      <PatternChart locale={locale} id="hour" {...copy.hour} labels={hourLabels} values={hourlyShares} labelEvery={3} highlight={[18, 19, 20]} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
-      <PatternChart locale={locale} id="month" {...copy.month} labels={monthLabels[locale]} values={monthlyShares} highlight={[6, 7, 8]} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
+      <PatternChart locale={locale} id="hour" {...copy.hour} takeaway={copy.hour.takeaway.replace("{value}", String(evening))} labels={hourLabels} values={sharePercent(hourlyPattern)} lowerValues={boundPercent(hourlyPattern, "lower")} upperValues={boundPercent(hourlyPattern, "upper")} labelEvery={3} highlight={[18, 19, 20]} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
+      <PatternChart locale={locale} id="month" {...copy.month} takeaway={copy.month.takeaway.replace("{value}", String(summer))} labels={monthLabels[locale]} values={sharePercent(monthlyPattern)} lowerValues={boundPercent(monthlyPattern, "lower")} upperValues={boundPercent(monthlyPattern, "upper")} highlight={[6, 7, 8]} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
+      <section class="setting" aria-labelledby="setting-heading">
+        <div><p class="eyebrow">{copy.eyebrow}</p><h2 id="setting-heading">{copy.settingTitle}</h2><p>{copy.settingIntro}</p><p class="source-note">{copy.sample}: {temporalSampleSize.toLocaleString({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale])}. {copy.sourceNote}</p></div>
+        <table><caption>{copy.settingTitle}</caption><thead><tr><th scope="col">{copy.settingTitle}</th><th scope="col">{copy.tableValue}</th></tr></thead><tbody>{settingPattern.map((row) => <tr><th scope="row">{copy.settingLabels[row.category as "outdoor" | "indoor"]}</th><td>{localizedPercent.format(row.share * 100)}%</td></tr>)}</tbody></table>
+      </section>
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .page-head{display:grid;justify-items:start;gap:14px;max-width:850px;margin-bottom:42px}.page-head h1{font-size:clamp(2.55rem,4.7vw,4.55rem)}.source-note{color:var(--ink-3);font-size:.84rem}.story-layout{display:grid;gap:72px}
+  .page-head{display:grid;justify-items:start;gap:14px;max-width:850px;margin-bottom:42px}.page-head h1{font-size:clamp(2.55rem,4.7vw,4.55rem)}.source-note{color:var(--ink-3);font-size:.84rem}.story-layout{display:grid;gap:72px}.setting{display:grid;grid-template-columns:minmax(220px,.36fr) minmax(0,.64fr);gap:54px;padding-top:24px;border-top:1px solid var(--line)}.setting h2{font-size:clamp(1.65rem,2.7vw,2.5rem)}.setting p:not(.eyebrow){color:var(--ink-2);font-size:.91rem;margin-top:12px}.setting table{width:100%;border-collapse:collapse;align-self:start}.setting caption{text-align:left;padding-bottom:12px;font-weight:700}.setting th,.setting td{padding:12px;border-top:1px solid var(--line);text-align:left}.setting td{text-align:right;font-variant-numeric:tabular-nums}
+  @media(max-width:1000px){.setting{grid-template-columns:1fr;gap:22px}}
   @media(max-width:600px){.story-layout{gap:56px}.page-head h1{font-size:clamp(2.4rem,12vw,3.5rem)}}
 </style>

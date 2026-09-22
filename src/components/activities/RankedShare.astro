@@ -13,34 +13,40 @@ interface Props {
   locale: HomeLocale;
   id: string;
   copy: SectionText;
-  labels: string[];
-  values: readonly number[];
+  rows: { label: string; share: number; lower: number; upper: number; rate: number | null; n: number }[];
   measure: string;
   badge: string;
   methodSummary: string;
   tableValue: string;
+  lower: string;
+  upper: string;
+  rate: string;
+  rateNote: string;
 }
 
-const { locale, id, copy, labels, values, measure, badge, methodSummary, tableValue } = Astro.props;
-const scaleMax = Math.ceil(Math.max(...values) / 5) * 5;
-const percent = (value: number) => locale === "en" ? `${value}%` : `${value} %`;
+const { locale, id, copy, rows, measure, badge, methodSummary, tableValue, lower, upper, rate, rateNote } = Astro.props;
+const format = new Intl.NumberFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { maximumFractionDigits: 1 });
+const rateFormat = new Intl.NumberFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { maximumFractionDigits: 2 });
+const percent = (value: number) => `${format.format(value * 100)}${locale === "en" ? "" : " "}%`;
+const scaleMax = Math.ceil(Math.max(...rows.map((row) => row.upper * 100)) / 5) * 5;
+const hasRate = rows.some((row) => row.rate !== null);
 ---
 
 <section class="research-block" aria-labelledby={`${id}-heading`}>
   <div class="research-copy">
     <p class="eyebrow">{copy.eyebrow}</p>
     <h2 id={`${id}-heading`}>{copy.heading}</h2>
-    <p class="takeaway">{copy.takeaway}</p>
+    <p class="takeaway">{copy.takeaway.replace("{value}", format.format(rows[0].share * 100))}</p>
     <p>{copy.text}</p>
   </div>
 
   <div class="rank-panel">
     <div class="rank-head"><strong>{measure}</strong><span class="demo-tag">{badge}</span></div>
     <ol class="rank-list" data-tooltip-group>
-      {labels.map((label, index) => <li class="rank-row" tabindex={index === 0 ? "0" : "-1"} aria-label={`${label}: ${percent(values[index])} · ${badge}`} data-tooltip={`${label}: ${percent(values[index])} · ${badge}`}>
-        <span class="rank-label">{label}</span>
-        <span class="bar-track" aria-hidden="true"><i style={`width:${values[index] / scaleMax * 100}%`}></i></span>
-        <strong class="rank-value">{percent(values[index])}</strong>
+      {rows.map((row, index) => <li class="rank-row" tabindex={index === 0 ? "0" : "-1"} aria-label={`${row.label}: ${percent(row.share)}; ${lower}: ${percent(row.lower)}; ${upper}: ${percent(row.upper)} · ${badge}`} data-tooltip={`${row.label}: ${percent(row.share)} (${percent(row.lower)}–${percent(row.upper)}) · ${badge}`}>
+        <span class="rank-label">{row.label}</span>
+        <span class="bar-track" aria-hidden="true"><i style={`width:${row.share * 100 / scaleMax * 100}%`}></i></span>
+        <strong class="rank-value">{percent(row.share)}</strong>
       </li>)}
     </ol>
     <div class="axis" aria-hidden="true"><span>0%</span><span>{scaleMax}%</span></div>
@@ -48,11 +54,12 @@ const percent = (value: number) => locale === "en" ? `${value}%` : `${value} %`;
       <summary>{methodSummary}</summary>
       <div class="detail-body">
         <p>{copy.method}</p>
+        {hasRate && <p>{rateNote}</p>}
         <div class="table-scroller">
           <table>
             <caption>{measure}</caption>
-            <thead><tr><th scope="col">{copy.tableLabel}</th><th scope="col">{tableValue}</th></tr></thead>
-            <tbody>{labels.map((label, index) => <tr><th scope="row">{label}</th><td>{percent(values[index])}</td></tr>)}</tbody>
+            <thead><tr><th scope="col">{copy.tableLabel}</th><th scope="col">{tableValue}</th><th scope="col">{lower}</th><th scope="col">{upper}</th>{hasRate && <th scope="col">{rate}</th>}</tr></thead>
+            <tbody>{rows.map((row) => <tr><th scope="row">{row.label}</th><td>{percent(row.share)}</td><td>{percent(row.lower)}</td><td>{percent(row.upper)}</td>{hasRate && <td>{row.rate === null ? "—" : rateFormat.format(row.rate)}</td>}</tr>)}</tbody>
           </table>
         </div>
       </div>

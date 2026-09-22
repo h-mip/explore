@@ -2,12 +2,13 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RankedShare from "./RankedShare.astro";
 import type { HomeLocale } from "../../data/home";
-import { activitiesContent, categoryLabels, demoActivityShares, demoPlaceShares } from "../../data/activities";
+import { activitiesContent } from "../../data/activities";
+import { activityRows, type Season } from "../../data/activityResearch";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = activitiesContent[locale];
-const labels = categoryLabels[locale];
+const seasons: Season[] = ["all", "summer", "rest"];
 ---
 
 <BaseLayout locale={locale} title={copy.metaTitle} description={copy.metaDescription}>
@@ -19,14 +20,24 @@ const labels = categoryLabels[locale];
       <span class="demo-tag">{copy.badge}</span>
       <p class="source-note">{copy.sourceNote}</p>
     </header>
-    <div class="story-layout">
-      <RankedShare locale={locale} id="activities" copy={copy.activity} labels={labels.activities} values={demoActivityShares} measure={copy.measure} badge={copy.badge} methodSummary={copy.methodSummary} tableValue={copy.tableValue} />
-      <RankedShare locale={locale} id="places" copy={copy.place} labels={labels.places} values={demoPlaceShares} measure={copy.measure} badge={copy.badge} methodSummary={copy.methodSummary} tableValue={copy.tableValue} />
-    </div>
+    <div class="season-control"><label for="season">{copy.seasonLabel}</label><select id="season" data-season-picker>{seasons.map((season) => <option value={season}>{copy.seasons[season]}</option>)}</select></div>
+    {seasons.map((season) => <div class="story-layout season-panel" data-season-panel={season} hidden={season !== "all"}>
+      <RankedShare locale={locale} id={`activities-${season}`} copy={copy.activity} rows={activityRows("activity", season, locale)} measure={copy.measure} badge={copy.badge} methodSummary={copy.methodSummary} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} rate={copy.rate} rateNote={copy.rateNote} />
+      <RankedShare locale={locale} id={`places-${season}`} copy={copy.place} rows={activityRows("place_type", season, locale)} measure={copy.measure} badge={copy.badge} methodSummary={copy.methodSummary} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} rate={copy.rate} rateNote={copy.rateNote} />
+    </div>)}
   </div>
 </BaseLayout>
 
 <style>
-  .page-head{display:grid;justify-items:start;gap:14px;max-width:850px;margin-bottom:42px}.page-head h1{font-size:clamp(2.55rem,4.7vw,4.55rem)}.source-note{color:var(--ink-3);font-size:.84rem}.story-layout{display:grid;gap:72px}
+  .page-head{display:grid;justify-items:start;gap:14px;max-width:850px;margin-bottom:42px}.page-head h1{font-size:clamp(2.55rem,4.7vw,4.55rem)}.source-note{color:var(--ink-3);font-size:.84rem}.story-layout{display:grid;gap:72px}.story-layout[hidden]{display:none}.season-control{display:flex;align-items:center;gap:14px;margin-bottom:36px;font-size:.9rem;font-weight:700}.season-control select{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:6px;padding:10px 14px;min-height:44px;font:inherit}
   @media(max-width:600px){.story-layout{gap:56px}.page-head h1{font-size:clamp(2.4rem,12vw,3.5rem)}}
 </style>
+
+<script>
+  const picker = document.querySelector<HTMLSelectElement>("[data-season-picker]");
+  picker?.addEventListener("change", () => {
+    document.querySelectorAll<HTMLElement>("[data-season-panel]").forEach((panel) => {
+      panel.hidden = panel.dataset.seasonPanel !== picker.value;
+    });
+  });
+</script>
