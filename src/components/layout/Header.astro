@@ -1,77 +1,32 @@
 ---
 type Locale = "en" | "es" | "ca";
 
-interface Props {
-  locale: Locale;
-}
-
+interface Props { locale: Locale }
 const { locale } = Astro.props;
 
 const routes = {
-  en: {
-    home: "/en/",
-    map: "/en/map/",
-    when: "/en/when/",
-    activities: "/en/activities/",
-    data: "/en/data/",
-    about: "/en/about/",
-  },
-
-  es: {
-    home: "/es/",
-    map: "/es/mapa/",
-    when: "/es/cuando/",
-    activities: "/es/actividades/",
-    data: "/es/datos/",
-    about: "/es/sobre/",
-  },
-
-  ca: {
-    home: "/ca/",
-    map: "/ca/mapa/",
-    when: "/ca/quan/",
-    activities: "/ca/activitats/",
-    data: "/ca/dades/",
-    about: "/ca/sobre/",
-  },
+  en: { home: "/en/", map: "/en/map/", when: "/en/when/", activities: "/en/activities/", data: "/en/data/", about: "/en/about/" },
+  es: { home: "/es/", map: "/es/mapa/", when: "/es/cuando/", activities: "/es/actividades/", data: "/es/datos/", about: "/es/sobre/" },
+  ca: { home: "/ca/", map: "/ca/mapa/", when: "/ca/quan/", activities: "/ca/activitats/", data: "/ca/dades/", about: "/ca/sobre/" },
 } satisfies Record<Locale, Record<string, string>>;
 
 const labels = {
-  en: {
-    home: "Home",
-    map: "Map",
-    when: "When",
-    activities: "Activities & Places",
-    data: "Data & Code",
-    about: "About",
-  },
-
-  es: {
-    home: "Inicio",
-    map: "Mapa",
-    when: "Cuándo",
-    activities: "Actividades y lugares",
-    data: "Datos y código",
-    about: "Sobre el proyecto",
-  },
-
-  ca: {
-    home: "Inici",
-    map: "Mapa",
-    when: "Quan",
-    activities: "Activitats i llocs",
-    data: "Dades i codi",
-    about: "Sobre el projecte",
-  },
+  en: { home: "Home", map: "Map", when: "When bites happen", activities: "Activities & places", data: "Data & code", about: "About" },
+  es: { home: "Inicio", map: "Mapa", when: "Cuándo ocurren las picaduras", activities: "Actividades y lugares", data: "Datos y código", about: "Sobre el proyecto" },
+  ca: { home: "Inici", map: "Mapa", when: "Quan es produeixen les picades", activities: "Activitats i llocs", data: "Dades i codi", about: "Sobre el projecte" },
 } satisfies Record<Locale, Record<string, string>>;
+
+const prototypeCopy = {
+  en: ["Prototype", "Phase 1 prototype with synthetic data — not real H-MIP results."],
+  es: ["Prototipo", "Prototipo de la fase 1 con datos sintéticos — no son resultados reales de H-MIP."],
+  ca: ["Prototip", "Prototip de la fase 1 amb dades sintètiques — no són resultats reals d’H-MIP."],
+} as const;
 
 const currentRoutes = routes[locale];
 const currentLabels = labels[locale];
-
 const pathname = Astro.url.pathname;
 
 const navItems = [
-  ["home", currentLabels.home],
   ["map", currentLabels.map],
   ["when", currentLabels.when],
   ["activities", currentLabels.activities],
@@ -80,14 +35,12 @@ const navItems = [
 ] as const;
 
 function isCurrent(path: string) {
-  if (path === `/${locale}/`) {
-    return pathname === path;
-  }
-
+  if (path === `/${locale}/`) return pathname === path;
   return pathname.startsWith(path);
 }
 
-const currentSection = navItems.find(([key]) => isCurrent(currentRoutes[key]))?.[0] ?? "home";
+const sections = [["home", currentLabels.home], ...navItems] as const;
+const currentSection = sections.find(([key]) => isCurrent(currentRoutes[key]))?.[0] ?? "home";
 const alternateRoutes = {
   ca: routes.ca[currentSection],
   es: routes.es[currentSection],
@@ -100,37 +53,30 @@ const menuLabel = { en: "Menu", es: "Menú", ca: "Menú" }[locale];
 ---
 
 <header class="site-header">
+  <div class="prototype-strip">
+    <div class="wrap prototype-inner">
+      <strong>{prototypeCopy[locale][0]}</strong>
+      <span>{prototypeCopy[locale][1]}</span>
+    </div>
+  </div>
+
   <div class="header-inner wrap">
-    <a
-      class="brand"
-      href={currentRoutes.home}
-      aria-label={`H-MIP Bites — ${currentLabels.home}`}
-    >
+    <a class="brand" href={currentRoutes.home} aria-label={`H-MIP Bites — ${currentLabels.home}`}>
       <span class="brand-main">H-MIP</span>
       <span class="brand-bites">Bites</span>
     </a>
 
     <nav class="main-nav" aria-label={navAriaLabel}>
-      {
-        navItems.map(([key, label]) => {
-          const href = currentRoutes[key];
-
-          return (
-            <a
-              href={href}
-              aria-current={isCurrent(href) ? "page" : undefined}
-            >
-              {label}
-            </a>
-          );
-        })
-      }
+      {navItems.map(([key, label]) => {
+        const href = currentRoutes[key];
+        return <a href={href} aria-current={isCurrent(href) ? "page" : undefined}>{label}</a>;
+      })}
     </nav>
 
     <details class="mobile-nav">
       <summary>{menuLabel}</summary>
       <nav aria-label={navAriaLabel}>
-        {navItems.map(([key, label]) => {
+        {sections.map(([key, label]) => {
           const href = currentRoutes[key];
           return <a href={href} aria-current={isCurrent(href) ? "page" : undefined}>{label}</a>;
         })}
@@ -138,183 +84,53 @@ const menuLabel = { en: "Menu", es: "Menú", ca: "Menú" }[locale];
     </details>
 
     <div class="language-switcher" aria-label={languageAriaLabel}>
-      <a
-        href={alternateRoutes.ca}
-        lang="ca"
-        aria-current={locale === "ca" ? "true" : undefined}
-      >
-        CA
-      </a>
-
-      <a
-        href={alternateRoutes.es}
-        lang="es"
-        aria-current={locale === "es" ? "true" : undefined}
-      >
-        ES
-      </a>
-
-      <a
-        href={alternateRoutes.en}
-        lang="en"
-        aria-current={locale === "en" ? "true" : undefined}
-      >
-        EN
-      </a>
+      <a href={alternateRoutes.ca} lang="ca" aria-current={locale === "ca" ? "true" : undefined}>CA</a>
+      <a href={alternateRoutes.es} lang="es" aria-current={locale === "es" ? "true" : undefined}>ES</a>
+      <a href={alternateRoutes.en} lang="en" aria-current={locale === "en" ? "true" : undefined}>EN</a>
     </div>
   </div>
 </header>
 
 <style>
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
+  .site-header{position:sticky;top:0;z-index:50;background:rgba(7,21,18,.97);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+  .prototype-strip{border-bottom:1px solid #18342d;background:repeating-linear-gradient(135deg,#102b25 0,#102b25 8px,#0d251f 8px,#0d251f 16px)}
+  .prototype-inner{display:flex;align-items:center;gap:10px;min-height:28px;color:#9fb0aa;font-size:.68rem;line-height:1.2}
+  .prototype-inner strong{padding:3px 7px;border:1px solid #527268;border-radius:3px;color:#e8f1ed;font:700 .64rem/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}
 
-    border-bottom: 1px solid var(--line);
+  .header-inner{display:flex;align-items:center;gap:24px;min-height:var(--header-height)}
+  .brand{display:inline-flex;align-items:baseline;gap:4px;color:var(--ink);text-decoration:none;white-space:nowrap}
+  .brand:hover{color:var(--ink);text-decoration:none}
+  .brand-main{font-weight:780;letter-spacing:-.025em}
+  .brand-bites{color:var(--teal);font-family:var(--serif);font-style:italic;font-weight:650}
 
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(12px);
+  .main-nav{display:flex;align-items:stretch;gap:0}
+  .main-nav a{position:relative;display:flex;align-items:center;padding:17px 10px 15px;color:#aebdb8;text-decoration:none;white-space:nowrap;font-size:.82rem;font-weight:650}
+  .main-nav a:hover{color:var(--ink);text-decoration:none}
+  .main-nav a[aria-current="page"]{color:var(--ink)}
+  .main-nav a[aria-current="page"]::after{content:"";position:absolute;right:10px;bottom:0;left:10px;height:2px;background:var(--teal)}
+
+  .language-switcher{display:flex;align-items:center;margin-left:auto;overflow:hidden;border:1px solid var(--line-strong);border-radius:6px}
+  .language-switcher a{display:grid;place-items:center;min-width:30px;min-height:29px;border-right:1px solid var(--line);color:#9fb0aa;text-decoration:none;font:650 .66rem/1 var(--mono)}
+  .language-switcher a:last-child{border-right:0}
+  .language-switcher a:hover{background:var(--surface-soft);color:var(--ink);text-decoration:none}
+  .language-switcher a[aria-current="true"]{background:#dfe8e4;color:#071512}
+
+  .mobile-nav{display:none}
+
+  @media(max-width:1050px){
+    .main-nav{display:none}
+    .mobile-nav{display:block;margin-left:auto}
+    .mobile-nav summary{display:block;padding:6px 9px;border:1px solid var(--line-strong);border-radius:6px;color:var(--ink);font-size:.8rem;font-weight:700;cursor:pointer;list-style:none}
+    .mobile-nav summary::-webkit-details-marker{display:none}
+    .mobile-nav summary:hover,.mobile-nav[open] summary{background:var(--surface-soft)}
+    .mobile-nav nav{position:absolute;top:100%;right:var(--page-padding);display:grid;width:min(300px,calc(100vw - 36px));padding:8px;border:1px solid var(--line-strong);border-radius:0 0 7px 7px;background:#0a1c18;box-shadow:0 16px 30px rgba(0,0,0,.28)}
+    .mobile-nav nav a{padding:10px 12px;border-radius:4px;color:var(--ink-2);font-size:.88rem;font-weight:650;text-decoration:none}
+    .mobile-nav nav a:hover,.mobile-nav nav a[aria-current="page"]{background:var(--surface-soft);color:var(--ink)}
+    .language-switcher{margin-left:0}
   }
 
-  .header-inner {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-
-    min-height: var(--header-height);
-  }
-
-  .brand {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 5px;
-
-    color: var(--ink);
-    text-decoration: none;
-    white-space: nowrap;
-  }
-
-  .brand:hover {
-    text-decoration: none;
-  }
-
-  .brand-main {
-    font-weight: 750;
-    letter-spacing: -0.02em;
-  }
-
-  .brand-bites {
-    color: var(--teal);
-
-    font-family: var(--serif);
-    font-style: italic;
-    font-weight: 650;
-  }
-
-  .main-nav {
-    display: flex;
-    align-items: center;
-    gap: 1px;
-  }
-
-  .main-nav a {
-    position: relative;
-
-    padding: 21px 10px 19px;
-
-    color: var(--ink-2);
-    text-decoration: none;
-    white-space: nowrap;
-
-    font-size: 0.91rem;
-    font-weight: 620;
-  }
-
-  .main-nav a:hover {
-    color: var(--ink);
-  }
-
-  .main-nav a[aria-current="page"] {
-    color: var(--ink);
-  }
-
-  .main-nav a[aria-current="page"]::after {
-    content: "";
-
-    position: absolute;
-    right: 10px;
-    bottom: 0;
-    left: 10px;
-
-    height: 3px;
-
-    border-radius: 3px 3px 0 0;
-    background: var(--teal);
-  }
-
-  .language-switcher {
-    display: flex;
-    align-items: center;
-
-    margin-left: auto;
-
-    overflow: hidden;
-
-    border: 1px solid var(--line-strong);
-    border-radius: 8px;
-  }
-
-  .mobile-nav { display: none; }
-
-  .language-switcher a {
-    display: grid;
-    place-items: center;
-
-    min-width: 38px;
-    min-height: 34px;
-
-    border-right: 1px solid var(--line);
-
-    color: var(--ink-2);
-    text-decoration: none;
-
-    font-family: var(--mono);
-    font-size: 0.72rem;
-    font-weight: 650;
-  }
-
-  .language-switcher a:last-child {
-    border-right: 0;
-  }
-
-  .language-switcher a[aria-current="true"] {
-    background: var(--ink);
-    color: white;
-  }
-
-  @media (max-width: 1050px) {
-    .main-nav {
-      display: none;
-    }
-
-    .mobile-nav { display: block; margin-left: auto; }
-    .mobile-nav summary { display: block; padding: 7px 10px; border: 1px solid var(--line-strong); border-radius: 8px; color: var(--ink); font-size: .82rem; font-weight: 700; cursor: pointer; list-style: none; }
-    .mobile-nav summary::-webkit-details-marker { display: none; }
-    .mobile-nav summary:hover, .mobile-nav[open] summary { background: var(--surface-soft); }
-    .mobile-nav nav { position: absolute; top: calc(100% - 1px); right: var(--page-padding); display: grid; width: min(300px, calc(100vw - 36px)); padding: 8px; border: 1px solid var(--line-strong); border-radius: 0 0 9px 9px; background: var(--surface); box-shadow: 0 12px 24px rgba(16, 35, 31, .12); }
-    .mobile-nav nav a { padding: 10px 12px; border-radius: 5px; color: var(--ink-2); font-size: .9rem; font-weight: 650; text-decoration: none; }
-    .mobile-nav nav a:hover, .mobile-nav nav a[aria-current="page"] { background: var(--surface-soft); color: var(--ink); }
-    .language-switcher { margin-left: 0; }
-  }
-
-  @media (max-width: 600px) {
-    .header-inner {
-      gap: 10px;
-    }
-
-    .language-switcher a {
-      min-width: 34px;
-    }
+  @media(max-width:600px){
+    .prototype-inner{min-height:25px;font-size:.61rem}.prototype-inner span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .header-inner{gap:10px}.language-switcher a{min-width:29px}
   }
 </style>
