@@ -35,4 +35,4 @@ The `rate` column may remain empty. Its table column appears only when values ar
 
 ## Developer-maintained inputs
 
-`data/icgc/municipalities.geojson` and `data/icgc/comarques.geojson` are source boundaries from ICGC's [Divisions administratives](https://www.icgc.cat/ca/Geoinformacio-i-mapes/Dades-i-productes/Geoinformacio-cartografica/Divisions-administratives), not routine CSV edits. Developers maintain them and verify their attribution and edition. The local files do not record an edition. The build creates GeoJSON, map metadata and the Home preview in `public/generated/`; those are artifacts, not source data.
+`data/icgc/municipalities.geojson` and `data/icgc/comarques.geojson` are developer-maintained ICGC source boundaries, not routine CSV edits. Their verified layers, scale and source dates are recorded in the [geometry provenance guide](icgc/README.md). The build creates GeoJSON, map metadata and the Home preview in `public/generated/`; those are artifacts, not source data.
