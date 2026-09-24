@@ -2,7 +2,7 @@
 import "../styles/global.css";
 import Header from "../components/layout/Header.astro";
 import Footer from "../components/layout/Footer.astro";
-import { internalUrl } from "../utils/urls";
+import { internalUrl, routes } from "../utils/urls";
 
 type Locale = "en" | "es" | "ca";
 
@@ -10,16 +10,25 @@ interface Props {
   locale: Locale;
   title?: string;
   description?: string;
+  noindex?: boolean;
 }
 
 const {
   locale,
   title = "H-MIP Explore",
-  description = "Research on where, when and during which activities people in Catalonia are bitten by mosquitoes.",
+  description = "Explore H-MIP model estimates and open research on tiger mosquitoes in Catalonia.",
+  noindex = false,
 } = Astro.props;
 
 const skipLabel = { en: "Skip to content", es: "Saltar al contenido", ca: "Salta al contingut" }[locale];
-const staging = Astro.site?.hostname === "staging.hmip-bites.pages.dev";
+const staging = import.meta.env.BASE_URL.includes("explore-staging");
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+const socialImage = new URL(internalUrl("logos/hmip-logo-white.png"), Astro.site ?? Astro.url).href;
+const currentRoute = Object.entries(routes[locale]).find(([, path]) => path === Astro.url.pathname)?.[0] as keyof typeof routes.ca | undefined;
+const alternates = currentRoute ? (["ca", "es", "en"] as const).map((language) => ({
+  language,
+  url: new URL(routes[language][currentRoute], Astro.site ?? Astro.url).href,
+})) : [];
 ---
 
 <!doctype html>
@@ -27,6 +36,7 @@ const staging = Astro.site?.hostname === "staging.hmip-bites.pages.dev";
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/x-icon" href={internalUrl("favicon.ico")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={internalUrl("apple-touch-icon.png")} />
 
     <meta
       name="viewport"
@@ -34,7 +44,17 @@ const staging = Astro.site?.hostname === "staging.hmip-bites.pages.dev";
     />
 
     <meta name="description" content={description} />
-    {staging && <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+    <meta name="twitter:card" content="summary" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https://tile.openstreetmap.org; connect-src 'self' https://tile.openstreetmap.org; worker-src 'self' blob:; font-src 'self' data:" />
+    {(staging || noindex) && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={canonical} />
+    {alternates.map((alternate) => <link rel="alternate" hreflang={alternate.language} href={alternate.url} />)}
+    {currentRoute && <link rel="alternate" hreflang="x-default" href={new URL(routes.ca[currentRoute], Astro.site ?? Astro.url).href} />}
 
     <meta name="color-scheme" content="light" />
 
@@ -59,5 +79,6 @@ const staging = Astro.site?.hostname === "staging.hmip-bites.pages.dev";
 
     <Footer locale={locale} />
     <script src="../scripts/dataTooltips.ts"></script>
+    <script src="../scripts/languagePreference.ts"></script>
   </body>
 </html>

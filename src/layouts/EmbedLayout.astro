@@ -1,0 +1,25 @@
+---
+import "../styles/global.css";
+import { internalUrl, type Locale } from "../utils/urls";
+
+interface Props { locale: Locale; title: string; description: string }
+const { locale, title, description } = Astro.props;
+const skip = { en: "Skip to content", es: "Saltar al contenido", ca: "Salta al contingut" }[locale];
+---
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <link rel="icon" type="image/x-icon" href={internalUrl("favicon.ico")} />
+    <title>{title}</title>
+  </head>
+  <body class="embed-body"><a class="skip-link" href="#main-content">{skip}</a><main id="main-content"><slot /></main><script src="../scripts/dataTooltips.ts"></script></body>
+</html>
+
+<style is:global>
+  .embed-body{min-width:0}.embed-body main{min-width:0}
+</style>

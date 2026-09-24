@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getEntry, render } from "astro:content";
+import type { PolicyKind } from "../../data/policies";
+import type { Locale } from "../../utils/urls";
+
+interface Props { locale: Locale; kind: PolicyKind }
+const { locale, kind } = Astro.props;
+const entry = await getEntry("policies", `${locale}/${kind}`);
+if (!entry) throw new Error(`Missing approved policy: ${locale}/${kind}`);
+const { Content } = await render(entry);
+---
+
+<BaseLayout locale={locale} title={`${entry.data.title} — H-MIP ${locale === "en" ? "Explore" : "Explora"}`} description={entry.data.title}>
+  <article class="wrap page policy-content">
+    <Content />
+  </article>
+</BaseLayout>
+
+<style>
+  .policy-content{max-width:900px;padding-block:54px 90px;color:var(--ink-2)}
+  .policy-content :global(h1){margin-bottom:32px;color:var(--ink);font-size:clamp(2.5rem,5vw,4.5rem)}
+  .policy-content :global(h2){margin:40px 0 14px;padding-top:18px;border-top:1px solid var(--line);color:var(--ink);font-size:clamp(1.35rem,2.4vw,1.8rem)}
+  .policy-content :global(p),.policy-content :global(ul){max-width:75ch;margin:0 0 16px;line-height:1.7}
+  .policy-content :global(ul){padding-left:22px}
+  .policy-content :global(li){margin-bottom:7px}
+  .policy-content :global(strong){color:var(--ink)}
+</style>

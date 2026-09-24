@@ -1,0 +1,44 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import StoriesIndex from "../components/editorial/StoriesIndex.astro";
+import StoryDetail from "../components/editorial/StoryDetail.astro";
+import WhenPage from "../components/when/WhenPage.astro";
+import ActivitiesPage from "../components/activities/ActivitiesPage.astro";
+import { siteSettings } from "../data/siteSettings";
+import type { Locale } from "../utils/urls";
+import { existsSync } from "node:fs";
+import path from "node:path";
+
+export async function getStaticPaths() {
+  const published = (await getCollection("stories", ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+  for (const entry of published) {
+    if (entry.data.image && (entry.data.image.startsWith("/") || entry.data.image.includes("..") || !existsSync(path.join(process.cwd(), "public", entry.data.image)))) {
+      throw new Error(`Story ${entry.id}: image must be an existing file relative to public/`);
+    }
+  }
+  const locales: { locale: Locale; path: string }[] = [
+    { locale: "ca", path: "histories" }, { locale: "es", path: "es/historias" }, { locale: "en", path: "en/stories" },
+  ];
+  const storyPaths = locales.flatMap(({ locale, path: route }) => {
+    const entries = published.filter((entry) => entry.data.locale === locale);
+    if (!entries.length) return [];
+    return [
+      { params: { story: route }, props: { locale, entries } },
+      ...entries.map((entry) => ({ params: { story: `${route}/${entry.id}` }, props: { locale, entry } })),
+    ];
+  });
+  const surveyPaths = siteSettings.publishSurveyResults ? [
+    { params: { story: "quan" }, props: { locale: "ca", surveyKind: "when" } },
+    { params: { story: "activitats" }, props: { locale: "ca", surveyKind: "activities" } },
+    { params: { story: "es/cuando" }, props: { locale: "es", surveyKind: "when" } },
+    { params: { story: "es/actividades" }, props: { locale: "es", surveyKind: "activities" } },
+    { params: { story: "en/when" }, props: { locale: "en", surveyKind: "when" } },
+    { params: { story: "en/activities" }, props: { locale: "en", surveyKind: "activities" } },
+  ] : [];
+  return [...storyPaths, ...surveyPaths];
+}
+
+const { locale, entries, entry, surveyKind } = Astro.props as { locale: Locale; entries?: CollectionEntry<"stories">[]; entry?: CollectionEntry<"stories">; surveyKind?: "when" | "activities" };
+---
+
+{surveyKind === "when" ? <WhenPage locale={locale} /> : surveyKind === "activities" ? <ActivitiesPage locale={locale} /> : entry ? <StoryDetail locale={locale} entry={entry} /> : <StoriesIndex locale={locale} entries={entries ?? []} />}

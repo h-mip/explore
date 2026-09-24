@@ -9,9 +9,9 @@ export interface Publication {
   authors: string;
   title: string;
   venue: string;
-  doi: string;
-  url: string;
-  openAccessUrl: string;
+  doi?: string;
+  url?: string;
+  openAccessUrl?: string;
 }
 
 const httpsUrl = z.string().refine((value) => {
@@ -24,9 +24,9 @@ const publicationRow = z.strictObject({
   authors: z.string().min(1),
   title: z.string().min(1),
   venue: z.string().min(1),
-  doi: z.string().regex(/^10\.\d{4,9}\/\S+$/),
-  url: httpsUrl,
-  open_access_url: httpsUrl,
+  doi: z.string().refine((value) => !value || /^10\.\d{4,9}\/\S+$/.test(value), "must be a DOI or blank"),
+  url: z.string().refine((value) => !value || httpsUrl.safeParse(value).success, "must be an HTTPS URL or blank"),
+  open_access_url: z.string().refine((value) => !value || httpsUrl.safeParse(value).success, "must be an HTTPS URL or blank"),
 });
 
 const rows = parseResearchCsv("data/publications.csv", raw, publicationRow);
@@ -39,7 +39,7 @@ export const publications: Publication[] = rows.map((row) => ({
   authors: row.authors,
   title: row.title,
   venue: row.venue,
-  doi: row.doi,
-  url: row.url,
-  openAccessUrl: row.open_access_url,
+  doi: row.doi || undefined,
+  url: row.url || undefined,
+  openAccessUrl: row.open_access_url || undefined,
 })).sort((a, b) => b.year - a.year);

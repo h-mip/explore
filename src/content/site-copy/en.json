@@ -1,0 +1,351 @@
+{
+  "home": {
+    "hero": {
+      "eyebrow": "Human–mosquito interaction in Catalonia",
+      "title": "Where and when do mosquitoes bite people in Catalonia?",
+      "lead": "H-MIP studies how exposure to mosquito bites changes with place, time and everyday activity — combining field research, citizen science and spatial modelling.",
+      "primary": "Explore the evidence",
+      "secondary": "See headline patterns",
+      "context": [
+        [
+          "Focus",
+          "Tiger mosquito"
+        ],
+        [
+          "Area",
+          "Catalonia"
+        ],
+        [
+          "Research",
+          "Human–mosquito interaction"
+        ]
+      ],
+      "low": "Low",
+      "mid": "Mid",
+      "high": "High"
+    },
+    "findings": {
+      "eyebrow": "Headline findings",
+      "title": "A quick read of the patterns",
+      "badge": "Reported bites",
+      "items": [
+        {
+          "id": "f1",
+          "label": "Time of day",
+          "chart": "hour"
+        },
+        {
+          "id": "f2",
+          "label": "Season",
+          "chart": "month"
+        },
+        {
+          "id": "f3",
+          "label": "Place",
+          "chart": "place"
+        },
+        {
+          "id": "f4",
+          "label": "Activity",
+          "chart": "activity"
+        }
+      ],
+      "chartDescription": "Shares from reported bites"
+    },
+    "explore": {
+      "eyebrow": "Explore the evidence",
+      "title": "When and how bites happen",
+      "intro": "Explore patterns in reported bites by time, activity and place.",
+      "items": [
+        {
+          "label": "When bites happen",
+          "title": "Hour by hour",
+          "text": "See how reported interaction can vary across the day and through the year.",
+          "status": "Explore time patterns",
+          "chart": "hour"
+        },
+        {
+          "label": "What people are doing",
+          "title": "Activities & places",
+          "text": "Compare reported bite share across everyday activities and places.",
+          "status": "Explore activities",
+          "chart": "activity"
+        }
+      ]
+    },
+    "action": {
+      "scienceEyebrow": "Help science",
+      "scienceTitle": "Contribute observations through Mosquito Alert",
+      "scienceText": "Citizen science helps researchers understand where mosquitoes are present and how people encounter them.",
+      "scienceList": [
+        "Report mosquito sightings.",
+        "Report breeding sites in public space.",
+        "Support long-term surveillance."
+      ],
+      "scienceLink": "Visit Mosquito Alert"
+    }
+  },
+  "about": {
+    "metaTitle": "About H-MIP — H-MIP Explore",
+    "metaDescription": "Learn about the H-MIP research project, its methods, institutions and public results.",
+    "eyebrow": "About H-MIP",
+    "title": "Research on human–mosquito interaction",
+    "lead": "H-MIP studies how people and mosquitoes meet. This public site presents the project’s questions and methods in a form that residents and local decision makers can explore.",
+    "sectionsLabel": "About sections",
+    "nav": {
+      "project": "Project",
+      "methods": "Methods",
+      "publications": "Publications"
+    },
+    "project": {
+      "title": "Understanding exposure in daily life",
+      "paragraphs": [
+        "The Human–Mosquito Interaction Project investigates the circumstances in which people encounter mosquitoes. Its research connects human activity and movement with mosquito ecology, with a focus on the tiger mosquito in Catalonia.",
+        "H-MIP Explore is the public-facing companion to that research. Its map presents monthly model estimates for Catalonia. Further survey findings will appear when verified data is available."
+      ],
+      "link": "Visit the H-MIP project website"
+    },
+    "methods": {
+      "title": "Several methods, one interaction question",
+      "intro": "The project draws on complementary sources. Together they can describe both the mosquito side of an encounter and the human activity around it.",
+      "steps": [
+        {
+          "title": "Interviews",
+          "text": "Field interviews capture reported bite experiences and their context."
+        },
+        {
+          "title": "Citizen science",
+          "text": "Public observations, including those made through Mosquito Alert, contribute evidence about mosquitoes."
+        },
+        {
+          "title": "Mobility",
+          "text": "Movement and activity patterns help frame where encounters may happen."
+        },
+        {
+          "title": "Laboratory analysis",
+          "text": "Blood-meal analysis can help identify mosquito feeding patterns."
+        },
+        {
+          "title": "Spatial modelling",
+          "text": "Models bring different evidence together to examine geographic patterns."
+        },
+        {
+          "title": "Uncertainty",
+          "text": "Research estimates need their limits and uncertainty explained alongside them."
+        }
+      ]
+    },
+    "publications": {
+      "title": "Research outputs",
+      "text": "Selected H-MIP publications are listed below, newest first. The list is updated from the project's publication data.",
+      "article": "Article",
+      "preprint": "Preprint",
+      "openPublication": "Publication page",
+      "openAccess": "Open full text",
+      "link": "Explore project results on CORDIS"
+    }
+  },
+  "data": {
+    "metaTitle": "Data & Code — H-MIP Explore",
+    "metaDescription": "Find verified H-MIP research resources and the status of data used by this public website.",
+    "eyebrow": "Open research",
+    "title": "Data & Code",
+    "lead": "Find H-MIP datasets, code and publications. We aim to make research data findable, accessible, interoperable and reusable (FAIR); Zenodo records provide metadata, DOIs, licences and citations.",
+    "statusEyebrow": "Catalogue status",
+    "statusTitle": "No output records are available",
+    "statusText": "The supplied outputs CSV contains no records. Add public records with source links, licenses and citation details before publishing this catalogue.",
+    "groups": {
+      "dataset": "Datasets",
+      "code": "Code",
+      "other": "Other materials"
+    },
+    "empty": "No approved records in this category yet.",
+    "openResource": "Open resource",
+    "resourcesEyebrow": "Verified links",
+    "resourcesTitle": "Project resources available now",
+    "resourcesIntro": "These project and European Commission pages provide further context and public project records.",
+    "projectSite": "H-MIP project website",
+    "projectSiteText": "Project background, research approach and participation information.",
+    "euResults": "European Commission project results",
+    "euResultsText": "The CORDIS record lists public project results and publications.",
+    "siteEyebrow": "Site transparency",
+    "siteTitle": "Data behind this website",
+    "siteText": "The map and Home preview use model estimates for H3 cells and municipalities. Time and activity results will appear when verified data is available.",
+    "downloadTitle": "Model data",
+    "downloadIntro": "Model estimates by the Human-Mosquito Interaction Project, CC0 1.0. A citable version with a DOI will follow. The downloads include H3 values, municipality values, and layer units and class breaks.",
+    "h3Download": "Download H3 estimates (CSV)",
+    "municipalityDownload": "Download municipality estimates (CSV)",
+    "metadataDownload": "Download units and class breaks (CSV)"
+  },
+  "map": {
+    "title": "Map explorer",
+    "eyebrow": "Explore by place",
+    "lead": "Explore monthly model estimates across Catalonia.",
+    "badge": "Provisional model",
+    "controls": "Map controls",
+    "layerStep": "01 · View",
+    "layerLabel": "Layer",
+    "h3Layer": "H3 cells",
+    "municipalityLayer": "Municipalities",
+    "h3Hint": "H3 cells",
+    "resolution": "resolution",
+    "municipalityHint": "Municipalities",
+    "searchStep": "02 · Place",
+    "searchLabel": "Find a municipality",
+    "searchPlaceholder": "Municipality or comarca",
+    "searchButton": "Find",
+    "searchClear": "Clear search",
+    "searchMiss": "No matching municipality.",
+    "searchHint": "Accents are optional.",
+    "timeStep": "03 · Time",
+    "timeLabel": "Month",
+    "monthAria": "Select month",
+    "play": "Play",
+    "pause": "Pause",
+    "legendStep": "04 · Legend",
+    "legendNote": "Classes use the model metadata. These are not personal risk estimates.",
+    "classNames": [
+      "Very low",
+      "Low",
+      "Moderate",
+      "High",
+      "Very high"
+    ],
+    "selectedStep": "05 · Selected area",
+    "selectPrompt": "Select an H3 cell or municipality on the map, or choose a municipality from search or the table.",
+    "h3Cell": "H3 cell",
+    "municipality": "Municipality",
+    "comarca": "Comarca",
+    "confidence": "Confidence",
+    "confidenceLow": "Low",
+    "confidenceMedium": "Medium",
+    "confidenceHigh": "High",
+    "monthlyProfile": "12-month profile",
+    "showOnMap": "Show on map",
+    "methodStep": "06 · Method",
+    "methodTitle": "About these map values",
+    "mapView": "Map view",
+    "tableView": "Accessible table",
+    "viewLabel": "Map or table view",
+    "tableLabel": "Municipality model values",
+    "tableCaption": "Municipality model values for",
+    "tableFilter": "Filter municipalities",
+    "tableEmpty": "No matching municipalities.",
+    "tableCount": "municipalities shown",
+    "tableValue": "Value",
+    "sort": "Sort by",
+    "loading": "Loading the map…",
+    "error": "The map could not load. Please try again later.",
+    "caption": "Model estimates · ICGC boundaries",
+    "mapAria": "Interactive map of Catalonia showing model estimates",
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "monthShort": [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
+    ]
+  },
+  "when": {
+    "metaTitle": "When bites happen — H-MIP Explore",
+    "metaDescription": "Explore the hourly and monthly patterns in reported mosquito bites in Catalonia.",
+    "eyebrow": "Time patterns",
+    "title": "When bites happen",
+    "lead": "These shares come from reported bites. They do not measure a person's chance of being bitten at a given hour or month.",
+    "badge": "Reported bites",
+    "dataLabel": "Share of reports",
+    "tableSummary": "Data & method",
+    "tableCaption": "Reported bites",
+    "tableValue": "Share of reports",
+    "lower": "95% interval: lower",
+    "upper": "95% interval: upper",
+    "sourceNote": "Shares are based on reported bites; intervals are 95% Bayesian credible intervals.",
+    "scrollHint": "Scroll the chart horizontally on small screens.",
+    "settingTitle": "Indoors and outdoors",
+    "settingIntro": "Reports are also grouped by setting. Interval bounds are not available for these two values.",
+    "settingLabels": {
+      "outdoor": "Outdoor",
+      "indoor": "Indoor"
+    },
+    "sample": "Reported sample size",
+    "hour": {
+      "eyebrow": "By hour of day",
+      "title": "Reports concentrate in the evening",
+      "takeaway": "{value}% of reports fall from {start} to before {end}.",
+      "text": "This distribution describes the time of reports. It does not isolate mosquito activity from people's exposure or reporting patterns.",
+      "chartTitle": "Share of reports by hour",
+      "chartNote": "Bars show the supplied share; lower and upper bounds are listed in the data table.",
+      "tableLabel": "Hour",
+      "method": "Lower and upper bounds form a 95% credible interval for each share, based on the posterior predictive distribution. The sample size counts bite reports."
+    },
+    "month": {
+      "eyebrow": "By month",
+      "title": "Reports peak in summer",
+      "takeaway": "{value}% of reports fall from {start} to {end}.",
+      "text": "The monthly distribution describes reported bites, not a population-wide risk estimate.",
+      "chartTitle": "Share of reports by month",
+      "chartNote": "Bars show the supplied share; lower and upper bounds are listed in the data table.",
+      "tableLabel": "Month",
+      "method": "Lower and upper bounds form a 95% credible interval for each share, based on the posterior predictive distribution. The sample size counts bite reports."
+    }
+  },
+  "activities": {
+    "metaTitle": "Activities & places — H-MIP Explore",
+    "metaDescription": "Explore reported bite shares by activity, place and season in Catalonia.",
+    "eyebrow": "Exposure in everyday life",
+    "title": "What are people doing when bites are reported?",
+    "lead": "Compare the activity and place recorded with each bite report. These shares describe reports, not an individual's risk in each situation.",
+    "badge": "Reported bites",
+    "sourceNote": "Shares are based on reported bites; intervals are 95% Bayesian credible intervals.",
+    "measure": "Share of reports",
+    "methodSummary": "Data & method",
+    "tableValue": "Share of reports",
+    "lower": "95% interval: lower",
+    "upper": "95% interval: upper",
+    "rate": "Source rate",
+    "rateNote": "The optional source rate appears only when the dataset supplies it. Check the dataset metadata for its definition and unit.",
+    "seasonLabel": "Season",
+    "seasons": {
+      "all": "All year",
+      "summer": "June–September",
+      "rest": "Rest of the year"
+    },
+    "activity": {
+      "eyebrow": "By activity",
+      "heading": "Activities recorded with bites",
+      "takeaway": "The leading activity in the selected season accounts for {value}% of reports.",
+      "text": "A high share may also reflect how long people spend in an activity. It does not establish risk per hour.",
+      "tableLabel": "Activity",
+      "method": "Lower and upper bounds form a 95% credible interval for each share, based on the posterior predictive distribution. The sample size counts bite reports."
+    },
+    "place": {
+      "eyebrow": "By place",
+      "heading": "Places recorded with bites",
+      "takeaway": "The leading place in the selected season accounts for {value}% of reports.",
+      "text": "Place shares describe reported locations, not mosquito abundance or the risk associated with being in a location.",
+      "tableLabel": "Place",
+      "method": "Lower and upper bounds form a 95% credible interval for each share, based on the posterior predictive distribution. The sample size counts bite reports."
+    }
+  }
+}

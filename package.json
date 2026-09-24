@@ -2,6 +2,7 @@
   "name": "hmip-bites",
   "type": "module",
   "version": "0.0.1",
+  "license": "GPL-3.0-only",
   "engines": {
     "node": ">=22.12.0"
   },
@@ -9,11 +10,13 @@
     "predev": "npm run build:map-data",
     "dev": "astro dev",
     "build": "npm run build:map-data && astro build",
+    "build:staging": "HMIP_STAGING=1 npm run build",
     "preview": "astro preview",
     "astro": "astro",
-    "build:map-data": "node scripts/build-map-data.mjs && node scripts/generate-catalonia-geometry.mjs && node scripts/generate-draft-map.mjs"
+    "build:map-data": "node scripts/build-map-data.mjs"
   },
   "dependencies": {
+    "@astrojs/markdown-satteri": "0.4.1",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.3.3",
     "h3-js": "^4.5.0",

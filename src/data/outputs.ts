@@ -29,13 +29,14 @@ const outputRow = z.strictObject({
   description_en: z.string().min(1),
   repository: z.string().min(1),
   doi: z.string().refine((value) => !value || /^10\.\d{4,9}\/\S+$/.test(value), "must be a DOI or blank"),
-  url: httpsUrl,
+  url: z.string().refine((value) => !value || httpsUrl.safeParse(value).success, "must be an HTTPS URL or blank"),
   year: z.string().regex(/^\d{4}$/),
   licence: z.string(),
 });
 
 const rows = parseResearchCsv("data/outputs.csv", raw, outputRow);
 requireUniqueIds("data/outputs.csv", rows);
+for (const row of rows) if (!row.url && !row.doi) throw new Error(`outputs.csv: ${row.id} needs a URL or DOI`);
 
 // Titles are supplied in one language; descriptions are localized in the handover CSV.
 export const researchOutputs: ResearchOutput[] = rows.map((row) => ({
@@ -44,7 +45,7 @@ export const researchOutputs: ResearchOutput[] = rows.map((row) => ({
   title: { ca: row.title, es: row.title, en: row.title },
   description: { ca: row.description_ca || row.description_en, es: row.description_es || row.description_en, en: row.description_en },
   host: row.repository === "zenodo" ? "Zenodo" : row.repository === "github" ? "GitHub" : row.repository,
-  url: row.url,
+  url: row.url || `https://doi.org/${row.doi}`,
   year: Number(row.year),
   license: row.licence || undefined,
   doi: row.doi || undefined,

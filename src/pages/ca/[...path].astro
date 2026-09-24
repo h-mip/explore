@@ -1,0 +1,32 @@
+---
+import { routes } from "../../utils/urls";
+import { siteSettings } from "../../data/siteSettings";
+
+export function getStaticPaths() {
+  const aliases = [
+    [undefined, routes.ca.home],
+    ["mapa", routes.ca.map],
+    ["dades", routes.ca.data],
+    ["sobre", routes.ca.about],
+    ["avis-legal", routes.ca.legal],
+    ["privacitat", routes.ca.privacy],
+    ["accessibilitat", routes.ca.accessibility],
+    ...(siteSettings.publishSurveyResults ? [["quan", routes.ca.when], ["activitats", routes.ca.activities]] : []),
+  ];
+  return aliases.map(([path, destination]) => ({ params: { path }, props: { destination } }));
+}
+
+const { destination } = Astro.props as { destination: string };
+---
+
+<!doctype html>
+<html lang="ca">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content={`0;url=${destination}`} />
+    <link rel="canonical" href={new URL(destination, Astro.site ?? Astro.url).href} />
+    <title>H-MIP Explora</title>
+  </head>
+  <body><p>Continua a <a href={destination}>H-MIP Explora</a>.</p></body>
+</html>

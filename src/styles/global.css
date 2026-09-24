@@ -1,7 +1,6 @@
 :root {
   color-scheme: dark;
 
-  /* John prototype direction: deep research green, restrained teal, warm data scale. */
   --bg: #071512;
   --surface: #0b1d19;
   --surface-soft: #102721;
@@ -23,7 +22,6 @@
 
   --focus: #91cbff;
 
-  /* Low → high, following the visual logic of John's synthetic H3 map. */
   --q0: #193754;
   --q1: #2f718c;
   --q2: #3d9d8b;
@@ -79,7 +77,6 @@ body {
   font-family: var(--sans);
   font-size: 16px;
   line-height: 1.6;
-  overflow-x: hidden;
 }
 
 ::selection {
@@ -189,11 +186,14 @@ h3 {
   font: 650 0.67rem/1 var(--mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 .demo-tag::before {
   content: "";
+  flex: none;
   width: 6px;
   height: 6px;
   border-radius: 50%;

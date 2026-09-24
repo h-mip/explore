@@ -1,21 +1,20 @@
 ---
-import { demoCharts, homeContent, type HomeLocale } from "../../data/home";
+import { homeContent, type HomeLocale } from "../../data/home";
+import { finding } from "../../data/findings";
+import { hourlyPattern, monthlyPattern } from "../../data/temporal";
+import { activityRows } from "../../data/activityResearch";
+import { routes } from "../../utils/urls";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = homeContent[locale].findings;
 const number = new Intl.NumberFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { maximumFractionDigits: 1 });
 const monthNames = Array.from({ length: 12 }, (_, index) => new Intl.DateTimeFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { month: "long" }).format(new Date(2025, index, 1)));
-const tooltipWords = {
-  en: { category: "Category", share: "illustrative share", index: "illustrative index" },
-  es: { category: "Categoría", share: "proporción ilustrativa", index: "índice ilustrativo" },
-  ca: { category: "Categoria", share: "proporció il·lustrativa", index: "índex il·lustratiu" },
-}[locale];
-const tooltipFor = (chart: keyof typeof demoCharts, index: number, value: number) => {
-  if (chart === "activity") return `${tooltipWords.category} ${index + 1}: ${tooltipWords.index} ${value} · ${copy.badge}`;
-  const label = chart === "hour" ? `${String(index).padStart(2, "0")}:00` : chart === "month" ? monthNames[index] : `${tooltipWords.category} ${index + 1}`;
-  const total = chart === "place" ? 100 : demoCharts[chart].reduce((sum, weight) => sum + weight, 0);
-  return `${label}: ${tooltipWords.share} ${number.format(value / total * 100)}% · ${copy.badge}`;
+const chartData = {
+  hour: hourlyPattern.map((row, index) => ({ label: `${String(index).padStart(2, "0")}:00`, value: row.share })),
+  month: monthlyPattern.map((row, index) => ({ label: monthNames[index], value: row.share })),
+  place: activityRows("place_type", "all", locale).map((row) => ({ label: row.label, value: row.share })),
+  activity: activityRows("activity", "all", locale).map((row) => ({ label: row.label, value: row.share })),
 };
 ---
 
@@ -23,16 +22,18 @@ const tooltipFor = (chart: keyof typeof demoCharts, index: number, value: number
   <div class="findings-head"><div><p class="eyebrow">{copy.eyebrow}</p><h2 id="findings-title">{copy.title}</h2></div><span class="demo-tag">{copy.badge}</span></div>
   <div class="findings">
     {copy.items.map((item) => {
-      const values = demoCharts[item.chart];
-      const max = Math.max(...values);
+      const data = chartData[item.chart];
+      const max = Math.max(...data.map((point) => point.value));
+      const record = finding(item.id, locale);
+      const href = record.linkPage === "when" ? routes[locale].when : routes[locale].activities;
       return <article class="finding">
         <p class="eyebrow">{item.label}</p>
-        <p class="finding-value">{item.value}</p>
-        <p class="finding-text">{item.text}</p>
+        <p class="finding-value">{number.format(record.value)}{locale === "en" ? "" : " "}{record.unit}</p>
+        <p class="finding-text">{record.text}</p>
         <div class={`spark spark-${item.chart}`} role="group" aria-label={item.label} data-tooltip-group>
-          {values.map((value, index) => <i style={`height:${Math.max(12, value / max * 100)}%`} tabindex={index === 0 ? "0" : "-1"} role="img" aria-label={tooltipFor(item.chart, index, value)} data-tooltip={tooltipFor(item.chart, index, value)}></i>)}
+          {data.map((point, index) => <i style={`height:${Math.max(12, point.value / max * 100)}%`} tabindex={index === 0 ? "0" : "-1"} role="img" aria-label={`${point.label}: ${number.format(point.value * 100)}% · ${copy.badge}`} data-tooltip={`${point.label}: ${number.format(point.value * 100)}% · ${copy.badge}`}></i>)}
         </div>
-        <p class="chart-note">{copy.chartDescription}</p>
+        <p class="chart-note">{copy.chartDescription} · <a href={href}>{item.label} →</a></p>
       </article>;
     })}
   </div>
