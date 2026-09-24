@@ -1,0 +1,30 @@
+---
+import type { Locale } from "../../utils/urls";
+import { siteSettings } from "../../data/siteSettings";
+
+interface Props { locale: Locale; label: string }
+const { locale, label } = Astro.props;
+const action = {
+  en: { hide: "Hide section", show: "Show section" },
+  es: { hide: "Ocultar sección", show: "Mostrar sección" },
+  ca: { hide: "Amaga la secció", show: "Mostra la secció" },
+}[locale];
+---
+
+{siteSettings.isStaging ? <details class="staging-section-toggle" open>
+  <summary><span>{label}</span><span class="toggle-hide">{action.hide}</span><span class="toggle-show">{action.show}</span></summary>
+  <div class="staging-section-content"><slot /></div>
+</details> : <slot />}
+
+<style>
+  .staging-section-toggle{min-width:0}
+  .staging-section-toggle>summary{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 0;border-top:1px solid var(--line-strong);color:var(--ink-2);font-size:.82rem;cursor:pointer;list-style:none}
+  .staging-section-toggle>summary::-webkit-details-marker{display:none}
+  .staging-section-toggle>summary span:first-child{font-weight:700}
+  .toggle-hide,.toggle-show{color:var(--teal);font-weight:700;white-space:nowrap}
+  .staging-section-toggle:not([open]) .toggle-hide,.staging-section-toggle[open] .toggle-show{display:none}
+  .staging-section-toggle>summary:hover .toggle-hide,.staging-section-toggle>summary:hover .toggle-show{text-decoration:underline}
+  .staging-section-toggle>summary:focus-visible{outline:2px solid var(--teal);outline-offset:4px}
+  .staging-section-content{min-width:0}
+  .staging-section-content :global(.findings-section),.staging-section-content :global(.explore-section){margin-top:24px}
+</style>

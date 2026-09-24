@@ -4,10 +4,13 @@ import { finding } from "../../data/findings";
 import { hourlyPattern, monthlyPattern } from "../../data/temporal";
 import { activityRows } from "../../data/activityResearch";
 import { routes } from "../../utils/urls";
+import SurveyDemoNotice from "../editorial/SurveyDemoNotice.astro";
+import { surveyBadge } from "../../data/surveyPreview";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = homeContent[locale].findings;
+const badge = surveyBadge(locale, copy.badge);
 const number = new Intl.NumberFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { maximumFractionDigits: 1 });
 const monthNames = Array.from({ length: 12 }, (_, index) => new Intl.DateTimeFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { month: "long" }).format(new Date(2025, index, 1)));
 const chartData = {
@@ -19,7 +22,8 @@ const chartData = {
 ---
 
 <section class="findings-section" id="findings" aria-labelledby="findings-title">
-  <div class="findings-head"><div><p class="eyebrow">{copy.eyebrow}</p><h2 id="findings-title">{copy.title}</h2></div><span class="demo-tag">{copy.badge}</span></div>
+  <div class="findings-head"><div><p class="eyebrow">{copy.eyebrow}</p><h2 id="findings-title">{copy.title}</h2></div><span class="demo-tag">{badge}</span></div>
+  <SurveyDemoNotice locale={locale} />
   <div class="findings">
     {copy.items.map((item) => {
       const data = chartData[item.chart];
@@ -31,7 +35,7 @@ const chartData = {
         <p class="finding-value">{number.format(record.value)}{locale === "en" ? "" : " "}{record.unit}</p>
         <p class="finding-text">{record.text}</p>
         <div class={`spark spark-${item.chart}`} role="group" aria-label={item.label} data-tooltip-group>
-          {data.map((point, index) => <i style={`height:${Math.max(12, point.value / max * 100)}%`} tabindex={index === 0 ? "0" : "-1"} role="img" aria-label={`${point.label}: ${number.format(point.value * 100)}% · ${copy.badge}`} data-tooltip={`${point.label}: ${number.format(point.value * 100)}% · ${copy.badge}`}></i>)}
+          {data.map((point, index) => <i style={`height:${Math.max(12, point.value / max * 100)}%`} tabindex={index === 0 ? "0" : "-1"} role="img" aria-label={`${point.label}: ${number.format(point.value * 100)}% · ${badge}`} data-tooltip={`${point.label}: ${number.format(point.value * 100)}% · ${badge}`}></i>)}
         </div>
         <p class="chart-note">{copy.chartDescription} · <a href={href}>{item.label} →</a></p>
       </article>;

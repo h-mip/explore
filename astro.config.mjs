@@ -14,5 +14,5 @@ export default defineConfig({
   integrations: [sitemap({
     filter: (page) => !page.includes('/embed/') && !page.includes('/ca/') && !page.endsWith('.csv'),
   })],
-  markdown: { processor: satteri({ mdastPlugins: [storyEmbeds({ base: staging ? '/explore-staging' : '/explore', publishSurveyResults: siteSettings.publishSurveyResults })] }) },
+  markdown: { processor: satteri({ mdastPlugins: [storyEmbeds({ base: staging ? '/explore-staging' : '/explore', publishSurveyResults: siteSettings.publishSurveyResults || staging })] }) },
 });

@@ -11,7 +11,7 @@ export function getStaticPaths() {
     ["avis-legal", routes.ca.legal],
     ["privacitat", routes.ca.privacy],
     ["accessibilitat", routes.ca.accessibility],
-    ...(siteSettings.publishSurveyResults ? [["quan", routes.ca.when], ["activitats", routes.ca.activities]] : []),
+    ...(siteSettings.showSurveyResults ? [["quan", routes.ca.when], ["activitats", routes.ca.activities]] : []),
   ];
   return aliases.map(([path, destination]) => ({ params: { path }, props: { destination } }));
 }

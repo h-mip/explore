@@ -1,0 +1,18 @@
+---
+import type { Locale } from "../../utils/urls";
+import { siteSettings } from "../../data/siteSettings";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const copy = {
+  en: "Synthetic demo data — invented values for layout review only. Do not cite as research findings.",
+  es: "Datos sintéticos de demostración: cifras inventadas solo para revisar el diseño. No son resultados de investigación.",
+  ca: "Dades sintètiques de demostració: xifres inventades només per revisar el disseny. No són resultats de recerca.",
+}[locale];
+---
+
+{siteSettings.surveyDemo && <p class="survey-demo-notice" role="note">{copy}</p>}
+
+<style>
+  .survey-demo-notice{padding:11px 14px;border-left:3px solid #d9a64a;background:#302716;color:#ffe7b2;font-size:.84rem;line-height:1.5;max-width:75ch}
+</style>

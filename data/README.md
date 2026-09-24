@@ -25,11 +25,11 @@ The build reports the file and row when it finds invalid data. There is no need 
 | `outputs.csv` | Data & code resource list. Add the model's Zenodo record here when its DOI exists. |
 | `publications.csv` | About publication list. |
 
-The three synthetic CSVs contain invented figures and sample counts. They remain in the public source repository for development, but the site hides their pages, navigation, Home figures and chart embeds. **Do not present these files as research results.**
+The three synthetic CSVs contain invented figures and sample counts. Production hides their pages, navigation, Home figures and chart embeds. Staging shows them only as a clearly labeled layout preview with section toggles. Staging is public despite its `noindex` setting. **Do not present these files as research results.**
 
 ## Publishing verified survey results
 
-`data/site-settings.json` has one `publishSurveyResults` switch. Leave it `false` until verified replacements for `temporal.csv`, `activities_places.csv` and `findings.csv` are committed. Then set it to `true` in the same reviewed change. The build publishes the pages, links, sitemap entries and chart embeds together. `modelProvisional` controls the model badge; the map period still comes from `layers.csv`.
+`data/site-settings.json` has one `publishSurveyResults` switch. Leave it `false` until verified replacements for `temporal.csv`, `activities_places.csv` and `findings.csv` are committed. Then set it to `true` in the same reviewed change. The production build publishes the pages, links, sitemap entries and chart embeds together. Staging's synthetic preview does not turn on this switch. `modelProvisional` controls the model badge; the map period still comes from `layers.csv`.
 
 The `rate` column may remain empty. Its table column appears only when values are present. Category descriptions in `taxonomy.csv` are not used.
 

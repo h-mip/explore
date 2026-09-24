@@ -2,6 +2,7 @@
 import { internalUrl, routes, type Locale } from "../../utils/urls";
 import { getCollection } from "astro:content";
 import { siteSettings } from "../../data/siteSettings";
+import { isPublishedStory } from "../../data/stories";
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -15,11 +16,11 @@ const labels = {
 const currentRoutes = routes[locale];
 const currentLabels = labels[locale];
 const pathname = Astro.url.pathname.replace(/\/?$/, "/");
-const storyLocales = new Set((await getCollection("stories", ({ data }) => !data.draft)).map((entry) => entry.data.locale));
+const storyLocales = new Set((await getCollection("stories", isPublishedStory)).map((entry) => entry.data.locale));
 
 const navItems: [keyof typeof currentRoutes, string][] = [
   ["map", currentLabels.map],
-  ...(siteSettings.publishSurveyResults ? [["when", currentLabels.when], ["activities", currentLabels.activities]] as [keyof typeof currentRoutes, string][] : []),
+  ...(siteSettings.showSurveyResults ? [["when", currentLabels.when], ["activities", currentLabels.activities]] as [keyof typeof currentRoutes, string][] : []),
   ["data", currentLabels.data],
   ["about", currentLabels.about],
   ...(storyLocales.has(locale) ? [["stories", currentLabels.stories] as [keyof typeof currentRoutes, string]] : []),

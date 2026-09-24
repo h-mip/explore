@@ -4,4 +4,11 @@ if (typeof settings.publishSurveyResults !== "boolean" || typeof settings.modelP
   throw new Error("data/site-settings.json: both settings must be true or false");
 }
 
-export const siteSettings = settings;
+const isStaging = import.meta.env.BASE_URL.includes("explore-staging");
+
+export const siteSettings = {
+  ...settings,
+  isStaging,
+  showSurveyResults: settings.publishSurveyResults || isStaging,
+  surveyDemo: isStaging && !settings.publishSurveyResults,
+};

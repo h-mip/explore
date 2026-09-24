@@ -3,6 +3,7 @@ import { homeContent, type HomeLocale } from "../../data/home";
 import { hourlyPattern } from "../../data/temporal";
 import { activityRows } from "../../data/activityResearch";
 import { routes } from "../../utils/urls";
+import SurveyDemoNotice from "../editorial/SurveyDemoNotice.astro";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
@@ -17,6 +18,7 @@ const maxActivity = activities[0].share;
 
 <section class="explore-section" id="explore" aria-labelledby="explore-title">
   <div class="section-intro"><p class="eyebrow">{copy.eyebrow}</p><h2 id="explore-title">{copy.title}</h2><p>{copy.intro}</p></div>
+  <SurveyDemoNotice locale={locale} />
   <div class="home-teasers">
     {copy.items.map((item) => <article class="teaser">
       <p class="eyebrow">{item.label}</p>

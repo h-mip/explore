@@ -13,6 +13,7 @@ const stories = defineCollection({
     locale: z.enum(["ca", "es", "en"]),
     summary: z.string().optional(),
     draft: z.boolean().default(true),
+    stagingOnly: z.boolean().default(false),
   }),
 });
 

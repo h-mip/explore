@@ -4,10 +4,14 @@ import PatternChart from "./PatternChart.astro";
 import type { HomeLocale } from "../../data/home";
 import { monthLabels, whenContent } from "../../data/when";
 import { hourlyPattern, monthlyPattern, settingPattern, temporalSampleSize } from "../../data/temporal";
+import SurveyDemoNotice from "../editorial/SurveyDemoNotice.astro";
+import StagingSectionToggle from "../editorial/StagingSectionToggle.astro";
+import { surveyBadge } from "../../data/surveyPreview";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = whenContent[locale];
+const badge = surveyBadge(locale, copy.badge);
 const hourLabels = Array.from({ length: 24 }, (_, hour) => `${String(hour).padStart(2, "0")}:00`);
 const sharePercent = (rows: typeof hourlyPattern) => rows.map((row) => row.share * 100);
 const boundPercent = (rows: typeof hourlyPattern, bound: "lower" | "upper") => rows.map((row) => row[bound]! * 100);
@@ -31,17 +35,18 @@ const localizedPercent = new Intl.NumberFormat({ en: "en-GB", es: "es-ES", ca: "
       <p class="eyebrow">{copy.eyebrow}</p>
       <h1>{copy.title}</h1>
       <p class="lead">{copy.lead}</p>
-      <span class="demo-tag">{copy.badge}</span>
+      <span class="demo-tag">{badge}</span>
+      <SurveyDemoNotice locale={locale} />
       <p class="source-note">{copy.sourceNote}</p>
     </header>
 
     <div class="story-layout">
-      <PatternChart locale={locale} id="hour" {...copy.hour} takeaway={hourTakeaway} labels={hourLabels} values={sharePercent(hourlyPattern)} lowerValues={boundPercent(hourlyPattern, "lower")} upperValues={boundPercent(hourlyPattern, "upper")} labelEvery={3} highlight={highlightedHours} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
-      <PatternChart locale={locale} id="month" {...copy.month} takeaway={monthTakeaway} labels={monthLabels[locale]} values={sharePercent(monthlyPattern)} lowerValues={boundPercent(monthlyPattern, "lower")} upperValues={boundPercent(monthlyPattern, "upper")} highlight={highlightedMonths} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
-      <section class="setting" aria-labelledby="setting-heading">
+      <StagingSectionToggle locale={locale} label={copy.hour.title}><PatternChart locale={locale} id="hour" {...copy.hour} takeaway={hourTakeaway} labels={hourLabels} values={sharePercent(hourlyPattern)} lowerValues={boundPercent(hourlyPattern, "lower")} upperValues={boundPercent(hourlyPattern, "upper")} labelEvery={3} highlight={highlightedHours} badge={badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} /></StagingSectionToggle>
+      <StagingSectionToggle locale={locale} label={copy.month.title}><PatternChart locale={locale} id="month" {...copy.month} takeaway={monthTakeaway} labels={monthLabels[locale]} values={sharePercent(monthlyPattern)} lowerValues={boundPercent(monthlyPattern, "lower")} upperValues={boundPercent(monthlyPattern, "upper")} highlight={highlightedMonths} badge={badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} /></StagingSectionToggle>
+      <StagingSectionToggle locale={locale} label={copy.settingTitle}><section class="setting" aria-labelledby="setting-heading">
         <div><p class="eyebrow">{copy.eyebrow}</p><h2 id="setting-heading">{copy.settingTitle}</h2><p>{copy.settingIntro}</p><p class="source-note">{copy.sample}: {temporalSampleSize.toLocaleString({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale])}. {copy.sourceNote}</p></div>
         <table><caption>{copy.settingTitle}</caption><thead><tr><th scope="col">{copy.settingTitle}</th><th scope="col">{copy.tableValue}</th></tr></thead><tbody>{settingPattern.map((row) => <tr><th scope="row">{copy.settingLabels[row.category as "outdoor" | "indoor"]}</th><td>{localizedPercent.format(row.share * 100)}%</td></tr>)}</tbody></table>
-      </section>
+      </section></StagingSectionToggle>
     </div>
   </div>
 </BaseLayout>

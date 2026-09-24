@@ -2,6 +2,7 @@
 import { internalUrl, routes, type Locale } from "../../utils/urls";
 import { getCollection } from "astro:content";
 import { siteSettings } from "../../data/siteSettings";
+import { isPublishedStory } from "../../data/stories";
 interface Props { locale: Locale }
 const { locale } = Astro.props;
 
@@ -67,7 +68,7 @@ const content = {
 
 const copy = content[locale];
 const links = routes[locale];
-const hasStories = (await getCollection("stories", ({ data }) => !data.draft && data.locale === locale)).length > 0;
+const hasStories = (await getCollection("stories", (entry) => isPublishedStory(entry) && entry.data.locale === locale)).length > 0;
 const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.com/en/";
 ---
 
@@ -94,8 +95,8 @@ const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.co
         <strong>{copy.explore}</strong>
         <a href={links.home}>{copy.home}</a>
         <a href={links.map}>{copy.map}</a>
-        {siteSettings.publishSurveyResults && <a href={links.when}>{copy.when}</a>}
-        {siteSettings.publishSurveyResults && <a href={links.activities}>{copy.activities}</a>}
+        {siteSettings.showSurveyResults && <a href={links.when}>{copy.when}</a>}
+        {siteSettings.showSurveyResults && <a href={links.activities}>{copy.activities}</a>}
         <a href={links.data}>{copy.data}</a>
         <a href={links.about}>{copy.about}</a>
         {hasStories && <a href={links.stories}>{copy.stories}</a>}

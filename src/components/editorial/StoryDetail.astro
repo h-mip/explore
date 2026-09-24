@@ -9,15 +9,20 @@ const { locale, entry } = Astro.props;
 const { Content } = await render(entry);
 const date = new Intl.DateTimeFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { dateStyle: "long" }).format(entry.data.date);
 const back = { en: "All stories", es: "Todas las historias", ca: "Totes les històries" }[locale];
+const stagingLabel = {
+  en: "Staging example — not a research publication",
+  es: "Ejemplo de pruebas: no es una publicación científica",
+  ca: "Exemple de proves: no és una publicació científica",
+}[locale];
 ---
 
 <BaseLayout locale={locale} title={`${entry.data.title} — H-MIP ${locale === "en" ? "Explore" : "Explora"}`} description={entry.data.summary ?? entry.data.title}>
-  <article class="wrap page story-page"><a class="back" href={routes[locale].stories}>← {back}</a><header><p class="eyebrow">{date} · {entry.data.author}</p><h1>{entry.data.title}</h1>{entry.data.summary && <p class="lead">{entry.data.summary}</p>}</header>
+  <article class="wrap page story-page"><a class="back" href={routes[locale].stories}>← {back}</a><header>{entry.data.stagingOnly && <p class="story-preview-note" role="note">{stagingLabel}</p>}<p class="eyebrow">{date} · {entry.data.author}</p><h1>{entry.data.title}</h1>{entry.data.summary && <p class="lead">{entry.data.summary}</p>}</header>
     {entry.data.image && <img class="story-image" src={internalUrl(entry.data.image)} alt={entry.data.image_alt || entry.data.title} />}
     <div class="story-body"><Content /></div>
   </article>
 </BaseLayout>
 
 <style>
-  .story-page{max-width:920px}.back{display:inline-block;margin-bottom:30px;font-weight:700}.story-page header{display:grid;gap:16px;margin-bottom:32px}.story-page h1{font-size:clamp(2.4rem,5vw,4.3rem)}.story-image{display:block;width:100%;max-height:490px;object-fit:cover;background:var(--surface);margin-bottom:38px}.story-body{max-width:70ch;color:var(--ink-2);line-height:1.7}.story-body :global(p),.story-body :global(ul),.story-body :global(ol){margin-bottom:1.1em}.story-body :global(h2){color:var(--ink);font-size:1.9rem;margin:1.4em 0 .5em}.story-body :global(img){max-width:100%;height:auto}.story-body :global(.story-embed){display:block;max-width:100%;border:1px solid var(--line);border-radius:8px;margin:20px 0}
+  .story-page{max-width:920px}.back{display:inline-block;margin-bottom:30px;font-weight:700}.story-page header{display:grid;gap:16px;margin-bottom:32px}.story-preview-note{padding:10px 14px;border-left:3px solid #d9a64a;background:#302716;color:#ffe7b2;font-size:.84rem}.story-page h1{font-size:clamp(2.4rem,5vw,4.3rem)}.story-image{display:block;width:100%;max-height:490px;object-fit:cover;background:var(--surface);margin-bottom:38px}.story-body{max-width:70ch;color:var(--ink-2);line-height:1.7}.story-body :global(p),.story-body :global(ul),.story-body :global(ol){margin-bottom:1.1em}.story-body :global(h2){color:var(--ink);font-size:1.9rem;margin:1.4em 0 .5em}.story-body :global(img){max-width:100%;height:auto}.story-body :global(.story-embed){display:block;max-width:100%;border:1px solid var(--line);border-radius:8px;margin:20px 0}
 </style>

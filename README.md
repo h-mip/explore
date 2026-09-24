@@ -20,19 +20,19 @@ npm run build
 - Approved map explanations are in `src/content/map-method/{ca,es,en}.md`.
 - Legal, privacy and accessibility notices are in `src/content/policies/{ca,es,en}/`.
 - Page wording is in `src/content/site-copy/{ca,es,en}.json`. Follow [the short copy guide](src/content/site-copy/README.md).
-- Stories are Markdown files in `src/content/stories/`. Draft stories do not appear on the site.
+- Stories are Markdown files in `src/content/stories/`. Draft stories do not appear on the site. `stagingOnly: true` keeps an example story off production.
 - Short interface labels in components remain developer-maintained.
 
-The map data is a provisional model run. The time, activity and headline CSVs contain synthetic test figures and are not published while `publishSurveyResults` is false. Do not switch it on until all three files have been replaced with verified research data.
+The map data is a provisional model run. The time, activity and headline CSVs contain synthetic test figures. Production hides those results while `publishSurveyResults` is false; do not switch it on until all three files have been replaced with verified research data.
 
 ## Hosting
 
-The public staging site is [h-mip.com/explore-staging](https://h-mip.com/explore-staging/), deployed from [h-mip/explore-staging](https://github.com/h-mip/explore-staging). Staging is marked `noindex` but remains publicly accessible. Its deployment workflow validates and builds before publishing.
+The public staging site is [h-mip.com/explore-staging](https://h-mip.com/explore-staging/), deployed from [h-mip/explore-staging](https://github.com/h-mip/explore-staging). Staging is marked `noindex` but remains publicly accessible. It previews the survey sections and chart embeds with prominent synthetic-data labels, per-section show/hide controls, and staging-only example stories. This does not change the production publication switch. The staging workflow validates and builds before publishing.
 
 The production site is intended for [h-mip.com/explore](https://h-mip.com/explore/) from [h-mip/explore](https://github.com/h-mip/explore). The production workflow is separate and only deploys from that repository's `main`. A root-domain `robots.txt` must be published by the repository that owns `h-mip.com/`; a file under `/explore/` cannot replace it.
 
 ## Embeds
 
-Map embeds are available at `/embed/ca/map/`, `/embed/es/map/` and `/embed/en/map/` under either site's base path. The hour, month, activity and place embeds are generated only when verified survey results are enabled. Embeds are marked `noindex`.
+Map embeds are available at `/embed/ca/map/`, `/embed/es/map/` and `/embed/en/map/` under either site's base path. Staging also previews the hour, month, activity and place embeds with synthetic-data labels; production generates them only when verified survey results are enabled. Embeds are marked `noindex`.
 
 Site code is GPL-3.0-only. Model estimates are CC0 1.0; site texts and figures are CC BY 4.0. ICGC boundaries require CC BY 4.0 attribution, and the basemap requires OpenStreetMap attribution.

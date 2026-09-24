@@ -1,0 +1,23 @@
+---
+import type { Locale } from "../../utils/urls";
+import { siteSettings } from "../../data/siteSettings";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const label = { en: "Staging preview", es: "Sitio de pruebas", ca: "Lloc de proves" }[locale];
+const copy = siteSettings.surveyDemo ? {
+  en: "Staging preview. Survey figures use synthetic test data, not research results. The map uses a provisional model.",
+  es: "Sitio de pruebas. Las cifras de las encuestas usan datos sintéticos, no resultados de investigación. El mapa usa un modelo provisional.",
+  ca: "Lloc de proves. Les xifres de les enquestes fan servir dades sintètiques, no resultats de recerca. El mapa fa servir un model provisional.",
+}[locale] : {
+  en: "Staging preview — not the production website.",
+  es: "Sitio de pruebas: no es el sitio web de producción.",
+  ca: "Lloc de proves: no és el lloc web de producció.",
+}[locale];
+---
+
+{siteSettings.isStaging && <aside class="staging-banner" aria-label={label}>{copy}</aside>}
+
+<style>
+  .staging-banner{padding:10px var(--page-padding);background:#3a2c13;border-bottom:1px solid #8f6a24;color:#ffe9b5;font-size:.82rem;line-height:1.5;text-align:center}
+</style>

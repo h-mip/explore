@@ -5,13 +5,15 @@ import HeadlineFindings from "../../components/home/HeadlineFindings.astro";
 import ExploreTeasers from "../../components/home/ExploreTeasers.astro";
 import PublicAction from "../../components/home/PublicAction.astro";
 import { siteSettings } from "../../data/siteSettings";
+import { homeContent } from "../../data/home";
+import StagingSectionToggle from "../../components/editorial/StagingSectionToggle.astro";
 ---
 
 <BaseLayout locale="en" title="H-MIP Explore" description="Explore where, when and during which activities people in Catalonia are bitten by mosquitoes.">
   <div class="wrap page">
     <HomeHero locale="en" />
-    {siteSettings.publishSurveyResults && <HeadlineFindings locale="en" />}
-    {siteSettings.publishSurveyResults && <ExploreTeasers locale="en" />}
+    {siteSettings.showSurveyResults && <StagingSectionToggle locale="en" label={homeContent.en.findings.title}><HeadlineFindings locale="en" /></StagingSectionToggle>}
+    {siteSettings.showSurveyResults && <StagingSectionToggle locale="en" label={homeContent.en.explore.title}><ExploreTeasers locale="en" /></StagingSectionToggle>}
     <PublicAction locale="en" />
   </div>
 </BaseLayout>

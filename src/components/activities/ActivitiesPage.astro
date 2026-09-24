@@ -4,10 +4,14 @@ import RankedShare from "./RankedShare.astro";
 import type { HomeLocale } from "../../data/home";
 import { activitiesContent } from "../../data/activities";
 import { activityRows, type Season } from "../../data/activityResearch";
+import SurveyDemoNotice from "../editorial/SurveyDemoNotice.astro";
+import StagingSectionToggle from "../editorial/StagingSectionToggle.astro";
+import { surveyBadge } from "../../data/surveyPreview";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
 const copy = activitiesContent[locale];
+const badge = surveyBadge(locale, copy.badge);
 const seasons: Season[] = ["all", "summer", "rest"];
 ---
 
@@ -17,13 +21,14 @@ const seasons: Season[] = ["all", "summer", "rest"];
       <p class="eyebrow">{copy.eyebrow}</p>
       <h1>{copy.title}</h1>
       <p class="lead">{copy.lead}</p>
-      <span class="demo-tag">{copy.badge}</span>
+      <span class="demo-tag">{badge}</span>
+      <SurveyDemoNotice locale={locale} />
       <p class="source-note">{copy.sourceNote}</p>
     </header>
     <div class="season-control"><label for="season">{copy.seasonLabel}</label><select id="season" data-season-picker>{seasons.map((season) => <option value={season}>{copy.seasons[season]}</option>)}</select></div>
     {seasons.map((season) => <div class="story-layout season-panel" data-season-panel={season} hidden={season !== "all"}>
-      <RankedShare locale={locale} id={`activities-${season}`} copy={copy.activity} rows={activityRows("activity", season, locale)} measure={copy.measure} badge={copy.badge} methodSummary={copy.methodSummary} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} rate={copy.rate} rateNote={copy.rateNote} />
-      <RankedShare locale={locale} id={`places-${season}`} copy={copy.place} rows={activityRows("place_type", season, locale)} measure={copy.measure} badge={copy.badge} methodSummary={copy.methodSummary} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} rate={copy.rate} rateNote={copy.rateNote} />
+      <StagingSectionToggle locale={locale} label={copy.activity.heading}><RankedShare locale={locale} id={`activities-${season}`} copy={copy.activity} rows={activityRows("activity", season, locale)} measure={copy.measure} badge={badge} methodSummary={copy.methodSummary} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} rate={copy.rate} rateNote={copy.rateNote} /></StagingSectionToggle>
+      <StagingSectionToggle locale={locale} label={copy.place.heading}><RankedShare locale={locale} id={`places-${season}`} copy={copy.place} rows={activityRows("place_type", season, locale)} measure={copy.measure} badge={badge} methodSummary={copy.methodSummary} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} rate={copy.rate} rateNote={copy.rateNote} /></StagingSectionToggle>
     </div>)}
   </div>
 </BaseLayout>

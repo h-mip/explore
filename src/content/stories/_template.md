@@ -5,6 +5,7 @@ author: "H-MIP editorial team"
 image: "logos/hmip-logo-white.png"
 locale: en
 draft: true
+stagingOnly: false
 summary: "Unpublished template for new stories."
 ---
 

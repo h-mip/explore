@@ -7,6 +7,8 @@ import { activitiesContent } from "../../data/activities";
 import { hourlyPattern, monthlyPattern } from "../../data/temporal";
 import { activityRows } from "../../data/activityResearch";
 import { routes, type Locale } from "../../utils/urls";
+import SurveyDemoNotice from "./SurveyDemoNotice.astro";
+import { surveyBadge } from "../../data/surveyPreview";
 
 interface Props { locale: Locale; chart: "hour" | "month" | "activity" | "place" }
 const { locale, chart } = Astro.props;
@@ -24,12 +26,13 @@ const percent = (value: number) => value * 100;
 const activityChartCopy = chart === "activity" ? activityCopy.activity : activityCopy.place;
 const rows = activityRows(chart === "activity" ? "activity" : "place_type", "all", locale);
 const title = isTime ? timeChartCopy.chartTitle : activityChartCopy.heading;
+const badge = surveyBadge(locale, isTime ? timeCopy.badge : activityCopy.badge);
 ---
 
 <EmbedLayout locale={locale} title={`${title} — H-MIP`} description={isTime ? timeCopy.sourceNote : activityCopy.sourceNote}>
-  <div class="embed-chart"><h1 class="embed-title">{title}</h1><div class="embed-head"><span class="eyebrow">H-MIP {locale === "en" ? "Explore" : "Explora"}</span><a href={pageUrl} target="_blank" rel="noopener noreferrer">{openLabel} ↗</a></div>
-    {isTime ? <PatternChart locale={locale} id={`embed-${chart}`} {...timeChartCopy} takeaway={timeChartCopy.takeaway.replace("{value}", String(Math.round(percent(takeawayValue))))} labels={timeLabels} values={timeRows.map((row) => percent(row.share))} lowerValues={timeRows.map((row) => percent(row.lower!))} upperValues={timeRows.map((row) => percent(row.upper!))} labelEvery={chart === "hour" ? 3 : 1} highlight={chart === "hour" ? [18, 19, 20] : [6, 7, 8]} badge={timeCopy.badge} dataLabel={timeCopy.dataLabel} tableSummary={timeCopy.tableSummary} tableCaption={timeCopy.tableCaption} tableValue={timeCopy.tableValue} lower={timeCopy.lower} upper={timeCopy.upper} sourceNote={timeCopy.sourceNote} scrollHint={timeCopy.scrollHint} />
-    : <RankedShare locale={locale} id={`embed-${chart}`} copy={activityChartCopy} rows={rows} measure={activityCopy.measure} badge={activityCopy.badge} methodSummary={activityCopy.methodSummary} tableValue={activityCopy.tableValue} lower={activityCopy.lower} upper={activityCopy.upper} rate={activityCopy.rate} rateNote={activityCopy.rateNote} />}
+  <div class="embed-chart"><h1 class="embed-title">{title}</h1><div class="embed-head"><span class="eyebrow">H-MIP {locale === "en" ? "Explore" : "Explora"}</span><a href={pageUrl} target="_blank" rel="noopener noreferrer">{openLabel} ↗</a></div><SurveyDemoNotice locale={locale} />
+    {isTime ? <PatternChart locale={locale} id={`embed-${chart}`} {...timeChartCopy} takeaway={timeChartCopy.takeaway.replace("{value}", String(Math.round(percent(takeawayValue))))} labels={timeLabels} values={timeRows.map((row) => percent(row.share))} lowerValues={timeRows.map((row) => percent(row.lower!))} upperValues={timeRows.map((row) => percent(row.upper!))} labelEvery={chart === "hour" ? 3 : 1} highlight={chart === "hour" ? [18, 19, 20] : [6, 7, 8]} badge={badge} dataLabel={timeCopy.dataLabel} tableSummary={timeCopy.tableSummary} tableCaption={timeCopy.tableCaption} tableValue={timeCopy.tableValue} lower={timeCopy.lower} upper={timeCopy.upper} sourceNote={timeCopy.sourceNote} scrollHint={timeCopy.scrollHint} />
+    : <RankedShare locale={locale} id={`embed-${chart}`} copy={activityChartCopy} rows={rows} measure={activityCopy.measure} badge={badge} methodSummary={activityCopy.methodSummary} tableValue={activityCopy.tableValue} lower={activityCopy.lower} upper={activityCopy.upper} rate={activityCopy.rate} rateNote={activityCopy.rateNote} />}
   </div>
 </EmbedLayout>
 
