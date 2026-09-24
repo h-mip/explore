@@ -11,7 +11,7 @@ import { siteSettings } from "../../data/siteSettings";
   <div class="wrap page">
     <HomeHero locale="es" />
     {siteSettings.publishSurveyResults && <HeadlineFindings locale="es" />}
-    <ExploreTeasers locale="es" />
+    {siteSettings.publishSurveyResults && <ExploreTeasers locale="es" />}
     <PublicAction locale="es" />
   </div>
 </BaseLayout>

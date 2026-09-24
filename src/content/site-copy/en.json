@@ -54,16 +54,9 @@
     },
     "explore": {
       "eyebrow": "Explore the evidence",
-      "title": "Three ways into the data",
-      "intro": "Explore the map and patterns in reported bites by time, activity and place.",
+      "title": "When and how bites happen",
+      "intro": "Explore patterns in reported bites by time, activity and place.",
       "items": [
-        {
-          "label": "Where people get bitten",
-          "title": "Patterns across Catalonia",
-          "text": "Explore how place can shape human–mosquito interaction.",
-          "status": "Explore the map",
-          "chart": "spatial"
-        },
         {
           "label": "When bites happen",
           "title": "Hour by hour",

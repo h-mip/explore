@@ -54,16 +54,9 @@
     },
     "explore": {
       "eyebrow": "Explorar los datos",
-      "title": "Tres formas de acercarse a los datos",
-      "intro": "Explora el mapa y los patrones de picaduras registradas por momento, actividad y lugar.",
+      "title": "Cuándo y cómo ocurren las picaduras",
+      "intro": "Explora los patrones de picaduras registradas por momento, actividad y lugar.",
       "items": [
-        {
-          "label": "Dónde ocurren las picaduras",
-          "title": "Patrones en Cataluña",
-          "text": "Explora cómo el lugar puede influir en la interacción entre personas y mosquitos.",
-          "status": "Explorar el mapa",
-          "chart": "spatial"
-        },
         {
           "label": "Cuándo ocurren",
           "title": "Hora a hora",

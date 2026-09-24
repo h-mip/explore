@@ -54,16 +54,9 @@
     },
     "explore": {
       "eyebrow": "Explora les dades",
-      "title": "Tres maneres d’apropar-se a les dades",
-      "intro": "Explora el mapa i els patrons de picades registrades per moment, activitat i lloc.",
+      "title": "Quan i com es produeixen les picades",
+      "intro": "Explora els patrons de picades registrades segons el moment, l'activitat i el lloc.",
       "items": [
-        {
-          "label": "On es produeixen les picades",
-          "title": "Patrons a Catalunya",
-          "text": "Explora com el lloc pot influir en la interacció entre persones i mosquits.",
-          "status": "Explora el mapa",
-          "chart": "spatial"
-        },
         {
           "label": "Quan es produeixen",
           "title": "Hora a hora",
