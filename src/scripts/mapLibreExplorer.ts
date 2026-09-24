@@ -20,12 +20,13 @@ type LayerMeta = {
   units: Record<MapLocale, string>;
   classBreaks: number[];
   featureCount: number;
+  h3Resolution: number | null;
 };
 type MapMeta = {
   bounds: [number, number, number, number];
   defaultMonth: string;
   layers: { albopictus_h3: LayerMeta; albopictus_municipality: LayerMeta };
-  boundaries: { source: string; license: string };
+  boundaries: { source: string; license: string; municipalityCount: number; comarcaCount: number };
   basemap: { attribution: string };
 };
 
@@ -87,17 +88,18 @@ async function initializeMap(root: HTMLElement): Promise<void> {
     throw new Error("Missing generated map-data URLs");
   }
 
-  // One fetch per generated dataset. The same in-memory features serve MapLibre, search,
-  // selection, and the accessible table; MapLibre does not fetch these URLs again.
-  const [metadata, h3Data, municipalitiesData, comarquesData] = await Promise.all([
+  // Municipality geometry is requested only when a municipality view or search needs it.
+  const initialParams = new URLSearchParams(window.location.search);
+  const loadMunicipalitiesInitially = initialParams.get("layer") === "municipality" || initialParams.get("view") === "table";
+  const [metadata, h3Data, initialMunicipalities, comarquesData] = await Promise.all([
     fetchJson<MapMeta>(metadataUrl),
     fetchJson<FeatureCollection<Polygon, H3Properties>>(h3Url),
-    fetchJson<FeatureCollection<Polygon | MultiPolygon, MunicipalityProperties>>(municipalitiesUrl),
+    loadMunicipalitiesInitially ? fetchJson<FeatureCollection<Polygon | MultiPolygon, MunicipalityProperties>>(municipalitiesUrl) : Promise.resolve(null),
     fetchJson<FeatureCollection<Polygon | MultiPolygon>>(comarquesUrl),
   ]);
 
   if (h3Data.features.length !== metadata.layers.albopictus_h3.featureCount ||
-      municipalitiesData.features.length !== metadata.layers.albopictus_municipality.featureCount) {
+      (initialMunicipalities && initialMunicipalities.features.length !== metadata.layers.albopictus_municipality.featureCount)) {
     throw new Error("Generated map feature counts do not match metadata");
   }
   if (!Array.isArray(metadata.bounds) || metadata.bounds.length !== 4 ||
@@ -114,13 +116,24 @@ async function initializeMap(root: HTMLElement): Promise<void> {
   }
 
   const h3ById = new Map<string, H3Feature>(h3Data.features.map((feature) => [feature.properties.h3, feature]));
-  const municipalitiesByCode = new Map<string, MunicipalityFeature>(
-    municipalitiesData.features.map((feature) => [feature.properties.municipality_code, feature]),
+  let municipalitiesByCode = new Map<string, MunicipalityFeature>(
+    (initialMunicipalities?.features ?? []).map((feature) => [feature.properties.municipality_code, feature]),
   );
-  const municipalities = [...municipalitiesData.features];
-  const normalize = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase(locale).trim();
-  const numberFormatter = new Intl.NumberFormat(locale, { maximumSignificantDigits: 2, useGrouping: false });
-  const formatProbability = (value: number) => `${numberFormatter.format(value)}%`;
+  let municipalities = [...(initialMunicipalities?.features ?? [])];
+  let municipalityDataPromise: Promise<void> | null = null;
+  const normalize = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’']/g, "").toLocaleLowerCase(locale).trim();
+  const countFormatter = new Intl.NumberFormat(locale);
+  const formatProbability = (value: number) => {
+    const digits = value >= 1 ? 1 : value >= 0.1 ? 2 : value >= 0.01 ? 3 : value >= 0.001 ? 4 : 6;
+    const formatted = new Intl.NumberFormat(locale, { minimumFractionDigits: value >= 1 ? 1 : 0, maximumFractionDigits: digits, useGrouping: false }).format(value);
+    const suffix = metadata.layers.albopictus_h3.units[locale].match(/\(([^)]+)\)/)?.[1] ?? "";
+    return `${formatted}${suffix ? (locale === "en" ? "" : " ") + suffix : ""}`;
+  };
+  const probabilityClass = (value: number, breaks: number[]) => breaks.findIndex((breakValue) => value < breakValue);
+  const classIndex = (value: number, breaks: number[]) => {
+    const index = probabilityClass(value, breaks);
+    return index < 0 ? breaks.length : index;
+  };
   const monthField = (month: number) => `m${String(month).padStart(2, "0")}`;
   const readValue = (feature: ModelFeature, month: number) => Number(feature.properties[monthField(month)]);
   const layerMeta = (layer: Layer) => layer === "h3" ? metadata.layers.albopictus_h3 : metadata.layers.albopictus_municipality;
@@ -128,7 +141,15 @@ async function initializeMap(root: HTMLElement): Promise<void> {
     ? state.layer === "h3" ? h3ById.get(state.area) : municipalitiesByCode.get(state.area)
     : undefined;
 
-  const params = new URLSearchParams(window.location.search);
+  const params = initialParams;
+  const requestedLatitude = Number(params.get("lat"));
+  const requestedLongitude = Number(params.get("lon"));
+  const requestedZoom = Number(params.get("zoom"));
+  const hasPosition = params.has("lat") && params.has("lon") && params.has("zoom") &&
+    Number.isFinite(requestedLatitude) && Number.isFinite(requestedLongitude) && Number.isFinite(requestedZoom) &&
+    requestedLatitude >= metadata.bounds[1] && requestedLatitude <= metadata.bounds[3] &&
+    requestedLongitude >= metadata.bounds[0] && requestedLongitude <= metadata.bounds[2] &&
+    requestedZoom >= 4 && requestedZoom <= 17;
   const requestedMonth = params.get("month");
   const defaultMonth = /^m(0[1-9]|1[0-2])$/.test(metadata.defaultMonth) ? Number(metadata.defaultMonth.slice(1)) : 8;
   const initialMonth = requestedMonth !== null && /^(?:[1-9]|1[0-2])$/.test(requestedMonth)
@@ -156,8 +177,8 @@ async function initializeMap(root: HTMLElement): Promise<void> {
   const map = new MapLibreMap({
     container: mapElement,
     attributionControl: false,
-    bounds: [[west, south], [east, north]],
-    fitBoundsOptions: { padding: 28 },
+    ...(hasPosition ? { center: [requestedLongitude, requestedLatitude] as [number, number], zoom: requestedZoom } : { bounds: [[west, south], [east, north]] as [[number, number], [number, number]], fitBoundsOptions: { padding: 28 } }),
+    cooperativeGestures: true,
     style: {
       version: 8,
       sources: {
@@ -166,7 +187,7 @@ async function initializeMap(root: HTMLElement): Promise<void> {
           attribution: '<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a>',
         },
         h3: { type: "geojson", data: h3Data },
-        municipalities: { type: "geojson", data: municipalitiesData },
+        municipalities: { type: "geojson", data: initialMunicipalities ?? emptySelection },
         comarques: {
           type: "geojson", data: comarquesData,
           attribution: '<a href="https://www.icgc.cat/" target="_blank" rel="noopener noreferrer">ICGC · CC BY 4.0</a>',
@@ -195,6 +216,29 @@ async function initializeMap(root: HTMLElement): Promise<void> {
   let suggestions: MunicipalityFeature[] = [];
   let activeSuggestion = -1;
 
+  async function ensureMunicipalities(): Promise<void> {
+    if (municipalities.length) return;
+    if (municipalityDataPromise) return municipalityDataPromise;
+    municipalityDataPromise = (async () => {
+      const data = await fetchJson<FeatureCollection<Polygon | MultiPolygon, MunicipalityProperties>>(municipalitiesUrl);
+      if (data.features.length !== metadata.layers.albopictus_municipality.featureCount) {
+        throw new Error("Generated municipality count does not match metadata");
+      }
+      municipalities = [...data.features];
+      municipalitiesByCode = new Map(data.features.map((feature) => [feature.properties.municipality_code, feature]));
+      const source = map.getSource("municipalities") as GeoJSONSource | undefined;
+      if (source) await source.setData(data);
+      tableDirty = true;
+    })();
+    try { await municipalityDataPromise; }
+    catch (error) { municipalityDataPromise = null; throw error; }
+  }
+
+  function reportMunicipalityLoadError(error: unknown): void {
+    console.error("Could not load municipality data:", error);
+    searchStatus.textContent = copy.error;
+  }
+
   const monthInput = find<HTMLInputElement>("[data-month]");
   const playButton = find<HTMLButtonElement>("[data-play]");
   const searchForm = find<HTMLFormElement>("[data-search-form]");
@@ -212,6 +256,12 @@ async function initializeMap(root: HTMLElement): Promise<void> {
     if (state.area) url.searchParams.set("area", state.area);
     else url.searchParams.delete("area");
     url.searchParams.set("view", state.view);
+    if (mapLoaded) {
+      const center = map.getCenter();
+      url.searchParams.set("lat", center.lat.toFixed(4));
+      url.searchParams.set("lon", center.lng.toFixed(4));
+      url.searchParams.set("zoom", map.getZoom().toFixed(2));
+    }
     window.history.replaceState(null, "", url);
     document.querySelectorAll<HTMLAnchorElement>(".language-switcher a[lang]").forEach((link) => {
       const target = new URL(link.href);
@@ -305,7 +355,13 @@ async function initializeMap(root: HTMLElement): Promise<void> {
       ? `${copy.comarca}: ${(feature as MunicipalityFeature).properties.comarca} · ${(feature as MunicipalityFeature).properties.municipality_code}`
       : "";
     const unit = layerMeta(state.layer).units[locale];
-    find<HTMLElement>("[data-selected-summary]").textContent = `${copy.months[state.month - 1]} · ${unit}: ${formatProbability(readValue(feature, state.month))}`;
+    const value = readValue(feature, state.month);
+    const quality = copy.classNames[classIndex(value, layerMeta(state.layer).classBreaks)].toLocaleLowerCase(locale);
+    find<HTMLElement>("[data-selected-summary]").textContent = locale === "en"
+      ? `${copy.months[state.month - 1]}: ${quality} estimated probability (${formatProbability(value)}).`
+      : locale === "es"
+        ? `${copy.months[state.month - 1]}: probabilidad estimada ${quality} (${formatProbability(value)}).`
+        : `${copy.months[state.month - 1]}: probabilitat estimada ${quality} (${formatProbability(value)}).`;
     find<HTMLElement>("[data-selected-confidence]").textContent = `${copy.confidence}: ${confidenceLabel(properties.confidence)}`;
     const values = copy.months.map((_, index) => readValue(feature, index + 1));
     const max = Math.max(...values, 0.001);
@@ -324,14 +380,16 @@ async function initializeMap(root: HTMLElement): Promise<void> {
     root.querySelectorAll<HTMLButtonElement>("[data-view]").forEach((button) => {
       button.setAttribute("aria-pressed", String(button.dataset.view === state.view));
     });
-    find<HTMLElement>("[data-layer-hint]").textContent = state.layer === "h3" ? copy.h3Hint : copy.municipalityHint;
+    find<HTMLElement>("[data-layer-hint]").textContent = state.layer === "h3"
+      ? `${countFormatter.format(metadata.layers.albopictus_h3.featureCount)} ${copy.h3Hint} · ${copy.resolution} ${metadata.layers.albopictus_h3.h3Resolution ?? "?"}`
+      : `${countFormatter.format(metadata.layers.albopictus_municipality.featureCount)} ${copy.municipalityHint}`;
     monthInput.value = String(state.month);
     find<HTMLElement>("[data-month-name]").textContent = copy.months[state.month - 1];
     root.querySelectorAll<HTMLElement>(".month-ticks span").forEach((tick, index) => tick.classList.toggle("active", index === state.month - 1));
     const breaks = layerMeta(state.layer).classBreaks;
-    const labels = [`<${breaks[0]}%`, `${breaks[0]}–<${breaks[1]}%`, `${breaks[1]}–<${breaks[2]}%`, `${breaks[2]}–<${breaks[3]}%`, `≥${breaks[3]}%`];
+    const labels = [`<${formatProbability(breaks[0])}`, `${formatProbability(breaks[0])}–<${formatProbability(breaks[1])}`, `${formatProbability(breaks[1])}–<${formatProbability(breaks[2])}`, `${formatProbability(breaks[2])}–<${formatProbability(breaks[3])}`, `≥${formatProbability(breaks[3])}`];
     find<HTMLElement>("[data-legend-title]").textContent = layerMeta(state.layer).units[locale];
-    find<HTMLElement>("[data-legend-labels]").querySelectorAll<HTMLElement>("span").forEach((label, index) => { label.textContent = labels[index]; });
+    find<HTMLElement>("[data-legend-labels]").querySelectorAll<HTMLElement>("span").forEach((label, index) => { label.textContent = `${copy.classNames[index]}\n${labels[index]}`; });
     renderSelected();
     if (mapLoaded) {
       map.setLayoutProperty("h3-fill", "visibility", state.layer === "h3" ? "visible" : "none");
@@ -434,9 +492,12 @@ async function initializeMap(root: HTMLElement): Promise<void> {
   }
 
   root.querySelectorAll<HTMLButtonElement>("[data-layer]").forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
       const next = button.dataset.layer as Layer;
       if (next === state.layer && state.view === "map") return;
+      if (next === "municipality") {
+        try { await ensureMunicipalities(); } catch (error) { reportMunicipalityLoadError(error); return; }
+      }
       stopPlayback();
       state.layer = next;
       state.area = null;
@@ -445,7 +506,10 @@ async function initializeMap(root: HTMLElement): Promise<void> {
     });
   });
   root.querySelectorAll<HTMLButtonElement>("[data-view]").forEach((button) => {
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
+      if (button.dataset.view === "table") {
+        try { await ensureMunicipalities(); } catch (error) { reportMunicipalityLoadError(error); return; }
+      }
       stopPlayback();
       state.view = button.dataset.view as View;
       if (state.view === "table") {
@@ -473,6 +537,7 @@ async function initializeMap(root: HTMLElement): Promise<void> {
     }, 1300);
   });
   document.addEventListener("visibilitychange", () => { if (document.hidden) stopPlayback(); });
+  searchInput.addEventListener("focus", () => { void ensureMunicipalities().then(showSuggestions).catch(reportMunicipalityLoadError); });
   searchInput.addEventListener("input", () => { searchStatus.textContent = ""; showSuggestions(); });
   searchInput.addEventListener("keydown", (event) => {
     if (event.key === "Escape") { closeSuggestions(); return; }
@@ -486,8 +551,9 @@ async function initializeMap(root: HTMLElement): Promise<void> {
       chooseMunicipality(suggestions[activeSuggestion]);
     }
   });
-  searchForm.addEventListener("submit", (event) => {
+  searchForm.addEventListener("submit", async (event) => {
     event.preventDefault();
+    try { await ensureMunicipalities(); } catch (error) { reportMunicipalityLoadError(error); return; }
     const match = suggestions[activeSuggestion >= 0 ? activeSuggestion : 0] ?? searchMatches(searchInput.value)[0];
     if (match) chooseMunicipality(match);
     else searchStatus.textContent = copy.searchMiss;
@@ -531,12 +597,13 @@ async function initializeMap(root: HTMLElement): Promise<void> {
     map.on("mouseleave", layerId, () => { map.getCanvas().style.cursor = ""; });
   }
   map.on("error", (event) => { console.error("H-MIP map error:", event.error); });
+  map.on("moveend", updateUrl);
   map.on("load", () => {
     mapLoaded = true;
     render();
     map.resize();
     const feature = currentFeature();
-    if (feature && state.view === "map") map.fitBounds(boundsOf(feature), { padding: 72, maxZoom: 12, duration: 0 });
+    if (feature && state.view === "map" && !hasPosition) map.fitBounds(boundsOf(feature), { padding: 72, maxZoom: 12, duration: 0 });
   });
   map.once("idle", () => { find<HTMLElement>("[data-map-status]").hidden = true; });
   render();

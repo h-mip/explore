@@ -3,6 +3,7 @@ import { homeContent, type HomeLocale } from "../../data/home";
 import { hourlyPattern } from "../../data/temporal";
 import { activityRows } from "../../data/activityResearch";
 import { internalUrl, routes } from "../../utils/urls";
+import { siteSettings } from "../../data/siteSettings";
 
 interface Props { locale: HomeLocale }
 const { locale } = Astro.props;
@@ -14,12 +15,18 @@ const hours = hourlyPattern.filter((_, index) => index % 2 === 0).map((row) => r
 const maxHour = Math.max(...hours);
 const activities = activityRows("activity", "all", locale).slice(0, 4);
 const maxActivity = activities[0].share;
+const visibleItems = siteSettings.publishSurveyResults ? copy.items : copy.items.filter((item) => item.chart === "spatial");
+const mapOnly = {
+  en: { title: "Explore the map", intro: "Compare monthly model estimates across Catalonia." },
+  es: { title: "Explora el mapa", intro: "Compara las estimaciones mensuales del modelo en Cataluña." },
+  ca: { title: "Explora el mapa", intro: "Compara les estimacions mensuals del model a Catalunya." },
+}[locale];
 ---
 
 <section class="explore-section" id="explore" aria-labelledby="explore-title">
-  <div class="section-intro"><p class="eyebrow">{copy.eyebrow}</p><h2 id="explore-title">{copy.title}</h2><p>{copy.intro}</p></div>
+  <div class="section-intro"><p class="eyebrow">{copy.eyebrow}</p><h2 id="explore-title">{siteSettings.publishSurveyResults ? copy.title : mapOnly.title}</h2><p>{siteSettings.publishSurveyResults ? copy.intro : mapOnly.intro}</p></div>
   <div class="home-teasers">
-    {copy.items.map((item) => <article class="teaser">
+    {visibleItems.map((item) => <article class="teaser">
       <p class="eyebrow">{item.label}</p>
       <h3>{item.title}</h3>
       <p>{item.text}</p>

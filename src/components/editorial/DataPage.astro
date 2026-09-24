@@ -11,6 +11,11 @@ const copy = dataPageContent[locale];
 const kinds: OutputKind[] = (["dataset", "code", "other"] as OutputKind[]).filter((kind) => researchOutputs.some((output) => output.kind === kind));
 const projectUrl = locale === "es" ? "https://h-mip.com/es/" : "https://h-mip.com/en/";
 const resultsUrl = locale === "es" ? "https://cordis.europa.eu/project/id/853271/results/es" : "https://cordis.europa.eu/project/id/853271/results";
+const extra = {
+  en: { source: "Website source code", sourceText: "The site's source code and update guide are available on GitHub under GPL-3.0.", credits: "Municipal and comarca boundaries © ICGC, CC BY 4.0. Basemap © OpenStreetMap contributors (ODbL)." },
+  es: { source: "Código fuente del sitio", sourceText: "El código y la guía de actualización están en GitHub bajo GPL-3.0.", credits: "Límites municipales y comarcales © ICGC, CC BY 4.0. Mapa base © colaboradores de OpenStreetMap (ODbL)." },
+  ca: { source: "Codi font del lloc", sourceText: "El codi i la guia d'actualització són a GitHub sota GPL-3.0.", credits: "Límits municipals i comarcals © ICGC, CC BY 4.0. Mapa base © col·laboradors d'OpenStreetMap (ODbL)." },
+}[locale];
 ---
 
 <BaseLayout locale={locale} title={copy.metaTitle} description={copy.metaDescription}>
@@ -38,7 +43,7 @@ const resultsUrl = locale === "es" ? "https://cordis.europa.eu/project/id/853271
               <div class="output-meta"><span>{output.host}</span>{output.year && <span>{output.year}</span>}{output.license && <span>{output.license}</span>}</div>
               <h3>{output.title[locale]}</h3>
               <p>{output.description[locale]}</p>
-              <a href={output.url} target="_blank" rel="noopener noreferrer">{output.doi ? `DOI: ${output.doi}` : copy.openResource} <span aria-hidden="true">↗</span></a>
+              <a href={output.doi ? `https://doi.org/${output.doi}` : output.url} target="_blank" rel="noopener noreferrer">{output.doi ? `DOI: ${output.doi}` : copy.openResource} <span aria-hidden="true">↗</span></a>
             </article>)}
           </div>
         </section>;
@@ -50,6 +55,7 @@ const resultsUrl = locale === "es" ? "https://cordis.europa.eu/project/id/853271
       <div class="resource-grid">
         <article><h3>{copy.projectSite}</h3><p>{copy.projectSiteText}</p><a href={projectUrl} target="_blank" rel="noopener noreferrer">{copy.projectSite} <span aria-hidden="true">↗</span></a></article>
         <article><h3>{copy.euResults}</h3><p>{copy.euResultsText}</p><a href={resultsUrl} target="_blank" rel="noopener noreferrer">{copy.euResults} <span aria-hidden="true">↗</span></a></article>
+        <article><h3>{extra.source}</h3><p>{extra.sourceText}</p><a href="https://github.com/h-mip/explore" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">↗</span></a></article>
       </div>
     </section>
 
@@ -57,6 +63,7 @@ const resultsUrl = locale === "es" ? "https://cordis.europa.eu/project/id/853271
       <p class="eyebrow">{copy.siteEyebrow}</p>
       <h2 id="site-data-title">{copy.siteTitle}</h2>
       <p>{copy.siteText}</p>
+      <p>{extra.credits}</p>
       <div class="draft-downloads" id="draft-downloads">
         <h3>{copy.downloadTitle}</h3>
         <p>{copy.downloadIntro}</p>

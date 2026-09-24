@@ -1,6 +1,6 @@
 # H-MIP Explore / Explora
 
-An Astro site about human–mosquito interaction in Catalonia. Catalan is the default language; Spanish and English are available under `/es/` and `/en/`.
+An Astro site for exploring H-MIP research in Catalonia. Catalan is the default language; Spanish and English are under `/es/` and `/en/`.
 
 ## Run locally
 
@@ -8,27 +8,31 @@ Use Node.js 22.12 or newer:
 
 ```sh
 npm ci
-npm run dev -- --background
+npm run dev
 npm run build
 ```
 
-Stop the development server with `npm run astro -- dev stop`. The build writes to `dist/`.
-For page, component, content, and styling changes, use the [Astro documentation](https://docs.astro.build/).
+`npm run build` validates and generates map data before building the site. Generated files belong in `public/generated/`; do not edit them.
 
-## Data and content
+## Editing
 
-`data/` is the only editable source for research CSVs. See [the data guide](data/README.md) for file purposes and the update workflow. `npm run build` validates the map inputs, creates the map files in `public/generated/`, and builds the site. Do not edit generated files.
+- Research CSVs and the survey publication switch are in `data/`. Follow [the data guide](data/README.md).
+- Approved map explanations are in `src/content/map-method/{ca,es,en}.md`.
+- Legal, privacy and accessibility notices are in `src/content/policies/{ca,es,en}/`.
+- Page wording is in `src/content/site-copy/{ca,es,en}.json`. Follow [the short copy guide](src/content/site-copy/README.md).
+- Stories are Markdown files in `src/content/stories/`. Draft stories do not appear on the site.
+- Short interface labels in components remain developer-maintained.
 
-The map uses draft 2025 estimates for 6,445 resolution-7 H3 cells and 947 municipalities, with 43 ICGC comarca boundaries. Home, When, and Activities use supplied draft or reference CSVs. Data & Code and About use the supplied output and publication lists. These research views are not public-health advice; the site does not give prevention advice.
+The map data is a provisional model run. The time, activity and headline CSVs contain synthetic test figures and are not published while `publishSurveyResults` is false. Do not switch it on until all three files have been replaced with verified research data.
 
-Stories are Markdown files in `src/content/stories/`. See [the story guide](src/content/stories/README.txt). Draft stories are not published.
+## Hosting
 
-## Publishing
+The public staging site is [h-mip.com/explore-staging](https://h-mip.com/explore-staging/), deployed from [h-mip/explore-staging](https://github.com/h-mip/explore-staging). Staging is marked `noindex` but remains publicly accessible. Its deployment workflow validates and builds before publishing.
 
-Public staging is at [h-mip.com/explore-staging](https://h-mip.com/explore-staging/) from [h-mip/explore-staging](https://github.com/h-mip/explore-staging). A push to that repository's `main` runs the GitHub Pages workflow and publishes a staging build. Staging pages are marked `noindex`, but the site and repository are public. The tracked `public/robots.txt` is a root-domain template; a copy under this project's path does not control `h-mip.com`.
+The production site is intended for [h-mip.com/explore](https://h-mip.com/explore/) from [h-mip/explore](https://github.com/h-mip/explore). The production workflow is separate and only deploys from that repository's `main`. A root-domain `robots.txt` must be published by the repository that owns `h-mip.com/`; a file under `/explore/` cannot replace it.
 
-The production site is intended for `https://h-mip.com/explore/` from the separate [h-mip/explore](https://github.com/h-mip/explore) repository. Staging does not publish to production.
+## Embeds
 
-## Before production launch
+Map embeds are available at `/embed/ca/map/`, `/embed/es/map/` and `/embed/en/map/` under either site's base path. The hour, month, activity and place embeds are generated only when verified survey results are enabled. Embeds are marked `noindex`.
 
-The research team needs to approve the draft model wording, the other draft/reference data, the meaning of confidence and intervals, and the model data citation and license. The legal, privacy, and accessibility pages are drafts pending review and confirmed contact details. The source code is GPL-3.0-only; that license does not automatically cover research data, boundaries, map tiles, or logos.
+Site code is GPL-3.0-only. Model estimates are CC0 1.0; site texts and figures are CC BY 4.0. ICGC boundaries require CC BY 4.0 attribution, and the basemap requires OpenStreetMap attribution.

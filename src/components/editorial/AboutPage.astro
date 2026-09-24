@@ -56,9 +56,8 @@ const resultsUrl = locale === "es" ? "https://cordis.europa.eu/project/id/853271
               <h3>{publication.title}</h3>
               <p class="publication-authors">{publication.authors}</p>
               <div class="publication-links">
-                <a href={publication.url} target="_blank" rel="noopener noreferrer">{copy.publications.openPublication} <span aria-hidden="true">↗</span></a>
-                {publication.openAccessUrl !== publication.url && <a href={publication.openAccessUrl} target="_blank" rel="noopener noreferrer">{copy.publications.openAccess} <span aria-hidden="true">↗</span></a>}
-                <span>DOI: {publication.doi}</span>
+                {(publication.doi || publication.url) && <a href={publication.doi ? `https://doi.org/${publication.doi}` : publication.url} target="_blank" rel="noopener noreferrer">{publication.doi ? `DOI: ${publication.doi}` : copy.publications.openPublication} <span aria-hidden="true">↗</span></a>}
+                {publication.openAccessUrl && publication.openAccessUrl !== publication.url && <a href={publication.openAccessUrl} target="_blank" rel="noopener noreferrer">{copy.publications.openAccess} <span aria-hidden="true">↗</span></a>}
               </div>
             </article>)}
           </div>

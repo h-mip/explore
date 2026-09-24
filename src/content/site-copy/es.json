@@ -1,0 +1,358 @@
+{
+  "home": {
+    "hero": {
+      "eyebrow": "Interacción entre personas y mosquitos en Cataluña",
+      "title": "¿Dónde y cuándo pican los mosquitos a las personas en Cataluña?",
+      "lead": "H-MIP estudia cómo cambia la exposición a las picaduras según el lugar, el momento y las actividades cotidianas, combinando investigación de campo, ciencia ciudadana y modelización espacial.",
+      "primary": "Explorar los datos",
+      "secondary": "Ver los patrones destacados",
+      "context": [
+        [
+          "Foco",
+          "Mosquito tigre"
+        ],
+        [
+          "Ámbito",
+          "Cataluña"
+        ],
+        [
+          "Investigación",
+          "Interacción entre personas y mosquitos"
+        ]
+      ],
+      "low": "Bajo",
+      "mid": "Medio",
+      "high": "Alto"
+    },
+    "findings": {
+      "eyebrow": "Datos destacados",
+      "title": "Una lectura rápida de los patrones",
+      "badge": "Picaduras registradas",
+      "items": [
+        {
+          "id": "f1",
+          "label": "Hora del día",
+          "chart": "hour"
+        },
+        {
+          "id": "f2",
+          "label": "Estación",
+          "chart": "month"
+        },
+        {
+          "id": "f3",
+          "label": "Lugar",
+          "chart": "place"
+        },
+        {
+          "id": "f4",
+          "label": "Actividad",
+          "chart": "activity"
+        }
+      ],
+      "chartDescription": "Proporciones de picaduras registradas"
+    },
+    "explore": {
+      "eyebrow": "Explorar los datos",
+      "title": "Tres formas de acercarse a los datos",
+      "intro": "Explora el mapa y los patrones de picaduras registradas por momento, actividad y lugar.",
+      "items": [
+        {
+          "label": "Dónde ocurren las picaduras",
+          "title": "Patrones en Cataluña",
+          "text": "Explora cómo el lugar puede influir en la interacción entre personas y mosquitos.",
+          "status": "Explorar el mapa",
+          "chart": "spatial"
+        },
+        {
+          "label": "Cuándo ocurren",
+          "title": "Hora a hora",
+          "text": "Observa cómo puede variar la interacción registrada a lo largo del día y del año.",
+          "status": "Explorar patrones temporales",
+          "chart": "hour"
+        },
+        {
+          "label": "Qué hace la gente",
+          "title": "Actividades y lugares",
+          "text": "Compara la proporción de picaduras registradas entre actividades y lugares cotidianos.",
+          "status": "Explorar actividades",
+          "chart": "activity"
+        }
+      ]
+    },
+    "action": {
+      "scienceEyebrow": "Ayuda a la ciencia",
+      "scienceTitle": "Comparte observaciones con Mosquito Alert",
+      "scienceText": "La ciencia ciudadana ayuda a comprender dónde hay mosquitos y cómo se encuentran con las personas.",
+      "scienceList": [
+        "Comunica avistamientos de mosquitos.",
+        "Comunica lugares de cría en espacios públicos.",
+        "Apoya el seguimiento a largo plazo."
+      ],
+      "scienceLink": "Visitar Mosquito Alert"
+    }
+  },
+  "about": {
+    "metaTitle": "Sobre H-MIP — H-MIP Explora",
+    "metaDescription": "Conoce el proyecto de investigación H-MIP, sus métodos, instituciones y resultados públicos.",
+    "eyebrow": "Sobre H-MIP",
+    "title": "Investigación sobre la interacción entre personas y mosquitos",
+    "lead": "H-MIP estudia cómo coinciden las personas y los mosquitos. Este sitio público presenta las preguntas y los métodos del proyecto de forma accesible para la ciudadanía y quienes toman decisiones locales.",
+    "sectionsLabel": "Secciones sobre el proyecto",
+    "nav": {
+      "project": "Proyecto",
+      "methods": "Métodos",
+      "publications": "Publicaciones"
+    },
+    "project": {
+      "title": "Comprender la exposición en la vida cotidiana",
+      "paragraphs": [
+        "El proyecto Human–Mosquito Interaction investiga las circunstancias en que las personas se encuentran con los mosquitos. Relaciona la actividad y los desplazamientos humanos con la ecología de los mosquitos, con especial atención al mosquito tigre en Cataluña.",
+        "H-MIP Explora es el espacio público que acompaña a esa investigación. Su mapa presenta estimaciones mensuales del modelo para Cataluña. Se añadirán resultados de encuestas cuando haya datos verificados."
+      ],
+      "link": "Visitar el sitio web de H-MIP"
+    },
+    "methods": {
+      "title": "Varios métodos, una pregunta sobre la interacción",
+      "intro": "El proyecto reúne fuentes complementarias para describir tanto al mosquito como la actividad humana en torno a cada encuentro.",
+      "steps": [
+        {
+          "title": "Entrevistas",
+          "text": "Las entrevistas de campo recogen experiencias de picaduras y su contexto."
+        },
+        {
+          "title": "Ciencia ciudadana",
+          "text": "Las observaciones del público, incluidas las de Mosquito Alert, aportan información sobre los mosquitos."
+        },
+        {
+          "title": "Movilidad",
+          "text": "Los patrones de movimiento y actividad ayudan a situar dónde pueden producirse encuentros."
+        },
+        {
+          "title": "Análisis de laboratorio",
+          "text": "El análisis de sangre ingerida puede ayudar a identificar patrones de alimentación de los mosquitos."
+        },
+        {
+          "title": "Modelos espaciales",
+          "text": "Los modelos combinan distintos indicios para estudiar patrones geográficos."
+        },
+        {
+          "title": "Incertidumbre",
+          "text": "Las estimaciones deben presentarse junto con sus límites e incertidumbre."
+        }
+      ]
+    },
+    "publications": {
+      "title": "Resultados de investigación",
+      "text": "A continuación se muestran publicaciones de H-MIP, ordenadas de la más reciente a la más antigua. La lista se actualiza a partir de los datos de publicaciones del proyecto.",
+      "article": "Artículo",
+      "preprint": "Prepublicación",
+      "openPublication": "Página de la publicación",
+      "openAccess": "Texto completo abierto",
+      "link": "Explorar los resultados en CORDIS"
+    }
+  },
+  "data": {
+    "metaTitle": "Datos y código — H-MIP Explora",
+    "metaDescription": "Consulta recursos de investigación H-MIP verificados y el estado de los datos utilizados en este sitio web.",
+    "eyebrow": "Investigación abierta",
+    "title": "Datos y código",
+    "lead": "Consulta los datos, el código y las publicaciones de H-MIP. Procuramos que los datos sean fáciles de encontrar, accesibles, interoperables y reutilizables (FAIR); los registros de Zenodo incluyen metadatos, DOI, licencias y citas.",
+    "statusEyebrow": "Estado del catálogo",
+    "statusTitle": "No hay registros de resultados disponibles",
+    "statusText": "El CSV de resultados facilitado no contiene registros. Añade registros públicos con enlaces, licencias y datos de cita antes de publicar este catálogo.",
+    "groups": {
+      "dataset": "Conjuntos de datos",
+      "code": "Código",
+      "other": "Otros materiales"
+    },
+    "empty": "Todavía no hay registros aprobados en esta categoría.",
+    "openResource": "Abrir recurso",
+    "resourcesEyebrow": "Enlaces verificados",
+    "resourcesTitle": "Recursos del proyecto disponibles ahora",
+    "resourcesIntro": "Estas páginas del proyecto y de la Comisión Europea ofrecen más contexto y registros públicos del proyecto.",
+    "projectSite": "Sitio web del proyecto H-MIP",
+    "projectSiteText": "Contexto del proyecto, enfoque de investigación e información para participar.",
+    "euResults": "Resultados del proyecto en la Comisión Europea",
+    "euResultsText": "La ficha de CORDIS recoge resultados y publicaciones públicos del proyecto.",
+    "siteEyebrow": "Transparencia del sitio",
+    "siteTitle": "Datos detrás de este sitio web",
+    "siteText": "El mapa y la vista previa de Inicio usan estimaciones del modelo para celdas H3 y municipios. Los resultados temporales y de actividades aparecerán cuando haya datos verificados.",
+    "downloadTitle": "Datos del modelo",
+    "downloadIntro": "Estimaciones del modelo del Human-Mosquito Interaction Project, CC0 1.0. Próximamente habrá una versión citable con DOI. Las descargas incluyen valores H3, valores municipales, unidades y cortes de clase.",
+    "h3Download": "Descargar estimaciones H3 (CSV)",
+    "municipalityDownload": "Descargar estimaciones municipales (CSV)",
+    "metadataDownload": "Descargar unidades y cortes de clase (CSV)"
+  },
+  "map": {
+    "title": "Explorador del mapa",
+    "eyebrow": "Explorar por lugar",
+    "lead": "Explora las estimaciones mensuales del modelo en Cataluña.",
+    "badge": "Modelo provisional",
+    "controls": "Controles del mapa",
+    "layerStep": "01 · Vista",
+    "layerLabel": "Capa",
+    "h3Layer": "Celdas H3",
+    "municipalityLayer": "Municipios",
+    "h3Hint": "Celdas H3",
+    "resolution": "resolución",
+    "municipalityHint": "Municipios",
+    "searchStep": "02 · Lugar",
+    "searchLabel": "Buscar un municipio",
+    "searchPlaceholder": "Municipio o comarca",
+    "searchButton": "Buscar",
+    "searchClear": "Borrar búsqueda",
+    "searchMiss": "No hay municipios que coincidan.",
+    "searchHint": "Los acentos son opcionales.",
+    "timeStep": "03 · Tiempo",
+    "timeLabel": "Mes",
+    "monthAria": "Seleccionar mes",
+    "play": "Reproducir",
+    "pause": "Pausar",
+    "legendStep": "04 · Leyenda",
+    "legendNote": "Las clases proceden de los metadatos del modelo. No representan el riesgo personal.",
+    "classNames": [
+      "Muy baja",
+      "Baja",
+      "Media",
+      "Alta",
+      "Muy alta"
+    ],
+    "selectedStep": "05 · Zona seleccionada",
+    "selectPrompt": "Selecciona una celda H3 o un municipio en el mapa, o elige un municipio en la búsqueda o la tabla.",
+    "h3Cell": "Celda H3",
+    "municipality": "Municipio",
+    "comarca": "Comarca",
+    "confidence": "Confianza",
+    "confidenceLow": "Baja",
+    "confidenceMedium": "Media",
+    "confidenceHigh": "Alta",
+    "monthlyProfile": "Perfil de 12 meses",
+    "showOnMap": "Mostrar en el mapa",
+    "methodStep": "06 · Método",
+    "methodTitle": "Sobre estos valores",
+    "mapView": "Ver mapa",
+    "tableView": "Tabla accesible",
+    "viewLabel": "Vista de mapa o tabla",
+    "tableLabel": "Valores del modelo por municipio",
+    "tableCaption": "Valores del modelo por municipio para",
+    "tableFilter": "Filtrar municipios",
+    "tableEmpty": "No hay municipios que coincidan.",
+    "tableCount": "municipios mostrados",
+    "tableValue": "Valor",
+    "sort": "Ordenar por",
+    "loading": "Cargando el mapa…",
+    "error": "No se ha podido cargar el mapa. Vuelve a intentarlo más tarde.",
+    "caption": "Estimaciones del modelo · límites del ICGC",
+    "mapAria": "Mapa interactivo de Cataluña con estimaciones del modelo",
+    "months": [
+      "Enero",
+      "Febrero",
+      "Marzo",
+      "Abril",
+      "Mayo",
+      "Junio",
+      "Julio",
+      "Agosto",
+      "Septiembre",
+      "Octubre",
+      "Noviembre",
+      "Diciembre"
+    ],
+    "monthShort": [
+      "Ene",
+      "Feb",
+      "Mar",
+      "Abr",
+      "May",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dic"
+    ]
+  },
+  "when": {
+    "metaTitle": "Cuándo se registran picaduras — H-MIP Explora",
+    "metaDescription": "Explora los patrones horarios y mensuales de las picaduras registradas en Cataluña.",
+    "eyebrow": "Patrones temporales",
+    "title": "Cuándo ocurren las picaduras",
+    "lead": "Estas proporciones proceden de picaduras registradas. No miden la probabilidad individual de recibir una picadura en una hora o mes concretos.",
+    "badge": "Picaduras registradas",
+    "dataLabel": "Proporción de registros",
+    "tableSummary": "Datos y método",
+    "tableCaption": "Picaduras registradas",
+    "tableValue": "Proporción de registros",
+    "lower": "Intervalo del 95 %: inferior",
+    "upper": "Intervalo del 95 %: superior",
+    "sourceNote": "Las proporciones proceden de picaduras registradas; los intervalos son intervalos creíbles bayesianos del 95 %.",
+    "scrollHint": "Desplaza el gráfico horizontalmente en pantallas pequeñas.",
+    "settingTitle": "Interior y exterior",
+    "settingIntro": "Los registros también se agrupan por entorno. No hay límites de intervalo para estos dos valores.",
+    "settingLabels": {
+      "outdoor": "Exterior",
+      "indoor": "Interior"
+    },
+    "sample": "Tamaño de muestra indicado",
+    "hour": {
+      "eyebrow": "Por hora del día",
+      "title": "Los registros se concentran por la tarde",
+      "takeaway": "El {value} % de los registros corresponde al periodo de {start} a antes de {end}.",
+      "text": "Esta distribución describe la hora de los registros. No separa la actividad de los mosquitos de la exposición o de los patrones de notificación de las personas.",
+      "chartTitle": "Proporción de registros por hora",
+      "chartNote": "Las barras muestran la proporción facilitada; los límites figuran en la tabla.",
+      "tableLabel": "Hora",
+      "method": "Los límites inferior y superior forman un intervalo creíble del 95 % para cada proporción, basado en la distribución predictiva posterior. El tamaño de la muestra cuenta registros de picaduras."
+    },
+    "month": {
+      "eyebrow": "Por mes",
+      "title": "Los registros alcanzan su máximo en verano",
+      "takeaway": "El {value} % de los registros corresponde al periodo de {start} a {end}.",
+      "text": "La distribución mensual describe picaduras registradas, no una estimación del riesgo poblacional.",
+      "chartTitle": "Proporción de registros por mes",
+      "chartNote": "Las barras muestran la proporción facilitada; los límites figuran en la tabla.",
+      "tableLabel": "Mes",
+      "method": "Los límites inferior y superior forman un intervalo creíble del 95 % para cada proporción, basado en la distribución predictiva posterior. El tamaño de la muestra cuenta registros de picaduras."
+    }
+  },
+  "activities": {
+    "metaTitle": "Actividades y lugares — H-MIP Explora",
+    "metaDescription": "Explora las proporciones de picaduras registradas por actividad, lugar y temporada en Cataluña.",
+    "eyebrow": "Exposición en la vida cotidiana",
+    "title": "¿Qué hace la gente cuando se registran picaduras?",
+    "lead": "Compara la actividad y el lugar asociados a cada registro de picadura. Estas proporciones describen registros, no el riesgo individual en cada situación.",
+    "badge": "Picaduras registradas",
+    "sourceNote": "Las proporciones proceden de picaduras registradas; los intervalos son intervalos creíbles bayesianos del 95 %.",
+    "measure": "Proporción de registros",
+    "methodSummary": "Datos y método",
+    "tableValue": "Proporción de registros",
+    "lower": "Intervalo del 95 %: inferior",
+    "upper": "Intervalo del 95 %: superior",
+    "rate": "Tasa de origen",
+    "rateNote": "La tasa opcional solo aparece cuando el conjunto de datos la incluye. Consulte sus metadatos para conocer la definición y la unidad.",
+    "seasonLabel": "Temporada",
+    "seasons": {
+      "all": "Todo el año",
+      "summer": "Junio–septiembre",
+      "rest": "Resto del año"
+    },
+    "activity": {
+      "eyebrow": "Por actividad",
+      "heading": "Actividades registradas con picaduras",
+      "takeaway": "La actividad principal de la temporada seleccionada representa el {value} % de los registros.",
+      "text": "Una proporción alta puede reflejar también cuánto tiempo se dedica a una actividad. No demuestra el riesgo por hora.",
+      "tableLabel": "Actividad",
+      "method": "Los límites inferior y superior forman un intervalo creíble del 95 % para cada proporción, basado en la distribución predictiva posterior. El tamaño de la muestra cuenta registros de picaduras."
+    },
+    "place": {
+      "eyebrow": "Por lugar",
+      "heading": "Lugares registrados con picaduras",
+      "takeaway": "El lugar principal de la temporada seleccionada representa el {value} % de los registros.",
+      "text": "Las proporciones describen lugares registrados, no la abundancia de mosquitos ni el riesgo de estar en cada lugar.",
+      "tableLabel": "Lugar",
+      "method": "Los límites inferior y superior forman un intervalo creíble del 95 % para cada proporción, basado en la distribución predictiva posterior. El tamaño de la muestra cuenta registros de picaduras."
+    }
+  }
+}

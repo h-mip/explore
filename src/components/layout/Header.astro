@@ -1,6 +1,7 @@
 ---
 import { internalUrl, routes, type Locale } from "../../utils/urls";
 import { getCollection } from "astro:content";
+import { siteSettings } from "../../data/siteSettings";
 
 interface Props { locale: Locale }
 const { locale } = Astro.props;
@@ -18,8 +19,7 @@ const storyLocales = new Set((await getCollection("stories", ({ data }) => !data
 
 const navItems: [keyof typeof currentRoutes, string][] = [
   ["map", currentLabels.map],
-  ["when", currentLabels.when],
-  ["activities", currentLabels.activities],
+  ...(siteSettings.publishSurveyResults ? [["when", currentLabels.when], ["activities", currentLabels.activities]] as [keyof typeof currentRoutes, string][] : []),
   ["data", currentLabels.data],
   ["about", currentLabels.about],
   ...(storyLocales.has(locale) ? [["stories", currentLabels.stories] as [keyof typeof currentRoutes, string]] : []),
@@ -67,11 +67,11 @@ const menuLabel = { en: "Menu", es: "Menú", ca: "Menú" }[locale];
       </nav>
     </details>
 
-    <div class="language-switcher" aria-label={languageAriaLabel}>
+    <nav class="language-switcher" aria-label={languageAriaLabel}>
       <a href={alternateRoutes.ca} lang="ca" aria-current={locale === "ca" ? "true" : undefined}>CA</a>
       <a href={alternateRoutes.es} lang="es" aria-current={locale === "es" ? "true" : undefined}>ES</a>
       <a href={alternateRoutes.en} lang="en" aria-current={locale === "en" ? "true" : undefined}>EN</a>
-    </div>
+    </nav>
   </div>
 </header>
 

@@ -13,7 +13,7 @@ const back = { en: "All stories", es: "Todas las historias", ca: "Totes les hist
 
 <BaseLayout locale={locale} title={`${entry.data.title} — H-MIP ${locale === "en" ? "Explore" : "Explora"}`} description={entry.data.summary ?? entry.data.title}>
   <article class="wrap page story-page"><a class="back" href={routes[locale].stories}>← {back}</a><header><p class="eyebrow">{date} · {entry.data.author}</p><h1>{entry.data.title}</h1>{entry.data.summary && <p class="lead">{entry.data.summary}</p>}</header>
-    <img class="story-image" src={internalUrl(entry.data.image)} alt="" />
+    {entry.data.image && <img class="story-image" src={internalUrl(entry.data.image)} alt={entry.data.image_alt || entry.data.title} />}
     <div class="story-body"><Content /></div>
   </article>
 </BaseLayout>

@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { internalUrl, routes, type Locale } from "../../utils/urls";
+import fs from "node:fs";
+import path from "node:path";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const data = JSON.parse(fs.readFileSync(path.join(process.cwd(), "public/generated/municipalities.geojson"), "utf8"));
+const metadata = JSON.parse(fs.readFileSync(path.join(process.cwd(), "public/generated/map-meta.json"), "utf8"));
+const entries = data.features.toSorted((a, b) => a.properties.name.localeCompare(b.properties.name, locale));
+const labels = {
+  en: { title: "Municipality model data", intro: "Monthly estimated probability (%) for each municipality. This table works without JavaScript.", name: "Municipality", comarca: "Comarca", map: "Return to the map" },
+  es: { title: "Datos del modelo por municipio", intro: "Probabilidad estimada mensual (%) para cada municipio. Esta tabla funciona sin JavaScript.", name: "Municipio", comarca: "Comarca", map: "Volver al mapa" },
+  ca: { title: "Dades del model per municipi", intro: "Probabilitat estimada mensual (%) per a cada municipi. Aquesta taula funciona sense JavaScript.", name: "Municipi", comarca: "Comarca", map: "Torna al mapa" },
+}[locale];
+const numberLocale = { en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale];
+const formatValue = (value: number) => {
+  const digits = value >= 1 ? 1 : value >= 0.1 ? 2 : value >= 0.01 ? 3 : value >= 0.001 ? 4 : 6;
+  return new Intl.NumberFormat(numberLocale, { minimumFractionDigits: value >= 1 ? 1 : 0, maximumFractionDigits: digits, useGrouping: false }).format(value);
+};
+const months = Array.from({ length: 12 }, (_, index) => new Intl.DateTimeFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { month: "short" }).format(new Date(2025, index, 1)));
+---
+
+<BaseLayout locale={locale} title={`${labels.title} — H-MIP`} description={labels.intro}>
+  <div class="wrap page static-table-page">
+    <a href={routes[locale].map}>{labels.map}</a>
+    <h1>{labels.title}</h1>
+    <p>{labels.intro} {metadata.layers.albopictus_municipality.period}</p>
+    <div class="table-scroller" role="region" aria-label={labels.title} tabindex="0">
+      <table>
+        <caption>{labels.title}</caption>
+        <thead><tr><th scope="col">{labels.name}</th><th scope="col">{labels.comarca}</th>{months.map((month) => <th scope="col">{month}</th>)}</tr></thead>
+        <tbody>{entries.map((entry) => <tr><th scope="row">{entry.properties.name}</th><td>{entry.properties.comarca}</td>{metadata.months.map((month) => <td>{formatValue(entry.properties[month])}</td>)}</tr>)}</tbody>
+      </table>
+    </div>
+    <p><a href={internalUrl("data/layer_municipality.csv")}>{locale === "en" ? "Download the CSV" : locale === "es" ? "Descargar CSV" : "Descarrega el CSV"}</a></p>
+  </div>
+</BaseLayout>
+
+<style>
+  .static-table-page{display:grid;gap:20px;padding-block:48px 80px}
+  .static-table-page h1{font-size:clamp(2rem,4vw,3.8rem)}
+  .static-table-page>p{max-width:75ch;color:var(--ink-2)}
+  .table-scroller{max-height:70vh;overflow:auto;border:1px solid var(--line);border-radius:8px}
+  table{width:100%;border-collapse:collapse;white-space:nowrap;font-size:.79rem;font-variant-numeric:tabular-nums}
+  caption{text-align:left;padding:12px;color:var(--ink-2)}
+  th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:left}
+  thead th{position:sticky;top:0;background:var(--surface-soft);color:var(--ink)}
+  tbody th{position:sticky;left:0;background:var(--surface);color:var(--ink)}
+  td:not(:nth-child(2)){text-align:right}
+</style>

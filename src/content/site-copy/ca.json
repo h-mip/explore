@@ -1,0 +1,358 @@
+{
+  "home": {
+    "hero": {
+      "eyebrow": "Interacció entre persones i mosquits a Catalunya",
+      "title": "On i quan piquen els mosquits a les persones a Catalunya?",
+      "lead": "H-MIP estudia com canvia l’exposició a les picades segons el lloc, el moment i les activitats quotidianes, combinant recerca de camp, ciència ciutadana i modelització espacial.",
+      "primary": "Explora les dades",
+      "secondary": "Mira els patrons destacats",
+      "context": [
+        [
+          "Focus",
+          "Mosquit tigre"
+        ],
+        [
+          "Àmbit",
+          "Catalunya"
+        ],
+        [
+          "Recerca",
+          "Interacció entre persones i mosquits"
+        ]
+      ],
+      "low": "Baix",
+      "mid": "Mitjà",
+      "high": "Alt"
+    },
+    "findings": {
+      "eyebrow": "Dades destacades",
+      "title": "Una lectura ràpida dels patrons",
+      "badge": "Picades registrades",
+      "items": [
+        {
+          "id": "f1",
+          "label": "Hora del dia",
+          "chart": "hour"
+        },
+        {
+          "id": "f2",
+          "label": "Estació",
+          "chart": "month"
+        },
+        {
+          "id": "f3",
+          "label": "Lloc",
+          "chart": "place"
+        },
+        {
+          "id": "f4",
+          "label": "Activitat",
+          "chart": "activity"
+        }
+      ],
+      "chartDescription": "Proporcions de picades registrades"
+    },
+    "explore": {
+      "eyebrow": "Explora les dades",
+      "title": "Tres maneres d’apropar-se a les dades",
+      "intro": "Explora el mapa i els patrons de picades registrades per moment, activitat i lloc.",
+      "items": [
+        {
+          "label": "On es produeixen les picades",
+          "title": "Patrons a Catalunya",
+          "text": "Explora com el lloc pot influir en la interacció entre persones i mosquits.",
+          "status": "Explora el mapa",
+          "chart": "spatial"
+        },
+        {
+          "label": "Quan es produeixen",
+          "title": "Hora a hora",
+          "text": "Observa com pot variar la interacció registrada al llarg del dia i de l’any.",
+          "status": "Explora els patrons temporals",
+          "chart": "hour"
+        },
+        {
+          "label": "Què fa la gent",
+          "title": "Activitats i llocs",
+          "text": "Compara la proporció de picades registrades entre activitats i llocs quotidians.",
+          "status": "Explora les activitats",
+          "chart": "activity"
+        }
+      ]
+    },
+    "action": {
+      "scienceEyebrow": "Ajuda la ciència",
+      "scienceTitle": "Comparteix observacions amb Mosquito Alert",
+      "scienceText": "La ciència ciutadana ajuda a entendre on hi ha mosquits i com es troben amb les persones.",
+      "scienceList": [
+        "Comunica avistaments de mosquits.",
+        "Comunica llocs de cria en espais públics.",
+        "Dona suport al seguiment a llarg termini."
+      ],
+      "scienceLink": "Visita Mosquito Alert"
+    }
+  },
+  "about": {
+    "metaTitle": "Sobre H-MIP — H-MIP Explora",
+    "metaDescription": "Coneix el projecte de recerca H-MIP, els seus mètodes, institucions i resultats públics.",
+    "eyebrow": "Sobre H-MIP",
+    "title": "Recerca sobre la interacció entre persones i mosquits",
+    "lead": "H-MIP estudia com coincideixen les persones i els mosquits. Aquest lloc públic presenta les preguntes i els mètodes del projecte d'una manera accessible per a la ciutadania i les persones que prenen decisions locals.",
+    "sectionsLabel": "Seccions sobre el projecte",
+    "nav": {
+      "project": "Projecte",
+      "methods": "Mètodes",
+      "publications": "Publicacions"
+    },
+    "project": {
+      "title": "Entendre l'exposició en la vida quotidiana",
+      "paragraphs": [
+        "El projecte Human–Mosquito Interaction investiga les circumstàncies en què les persones es troben amb els mosquits. Relaciona l'activitat i els desplaçaments humans amb l'ecologia dels mosquits, amb una atenció especial al mosquit tigre a Catalunya.",
+        "H-MIP Explora és l'espai públic que acompanya aquesta recerca. El mapa presenta estimacions mensuals del model per a Catalunya. S'hi afegiran resultats d'enquestes quan hi hagi dades verificades."
+      ],
+      "link": "Visita el lloc web d'H-MIP"
+    },
+    "methods": {
+      "title": "Diversos mètodes, una pregunta sobre la interacció",
+      "intro": "El projecte reuneix fonts complementàries per descriure tant el mosquit com l'activitat humana al voltant de cada trobada.",
+      "steps": [
+        {
+          "title": "Entrevistes",
+          "text": "Les entrevistes de camp recullen experiències de picades i el seu context."
+        },
+        {
+          "title": "Ciència ciutadana",
+          "text": "Les observacions del públic, incloses les de Mosquito Alert, aporten informació sobre els mosquits."
+        },
+        {
+          "title": "Mobilitat",
+          "text": "Els patrons de moviment i activitat ajuden a situar on es poden produir trobades."
+        },
+        {
+          "title": "Anàlisi de laboratori",
+          "text": "L'anàlisi de sang ingerida pot ajudar a identificar patrons d'alimentació dels mosquits."
+        },
+        {
+          "title": "Models espacials",
+          "text": "Els models combinen diferents indicis per estudiar patrons geogràfics."
+        },
+        {
+          "title": "Incertesa",
+          "text": "Les estimacions s'han de presentar juntament amb els seus límits i la incertesa."
+        }
+      ]
+    },
+    "publications": {
+      "title": "Resultats de recerca",
+      "text": "A continuació es mostren publicacions d'H-MIP, ordenades de la més recent a la més antiga. La llista s'actualitza a partir de les dades de publicacions del projecte.",
+      "article": "Article",
+      "preprint": "Prepublicació",
+      "openPublication": "Pàgina de la publicació",
+      "openAccess": "Text complet obert",
+      "link": "Explora els resultats a CORDIS"
+    }
+  },
+  "data": {
+    "metaTitle": "Dades i codi — H-MIP Explora",
+    "metaDescription": "Consulta recursos de recerca H-MIP verificats i l'estat de les dades utilitzades en aquest lloc web.",
+    "eyebrow": "Recerca oberta",
+    "title": "Dades i codi",
+    "lead": "Consulta les dades, el codi i les publicacions d'H-MIP. Volem que les dades siguin fàcils de trobar, accessibles, interoperables i reutilitzables (FAIR); els registres de Zenodo inclouen metadades, DOI, llicències i citacions.",
+    "statusEyebrow": "Estat del catàleg",
+    "statusTitle": "No hi ha registres de resultats disponibles",
+    "statusText": "El CSV de resultats facilitat no conté registres. Afegeix-hi registres públics amb enllaços, llicències i dades de citació abans de publicar aquest catàleg.",
+    "groups": {
+      "dataset": "Conjunts de dades",
+      "code": "Codi",
+      "other": "Altres materials"
+    },
+    "empty": "Encara no hi ha registres aprovats en aquesta categoria.",
+    "openResource": "Obre el recurs",
+    "resourcesEyebrow": "Enllaços verificats",
+    "resourcesTitle": "Recursos del projecte disponibles ara",
+    "resourcesIntro": "Aquestes pàgines del projecte i de la Comissió Europea ofereixen més context i registres públics del projecte.",
+    "projectSite": "Lloc web del projecte H-MIP",
+    "projectSiteText": "Context del projecte, enfocament de recerca i informació per participar-hi.",
+    "euResults": "Resultats del projecte a la Comissió Europea",
+    "euResultsText": "La fitxa de CORDIS recull resultats i publicacions públics del projecte.",
+    "siteEyebrow": "Transparència del lloc",
+    "siteTitle": "Dades darrere d'aquest lloc web",
+    "siteText": "El mapa i la vista prèvia d'Inici fan servir estimacions del model per a cel·les H3 i municipis. Els resultats temporals i d'activitats apareixeran quan hi hagi dades verificades.",
+    "downloadTitle": "Dades del model",
+    "downloadIntro": "Estimacions del model del Human-Mosquito Interaction Project, CC0 1.0. Aviat hi haurà una versió citable amb DOI. Les descàrregues inclouen valors H3, valors municipals, unitats i llindars de classe.",
+    "h3Download": "Descarrega les estimacions H3 (CSV)",
+    "municipalityDownload": "Descarrega les estimacions municipals (CSV)",
+    "metadataDownload": "Descarrega les unitats i els llindars (CSV)"
+  },
+  "map": {
+    "title": "Explorador del mapa",
+    "eyebrow": "Explora per lloc",
+    "lead": "Explora les estimacions mensuals del model a Catalunya.",
+    "badge": "Model provisional",
+    "controls": "Controls del mapa",
+    "layerStep": "01 · Vista",
+    "layerLabel": "Capa",
+    "h3Layer": "Cel·les H3",
+    "municipalityLayer": "Municipis",
+    "h3Hint": "Cel·les H3",
+    "resolution": "resolució",
+    "municipalityHint": "Municipis",
+    "searchStep": "02 · Lloc",
+    "searchLabel": "Cerca un municipi",
+    "searchPlaceholder": "Municipi o comarca",
+    "searchButton": "Cerca",
+    "searchClear": "Neteja la cerca",
+    "searchMiss": "No hi ha municipis que coincideixin.",
+    "searchHint": "Els accents són opcionals.",
+    "timeStep": "03 · Temps",
+    "timeLabel": "Mes",
+    "monthAria": "Selecciona el mes",
+    "play": "Reprodueix",
+    "pause": "Pausa",
+    "legendStep": "04 · Llegenda",
+    "legendNote": "Les classes provenen de les metadades del model. No representen el risc personal.",
+    "classNames": [
+      "Molt baixa",
+      "Baixa",
+      "Mitjana",
+      "Alta",
+      "Molt alta"
+    ],
+    "selectedStep": "05 · Zona seleccionada",
+    "selectPrompt": "Selecciona una cel·la H3 o un municipi al mapa, o tria un municipi a la cerca o la taula.",
+    "h3Cell": "Cel·la H3",
+    "municipality": "Municipi",
+    "comarca": "Comarca",
+    "confidence": "Confiança",
+    "confidenceLow": "Baixa",
+    "confidenceMedium": "Mitjana",
+    "confidenceHigh": "Alta",
+    "monthlyProfile": "Perfil de 12 mesos",
+    "showOnMap": "Mostra al mapa",
+    "methodStep": "06 · Mètode",
+    "methodTitle": "Sobre aquests valors",
+    "mapView": "Mostra el mapa",
+    "tableView": "Taula accessible",
+    "viewLabel": "Vista de mapa o taula",
+    "tableLabel": "Valors del model per municipi",
+    "tableCaption": "Valors del model per municipi per a",
+    "tableFilter": "Filtra municipis",
+    "tableEmpty": "No hi ha municipis que coincideixin.",
+    "tableCount": "municipis mostrats",
+    "tableValue": "Valor",
+    "sort": "Ordena per",
+    "loading": "S'està carregant el mapa…",
+    "error": "No s'ha pogut carregar el mapa. Torna-ho a provar més tard.",
+    "caption": "Estimacions del model · límits de l'ICGC",
+    "mapAria": "Mapa interactiu de Catalunya amb estimacions del model",
+    "months": [
+      "Gener",
+      "Febrer",
+      "Març",
+      "Abril",
+      "Maig",
+      "Juny",
+      "Juliol",
+      "Agost",
+      "Setembre",
+      "Octubre",
+      "Novembre",
+      "Desembre"
+    ],
+    "monthShort": [
+      "Gen",
+      "Feb",
+      "Mar",
+      "Abr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Ago",
+      "Set",
+      "Oct",
+      "Nov",
+      "Des"
+    ]
+  },
+  "when": {
+    "metaTitle": "Quan es registren picades — H-MIP Explora",
+    "metaDescription": "Explora els patrons horaris i mensuals de les picades registrades a Catalunya.",
+    "eyebrow": "Patrons temporals",
+    "title": "Quan es produeixen les picades",
+    "lead": "Aquestes proporcions provenen de picades registrades. No mesuren la probabilitat individual de rebre una picada en una hora o un mes concrets.",
+    "badge": "Picades registrades",
+    "dataLabel": "Proporció de registres",
+    "tableSummary": "Dades i mètode",
+    "tableCaption": "Picades registrades",
+    "tableValue": "Proporció de registres",
+    "lower": "Interval del 95 %: inferior",
+    "upper": "Interval del 95 %: superior",
+    "sourceNote": "Les proporcions provenen de picades registrades; els intervals són intervals creïbles bayesians del 95 %.",
+    "scrollHint": "Desplaça el gràfic horitzontalment en pantalles petites.",
+    "settingTitle": "Interior i exterior",
+    "settingIntro": "Els registres també s'agrupen per entorn. No hi ha límits d'interval per a aquests dos valors.",
+    "settingLabels": {
+      "outdoor": "Exterior",
+      "indoor": "Interior"
+    },
+    "sample": "Mida de mostra indicada",
+    "hour": {
+      "eyebrow": "Per hora del dia",
+      "title": "Els registres es concentren al vespre",
+      "takeaway": "El {value} % dels registres correspon al període de {start} a abans de {end}.",
+      "text": "Aquesta distribució descriu l'hora dels registres. No separa l'activitat dels mosquits de l'exposició o dels patrons de notificació de les persones.",
+      "chartTitle": "Proporció de registres per hora",
+      "chartNote": "Les barres mostren la proporció facilitada; els límits figuren a la taula.",
+      "tableLabel": "Hora",
+      "method": "Els límits inferior i superior formen un interval creïble del 95 % per a cada proporció, basat en la distribució predictiva posterior. La mida de la mostra compta registres de picades."
+    },
+    "month": {
+      "eyebrow": "Per mes",
+      "title": "Els registres arriben al màxim a l'estiu",
+      "takeaway": "El {value} % dels registres correspon al període de {start} a {end}.",
+      "text": "La distribució mensual descriu picades registrades, no una estimació del risc poblacional.",
+      "chartTitle": "Proporció de registres per mes",
+      "chartNote": "Les barres mostren la proporció facilitada; els límits figuren a la taula.",
+      "tableLabel": "Mes",
+      "method": "Els límits inferior i superior formen un interval creïble del 95 % per a cada proporció, basat en la distribució predictiva posterior. La mida de la mostra compta registres de picades."
+    }
+  },
+  "activities": {
+    "metaTitle": "Activitats i llocs — H-MIP Explora",
+    "metaDescription": "Explora les proporcions de picades registrades per activitat, lloc i temporada a Catalunya.",
+    "eyebrow": "Exposició en la vida quotidiana",
+    "title": "Què fa la gent quan es registren picades?",
+    "lead": "Compara l'activitat i el lloc associats a cada registre de picada. Aquestes proporcions descriuen registres, no el risc individual en cada situació.",
+    "badge": "Picades registrades",
+    "sourceNote": "Les proporcions provenen de picades registrades; els intervals són intervals creïbles bayesians del 95 %.",
+    "measure": "Proporció de registres",
+    "methodSummary": "Dades i mètode",
+    "tableValue": "Proporció de registres",
+    "lower": "Interval del 95 %: inferior",
+    "upper": "Interval del 95 %: superior",
+    "rate": "Taxa d'origen",
+    "rateNote": "La taxa opcional només apareix quan el conjunt de dades la inclou. Consulteu-ne les metadades per saber-ne la definició i la unitat.",
+    "seasonLabel": "Temporada",
+    "seasons": {
+      "all": "Tot l'any",
+      "summer": "Juny–setembre",
+      "rest": "Resta de l'any"
+    },
+    "activity": {
+      "eyebrow": "Per activitat",
+      "heading": "Activitats registrades amb picades",
+      "takeaway": "L'activitat principal de la temporada seleccionada representa el {value} % dels registres.",
+      "text": "Una proporció alta també pot reflectir quant de temps es dedica a una activitat. No demostra el risc per hora.",
+      "tableLabel": "Activitat",
+      "method": "Els límits inferior i superior formen un interval creïble del 95 % per a cada proporció, basat en la distribució predictiva posterior. La mida de la mostra compta registres de picades."
+    },
+    "place": {
+      "eyebrow": "Per lloc",
+      "heading": "Llocs registrats amb picades",
+      "takeaway": "El lloc principal de la temporada seleccionada representa el {value} % dels registres.",
+      "text": "Les proporcions descriuen llocs registrats, no l'abundància de mosquits ni el risc de ser-hi.",
+      "tableLabel": "Lloc",
+      "method": "Els límits inferior i superior formen un interval creïble del 95 % per a cada proporció, basat en la distribució predictiva posterior. La mida de la mostra compta registres de picades."
+    }
+  }
+}

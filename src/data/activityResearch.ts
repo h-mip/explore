@@ -60,7 +60,7 @@ for (const kind of groups) {
   for (const season of seasons) {
     const subset = rows.filter((row) => row.kind === kind && row.season === season);
     const codes = subset.map((row) => row.code);
-    if (subset.length !== 9 || new Set(codes).size !== 9) throw new Error(`activities_places.csv: ${kind}/${season} needs nine unique categories`);
+    if (!subset.length || new Set(codes).size !== subset.length) throw new Error(`activities_places.csv: ${kind}/${season} needs unique categories and at least one row`);
     const total = subset.reduce((sum, row) => sum + row.share, 0);
     if (Math.abs(total - 1) > 0.005) throw new Error(`activities_places.csv: ${kind}/${season} shares sum to ${total}, expected 1`);
     if (new Set(subset.map((row) => row.n)).size !== 1) throw new Error(`activities_places.csv: ${kind}/${season} has inconsistent n`);
@@ -68,7 +68,6 @@ for (const kind of groups) {
     else if (codes.some((code) => !baselineCodes.get(kind)!.includes(code))) throw new Error(`activities_places.csv: ${kind}/${season} categories differ from all-year categories`);
   }
 }
-if (rows.length !== 54) throw new Error(`activities_places.csv: expected 54 rows, found ${rows.length}`);
 
 export function activityRows(kind: ActivityKind, season: Season, locale: HomeLocale) {
   return rows.filter((row) => row.kind === kind && row.season === season)

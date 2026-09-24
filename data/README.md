@@ -1,32 +1,38 @@
 # Updating research data
 
-This directory contains the site's editable research CSVs. Do not keep duplicate CSVs under `public/`.
+`data/` is the single editable source for research CSVs. The site builds its map files from these inputs. Do not copy CSVs into `public/` or edit generated GeoJSON.
 
-## Update a CSV
+## Replacing a CSV
 
-1. In GitHub, open `data/` and edit a small CSV or upload a replacement with the same filename.
-2. Keep the header, column names, and comma-separated UTF-8 format unchanged.
-3. Commit the change or open a pull request, according to the repository's review rules.
-4. Check the **Validate data and build** result. On the staging repository, a successful push to `main` also rebuilds and publishes the staging site.
+1. In GitHub, open `data/`. Edit a small file or upload a replacement with the same filename.
+2. Keep the column names, comma-separated format and UTF-8 encoding unchanged. Keep municipality codes as six-digit text.
+3. Commit or open a pull request according to the repository's review rules.
+4. Check the build result. The staging deployment validates and builds before publishing; a failed build leaves the previous site in place.
 
-If a check fails, read its filename, row, and validation message. Fix the CSV in `data/` and commit again. No one needs to edit generated map files by hand.
+The build reports the file and row when it finds invalid data. There is no need to run a map script or upload GeoJSON by hand.
 
-## CSV file guide
+## File guide
 
 | File | Controls |
 | --- | --- |
-| `layer_h3.csv` | Monthly H3 map values and confidence; also the static Home map preview. |
-| `layer_municipality.csv` | Monthly municipality map values and confidence, joined to ICGC boundaries by six-digit code. |
-| `layers.csv` | Map units, class breaks, period, and H3 resolution. |
-| `temporal.csv` | When charts and Home time summaries. |
-| `activities_places.csv` | Activities and places charts and Home summaries. |
-| `findings.csv` | Home headline findings in three languages. |
-| `taxonomy.csv` | Activity and place labels and descriptions. |
-| `outputs.csv` | Data & Code resource list. |
+| `layer_h3.csv` | Monthly H3 map estimates, confidence labels and the Home map preview. |
+| `layer_municipality.csv` | Monthly municipality estimates, joined to ICGC boundaries by six-digit code. |
+| `layers.csv` | Map units, class breaks, period and H3 resolution. |
+| `temporal.csv` | Hour and month charts. **Synthetic test values; not public results.** |
+| `activities_places.csv` | Activity and place charts. **Synthetic test values; not public results.** The optional `rate` column is blank. |
+| `findings.csv` | Home headline figures. **Synthetic test values; not public results.** |
+| `taxonomy.csv` | Activity and place names in three languages. Descriptions are not shown. |
+| `outputs.csv` | Data & code resource list. Add the model's Zenodo record here when its DOI exists. |
 | `publications.csv` | About publication list. |
 
-The map CSVs are draft 2025 model data. A supplied update describes their confidence categories as thirds of posterior uncertainty; the research team should approve that explanation before publication. The time, activity, place, finding, and taxonomy CSVs are draft/reference data. Their bounds and activity `rate` values also need interpretation from the research team.
+The three synthetic CSVs contain invented figures and sample counts. They remain in the public source repository for development, but the site hides their pages, navigation, Home figures and chart embeds. **Do not present these files as research results.**
 
-## Developer-maintained files
+## Publishing verified survey results
 
-`data/icgc/municipalities.geojson` and `data/icgc/comarques.geojson` are source boundaries, not routine CSV updates. The build creates GeoJSON, map metadata, and the Home preview in `public/generated/`; these are build artifacts and must not be edited or uploaded. The three map CSV downloads are built directly from the canonical files in this directory.
+`data/site-settings.json` has one `publishSurveyResults` switch. Leave it `false` until verified replacements for `temporal.csv`, `activities_places.csv` and `findings.csv` are committed. Then set it to `true` in the same reviewed change. The build publishes the pages, links, sitemap entries and chart embeds together. `modelProvisional` controls the model badge; the map period still comes from `layers.csv`.
+
+The `rate` column may remain empty. Its table column appears only when values are present. Category descriptions in `taxonomy.csv` are not used.
+
+## Developer-maintained inputs
+
+`data/icgc/municipalities.geojson` and `data/icgc/comarques.geojson` are source boundaries from ICGC's [Divisions administratives](https://www.icgc.cat/ca/Geoinformacio-i-mapes/Dades-i-productes/Geoinformacio-cartografica/Divisions-administratives), not routine CSV edits. Developers maintain them and verify their attribution and edition. The local files do not record an edition. The build creates GeoJSON, map metadata and the Home preview in `public/generated/`; those are artifacts, not source data.

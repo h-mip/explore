@@ -11,8 +11,17 @@ const copy = whenContent[locale];
 const hourLabels = Array.from({ length: 24 }, (_, hour) => `${String(hour).padStart(2, "0")}:00`);
 const sharePercent = (rows: typeof hourlyPattern) => rows.map((row) => row.share * 100);
 const boundPercent = (rows: typeof hourlyPattern, bound: "lower" | "upper") => rows.map((row) => row[bound]! * 100);
-const evening = Math.round(hourlyPattern.slice(18, 21).reduce((sum, row) => sum + row.share, 0) * 100);
-const summer = Math.round(monthlyPattern.slice(6, 9).reduce((sum, row) => sum + row.share, 0) * 100);
+const strongestWindow = (rows: typeof hourlyPattern) => Array.from({ length: rows.length }, (_, start) => ({
+  start,
+  share: Array.from({ length: 3 }, (_, offset) => rows[(start + offset) % rows.length].share).reduce((sum, value) => sum + value, 0),
+})).toSorted((a, b) => b.share - a.share)[0];
+const hourWindow = strongestWindow(hourlyPattern);
+const monthWindow = strongestWindow(monthlyPattern);
+const highlightedHours = Array.from({ length: 3 }, (_, offset) => (hourWindow.start + offset) % 24);
+const highlightedMonths = Array.from({ length: 3 }, (_, offset) => (monthWindow.start + offset) % 12);
+const monthNames = Array.from({ length: 12 }, (_, index) => new Intl.DateTimeFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { month: "long" }).format(new Date(2025, index, 1)));
+const hourTakeaway = copy.hour.takeaway.replace("{value}", String(Math.round(hourWindow.share * 100))).replace("{start}", hourLabels[hourWindow.start]).replace("{end}", hourLabels[(hourWindow.start + 3) % 24]);
+const monthTakeaway = copy.month.takeaway.replace("{value}", String(Math.round(monthWindow.share * 100))).replace("{start}", monthNames[monthWindow.start]).replace("{end}", monthNames[(monthWindow.start + 2) % 12]);
 const localizedPercent = new Intl.NumberFormat({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale], { maximumFractionDigits: 1 });
 ---
 
@@ -27,8 +36,8 @@ const localizedPercent = new Intl.NumberFormat({ en: "en-GB", es: "es-ES", ca: "
     </header>
 
     <div class="story-layout">
-      <PatternChart locale={locale} id="hour" {...copy.hour} takeaway={copy.hour.takeaway.replace("{value}", String(evening))} labels={hourLabels} values={sharePercent(hourlyPattern)} lowerValues={boundPercent(hourlyPattern, "lower")} upperValues={boundPercent(hourlyPattern, "upper")} labelEvery={3} highlight={[18, 19, 20]} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
-      <PatternChart locale={locale} id="month" {...copy.month} takeaway={copy.month.takeaway.replace("{value}", String(summer))} labels={monthLabels[locale]} values={sharePercent(monthlyPattern)} lowerValues={boundPercent(monthlyPattern, "lower")} upperValues={boundPercent(monthlyPattern, "upper")} highlight={[6, 7, 8]} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
+      <PatternChart locale={locale} id="hour" {...copy.hour} takeaway={hourTakeaway} labels={hourLabels} values={sharePercent(hourlyPattern)} lowerValues={boundPercent(hourlyPattern, "lower")} upperValues={boundPercent(hourlyPattern, "upper")} labelEvery={3} highlight={highlightedHours} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
+      <PatternChart locale={locale} id="month" {...copy.month} takeaway={monthTakeaway} labels={monthLabels[locale]} values={sharePercent(monthlyPattern)} lowerValues={boundPercent(monthlyPattern, "lower")} upperValues={boundPercent(monthlyPattern, "upper")} highlight={highlightedMonths} badge={copy.badge} dataLabel={copy.dataLabel} tableSummary={copy.tableSummary} tableCaption={copy.tableCaption} tableValue={copy.tableValue} lower={copy.lower} upper={copy.upper} sourceNote={copy.sourceNote} scrollHint={copy.scrollHint} />
       <section class="setting" aria-labelledby="setting-heading">
         <div><p class="eyebrow">{copy.eyebrow}</p><h2 id="setting-heading">{copy.settingTitle}</h2><p>{copy.settingIntro}</p><p class="source-note">{copy.sample}: {temporalSampleSize.toLocaleString({ en: "en-GB", es: "es-ES", ca: "ca-ES" }[locale])}. {copy.sourceNote}</p></div>
         <table><caption>{copy.settingTitle}</caption><thead><tr><th scope="col">{copy.settingTitle}</th><th scope="col">{copy.tableValue}</th></tr></thead><tbody>{settingPattern.map((row) => <tr><th scope="row">{copy.settingLabels[row.category as "outdoor" | "indoor"]}</th><td>{localizedPercent.format(row.share * 100)}%</td></tr>)}</tbody></table>

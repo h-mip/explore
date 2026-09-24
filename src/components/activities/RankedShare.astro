@@ -55,7 +55,7 @@ const hasRate = rows.some((row) => row.rate !== null);
       <div class="detail-body">
         <p>{copy.method}</p>
         {hasRate && <p>{rateNote}</p>}
-        <div class="table-scroller">
+        <div class="table-scroller" tabindex="0" role="region" aria-label={measure}>
           <table>
             <caption>{measure}</caption>
             <thead><tr><th scope="col">{copy.tableLabel}</th><th scope="col">{tableValue}</th><th scope="col">{lower}</th><th scope="col">{upper}</th>{hasRate && <th scope="col">{rate}</th>}</tr></thead>

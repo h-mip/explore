@@ -90,7 +90,7 @@ const labelEvery = props.labelEvery ?? 1;
       <summary>{props.tableSummary}</summary>
       <div class="detail-body">
         <p>{props.method}</p>
-        <div class="table-scroller">
+        <div class="table-scroller" tabindex="0" role="region" aria-label={`${props.tableCaption} — ${props.chartTitle}`}>
           <table>
             <caption>{props.tableCaption} — {props.chartTitle}</caption>
             <thead><tr><th scope="col">{props.tableLabel}</th><th scope="col">{props.tableValue}</th><th scope="col">{props.lower}</th><th scope="col">{props.upper}</th></tr></thead>

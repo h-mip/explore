@@ -4,12 +4,13 @@ import HomeHero from "../../components/home/HomeHero.astro";
 import HeadlineFindings from "../../components/home/HeadlineFindings.astro";
 import ExploreTeasers from "../../components/home/ExploreTeasers.astro";
 import PublicAction from "../../components/home/PublicAction.astro";
+import { siteSettings } from "../../data/siteSettings";
 ---
 
 <BaseLayout locale="en" title="H-MIP Explore" description="Explore where, when and during which activities people in Catalonia are bitten by mosquitoes.">
   <div class="wrap page">
     <HomeHero locale="en" />
-    <HeadlineFindings locale="en" />
+    {siteSettings.publishSurveyResults && <HeadlineFindings locale="en" />}
     <ExploreTeasers locale="en" />
     <PublicAction locale="en" />
   </div>

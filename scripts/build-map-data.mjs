@@ -222,6 +222,13 @@ function validateGeometry(geometry, context) {
   }
 }
 
+function compactBoundaryGeometry(geometry) {
+  const round = (coordinates) => Array.isArray(coordinates[0])
+    ? coordinates.map(round)
+    : coordinates.map((value) => Math.round(value * 1_000_000) / 1_000_000);
+  return { ...geometry, coordinates: round(geometry.coordinates) };
+}
+
 /* -------------------------------------------------------------------------- */
 /* Layer metadata                                                             */
 /* -------------------------------------------------------------------------- */
@@ -427,7 +434,7 @@ const municipalityFeatures = icgcMunicipalities.features.map(
           confidence: null,
         }),
       },
-      geometry: feature.geometry,
+      geometry: compactBoundaryGeometry(feature.geometry),
     };
   },
 );
@@ -492,7 +499,7 @@ const comarcaFeatures = icgcComarques.features.map((feature, index) => {
       name: String(source.NOMCOMAR ?? ""),
       capital: String(source.CAPCOMAR ?? ""),
     },
-    geometry: feature.geometry,
+    geometry: compactBoundaryGeometry(feature.geometry),
   };
 });
 
