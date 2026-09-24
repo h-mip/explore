@@ -1,6 +1,6 @@
 ---
 title: Accessibility statement
-last_updated: 2026-09-29
+last_updated: 2026-09-24
 ---
 
 # Accessibility statement
@@ -30,4 +30,4 @@ If you have difficulty using any part of this website, or need information in a 
 
 ## About this statement
 
-This statement was prepared on 29 September 2026. It is based on the project team's own assessment, including automated tests and manual keyboard checks carried out during development.
+This statement is under review. We will add the assessment date when automated and manual keyboard checks are complete.

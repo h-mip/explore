@@ -1,6 +1,6 @@
 ---
 title: Declaración de accesibilidad
-last_updated: 2026-09-29
+last_updated: 2026-09-24
 ---
 
 # Declaración de accesibilidad
@@ -30,4 +30,4 @@ Si tiene dificultades para usar alguna parte de este sitio, o necesita informaci
 
 ## Sobre esta declaración
 
-Esta declaración se preparó el 29 de septiembre de 2026. Se basa en una evaluación realizada por el propio equipo del proyecto, que incluye pruebas automáticas y comprobaciones manuales con el teclado realizadas durante el desarrollo.
+Esta declaración está en revisión. Añadiremos la fecha de la evaluación cuando se hayan completado las pruebas automáticas y las comprobaciones manuales con el teclado.

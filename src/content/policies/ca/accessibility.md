@@ -1,6 +1,6 @@
 ---
 title: Declaració d'accessibilitat
-last_updated: 2026-09-29
+last_updated: 2026-09-24
 ---
 
 # Declaració d'accessibilitat
@@ -30,4 +30,4 @@ Si té dificultats per utilitzar alguna part d'aquest web, o necessita informaci
 
 ## Sobre aquesta declaració
 
-Aquesta declaració es va preparar el 29 de setembre de 2026. Es basa en una avaluació feta pel mateix equip del projecte, que inclou proves automàtiques i comprovacions manuals amb el teclat fetes durant el desenvolupament.
+Aquesta declaració està en revisió. Hi afegirem la data de l'avaluació quan s'hagin completat les proves automàtiques i les comprovacions manuals amb el teclat.
